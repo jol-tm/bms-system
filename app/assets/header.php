@@ -1,3 +1,8 @@
+<?php 
+ini_set('display_errors', 1);
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang='en'>
 
@@ -9,10 +14,8 @@
 </head>
 
 <?php
-ini_set('display_errors', 1);
-session_start();
 
-if (!isset($_SESSION['loggedUser']) && $pageTitle !== 'Acesso')
+if (!isset($_SESSION['loggedUser']) && ($pageTitle !== 'Acesso'))
 {
     header("Location: ../../app/acesso");
     exit();
