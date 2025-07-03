@@ -1,6 +1,12 @@
 <?php
 session_start();
-require_once '../../assets/header.php';
+
+if (!isset($_SESSION['loggedUser']))
+{
+    header("Location: ../../app/acesso");
+    exit();
+}
+
 require_once '../../src/DatabaseConnection.php';
 require_once '../../src/DataRepository.php';
 require_once '../../src/Authenticator.php';
@@ -11,6 +17,7 @@ $auth = new Authenticator($conn->start());
 
 if ($auth->authenticate('usuarios', ['email' => $_POST['email']], ['senha' => $_POST['senha']]))
 {
+    session_regenerate_id(true);
     $_SESSION['loggedUser'] = $_POST['email'];
     header('Location: ../../app/comercial');
 }
