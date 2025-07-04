@@ -85,7 +85,7 @@ class DataRepositoy
         }
     }
 
-    public function update(string $table, array $data, array $key): bool
+    public function update(string $table, array $data, array $key): int|bool
     {
         try
         {
@@ -107,7 +107,7 @@ class DataRepositoy
             $stmt = $this->connection->prepare($sql);
             $stmt->execute($data);
 
-            return true;
+            return $stmt->rowCount();
         }
         catch (PDOException $e)
         {
@@ -127,7 +127,7 @@ class DataRepositoy
             $stmt = $this->connection->prepare($sql);
             $stmt->execute($key);
 
-            return true;
+            return $stmt->rowCount();
         }
         catch (PDOException $e)
         {
