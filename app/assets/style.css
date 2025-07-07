@@ -1,13 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 :root {
-    --background-color: #dddddd;
-    --complementar-color: #ffffff;
-    --primary-color: #c2a995;
-    --confirm-color: darkgreen;
-    --warn-color: darkgoldenrod;
-    --destructive-color: darkred;
-    --transitons-duration: 0.3s;
+    --backgroundColor: #dddddd;
+    --complementarColor: #ffffff;
+    --primaryColor: #c2a995;
+    --confirmColor: darkgreen;
+    --warnColor: darkgoldenrod;
+    --destructiveColor: darkred;
+    --transitonsDuration: 0.3s;
+    --primaryFont: 'Funnel Sans'
 }
 
 /* BASE STYLES */
@@ -19,13 +20,47 @@
 }
 
 body {
-    font-family: "Raleway", sans-serif;
+    font-family: var(--primaryFont), sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 1rem;
-    background-color: var(--background-color);
+    background-color: var(--backgroundColor);
+}
+
+
+input,
+button,
+table,
+svg,
+nav,
+.notification {
+    font-family: var(--primaryFont), sans-serif;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+nav {
+    z-index: 1;
+    position: sticky;
+    top: 0.5rem;
+    background-color: var(--primaryColor);
+
+    a {
+        font-weight: bold;
+    }
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+    transition: var(--transitonsDuration);
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 form {
@@ -33,34 +68,27 @@ form {
     flex-direction: column;
     justify-content: center;
     gap: 0.5rem;
-    background-color: var(--complementar-color);
     padding: 1rem;
     border-radius: 1rem;
 }
 
-input,
-button,
-table,
-svg,
-.notification {
-    font-family: "Raleway", sans-serif;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
+label {
+    font-weight: bold;
 }
 
 input {
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--primaryColor);
 }
 
 button {
     font-weight: bold;
     border: none;
-    transition: var(--transitons-duration);
+    transition: var(--transitonsDuration);
+    background-color: transparent;
 }
 
 svg {
-    transition: var(--transitons-duration);
+    transition: var(--transitonsDuration);
 }
 
 button:hover,
@@ -75,26 +103,34 @@ svg:active {
 }
 
 table {
-    border: 2px solid var(--primary-color);
-    background-color: var(--complementar-color);
+    border: 2px solid var(--primaryColor);
+    background-color: var(--complementarColor);
 }
-
-tr {}
 
 td,
 th {
     text-align: center;
     padding: 0.5rem;
     max-width: 7rem;
-    word-wrap: break-word;
 }
 
 .notification {
+    z-index: 2;
     position: absolute;
     top: -5rem;
-    background-color: var(--primary-color);
+    background-color: var(--primaryColor);
     font-weight: bold;
     animation: notification 5s ease;
+}
+
+#loggedUser {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+
+    a {
+        color: var(--destructiveColor);
+    }
 }
 
 /* LOGIN */
@@ -105,40 +141,80 @@ th {
 }
 
 #formLogin {
+    background-color: var(--complementarColor);
     min-width: 15rem;
     width: 50vw;
     max-width: 20rem;
 }
 
 #loginBtn {
-    background-color: var(--primary-color);
+    background-color: var(--primaryColor);
 }
 
 /* COMERCIAL */
 
+#showRegisterProposalFormBtn{
+    color: var(--complementarColor);
+    background-color: var(--confirmColor);
+}
+
+#registerProposalForm {
+    background-color: var(--complementarColor);
+    border: 2px solid var(--primaryColor);
+}
+
+#registerProposalFormWrapper {
+    z-index: 2;
+    display: none;
+    position: fixed;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(5px);
+    animation: showUp var(--transitonsDuration) ease;
+}
+
+#registerProposalBtn {
+    color: var(--complementarColor);
+    background-color: var(--confirmColor);
+}
+
+#cancelRegisterProposalBtn {
+    color: var(--complementarColor);
+    background-color: var(--destructiveColor);
+}
+
 .aproveProposalBtn {
-    background-color: var(--confirm-color);
+    background-color: var(--confirmColor);
 }
 
 .denyProposalBtn,
 .deleteProposalBtn {
-    background-color: var(--destructive-color);
+    background-color: var(--destructiveColor);
+}
+
+/* FINANCES */
+
+.updateProposalBtn {
+    background-color: var(--confirmColor);
 }
 
 /* PROPOSALS WARNING STATUS */
 
 .received {
-    color: var(--confirm-color);
+    color: var(--confirmColor);
     font-weight: bold;
 }
 
 .refused {
-    color: var(--destructive-color);
+    color: var(--destructiveColor);
     font-weight: bold;
 }
 
 .pending {
-    color: var(--warn-color);
+    color: var(--warnColor);
     font-weight: bold;
 }
 
@@ -146,14 +222,26 @@ th {
 
 @keyframes notification {
     10% {
-        top: 1rem;
+        top: 3rem;
     }
 
     90% {
-        top: 1rem;
+        top: 3rem;
     }
 
     100% {
         top: -5rem;
+    }
+}
+
+@keyframes showUp {
+    0% {
+        scale: 0.9;
+        opacity: 0;
+    }
+    
+    100% {
+        scale: 1;
+        opacity: 1;
     }
 }

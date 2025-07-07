@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteRule ^src/ - [F,L]
+
+<FilesMatch "\.log$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

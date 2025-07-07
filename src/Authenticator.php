@@ -27,6 +27,9 @@ class Authenticator
 
             if (password_verify($password[$passwordKey], $hash))
             {
+                session_regenerate_id(true);
+                $_SESSION['loggedUser'] = $email[$emailKey];
+
                 return true;
             }
 
@@ -37,5 +40,11 @@ class Authenticator
             error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
             return false;
         }
+    }
+
+    public function disconnect(): bool
+    {
+        $_SESSION = [];
+        return session_destroy();
     }
 }
