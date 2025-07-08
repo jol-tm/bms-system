@@ -1,9 +1,9 @@
-const showRegisterProposalFormBtn = document.getElementById('showRegisterProposalFormBtn');
-const cancelRegisterProposalBtn = document.getElementById('cancelRegisterProposalBtn');
-const registerProposalFormWrapper = document.getElementById('registerProposalFormWrapper');
+const showRegisterProposalFormBtn = document.querySelector('#showRegisterProposalFormBtn');
+const cancelRegisterProposalBtn = document.querySelector('#cancelRegisterProposalBtn');
+const formWrapper = document.querySelector('.formWrapper');
 
-showRegisterProposalFormBtn !== null ? showRegisterProposalFormBtn.addEventListener('click', () => showModal(registerProposalFormWrapper)) : null;
-cancelRegisterProposalBtn !== null ? cancelRegisterProposalBtn.addEventListener('click', () => hideModal(registerProposalFormWrapper)) : null;
+showRegisterProposalFormBtn !== null ? showRegisterProposalFormBtn.addEventListener('click', () => showModal(formWrapper)) : null;
+cancelRegisterProposalBtn !== null ? cancelRegisterProposalBtn.addEventListener('click', () => hideModal(formWrapper)) : null;
 
 function showModal(modal)
 {

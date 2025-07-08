@@ -28,9 +28,6 @@ body {
     flex-direction: column;
     gap: 1rem;
     background-color: var(--backgroundColor);
-    background-image: url('../assets/image.png');
-    background-position: right;
-    background-attachment: fixed;
 }
 
 
@@ -72,10 +69,28 @@ a:hover {
 form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 0.5rem;
     padding: 1rem;
     border-radius: 1rem;
+}
+
+.customForm {
+    width: 15rem;
+    background-color: var(--complementarColorLight);
+    border: 2px solid var(--primaryColor);
+}
+
+.formWrapper {
+    display: flex;
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(5px);
+    animation: showUp var(--transitonsDuration) ease;
 }
 
 label {
@@ -110,7 +125,7 @@ svg:active {
 
 table {
     border: 2px solid var(--primaryColor);
-    background-color: var(--complementarColorLightOpaque);
+    background-color: var(--complementarColorLight);
 }
 
 td,
@@ -141,15 +156,13 @@ th {
 /* LOGIN */
 
 #bodyLogin {
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
 }
 
 #formLogin {
-    background-color: var(--complementarColorLightOpaque);
-    min-width: 15rem;
-    width: 50vw;
-    max-width: 20rem;
+    background-color: var(--complementarColorLight);
+    width: 15rem;
 }
 
 #loginBtn {
@@ -158,27 +171,22 @@ th {
 
 /* COMERCIAL */
 
-#showRegisterProposalFormBtn{
+.aproveProposalBtn {
+    background-color: var(--confirmColor);
+}
+
+.denyProposalBtn,
+.deleteProposalBtn {
+    background-color: var(--destructiveColor);
+}
+
+#showRegisterProposalFormBtn {
     color: var(--complementarColorLight);
     background-color: var(--confirmColor);
 }
 
 #registerProposalForm {
-    background-color: var(--complementarColorLight);
-    border: 2px solid var(--primaryColor);
-}
-
-#registerProposalFormWrapper {
-    z-index: 2;
     display: none;
-    position: fixed;
-    top: 0;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    backdrop-filter: blur(5px);
-    animation: showUp var(--transitonsDuration) ease;
 }
 
 #registerProposalBtn {
@@ -191,19 +199,24 @@ th {
     background-color: var(--destructiveColor);
 }
 
-.aproveProposalBtn {
-    background-color: var(--confirmColor);
-}
-
-.denyProposalBtn,
-.deleteProposalBtn {
-    background-color: var(--destructiveColor);
-}
-
 /* FINANCES */
 
 .updateProposalBtn {
     background-color: var(--confirmColor);
+}
+
+#updateStatusBtn {
+    color: var(--complementarColorLight);
+    background-color: var(--confirmColor);
+}
+
+#cancelUpdateStatusBtn {
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    color: var(--complementarColorLight);
+    background-color: var(--destructiveColor);
 }
 
 /* PROPOSALS WARNING STATUS */
@@ -244,7 +257,7 @@ th {
         scale: 0.9;
         opacity: 0;
     }
-    
+
     100% {
         scale: 1;
         opacity: 1;

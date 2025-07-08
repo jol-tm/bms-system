@@ -11,6 +11,29 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
     $proposta->excluirProposta();
 }
 
+if (!empty($_POST['id']) && isset($_POST['atualizarStatus']))
+{
+    $proposta = new Proposta();
+
+    echo "
+    <div class='formWrapper'>
+    <form action='' method='post' class='customForm'>
+        <h2>Atualizar Status</h2>
+        <label for='numeroRelatorio'>N° do Relatório</label>
+        <input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123'>
+        <label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
+        <input type='datetime-local' name='dataEnvioRelatorio' id='dataEnvioRelatorio'>
+        <label for='numeroNotaFiscal'>NF</label>
+        <input type='number' name='numeroNotaFiscal' id='numeroNotaFiscal' placeholder='Ex: 123456789'>
+        <label for='dataPagamento'>Cliente</label>
+        <input type='datetime-local' name='dataPagamento' id='dataPagamento'>
+        <button id='updateStatusBtn' type='submit' name='cadastrarProposta'>Atualizar</button>
+        <a id='cancelUpdateStatusBtn' href=''>Cancelar</a>
+    </form>
+    </div>
+    ";
+}
+
 ?>
 
 <table>
@@ -32,10 +55,9 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
     <tbody>
         <?php
 
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
+        $proposta = new Proposta();
 
-        $propostas = $data->read('propostas', 'WHERE statusProposta = "Aceita"');
+        $propostas = $proposta->verPropostasEmFaseFinanceira();
 
         foreach ($propostas as $proposta)
         {
@@ -68,7 +90,7 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
 
             echo "
                 <tr>
-                    <td>{$proposta['numeroProposta']}</td>
+                    <td>{$proposta['numeroRelatorio']}</td>
                     <td>{$proposta['cliente']}</td>
                     <td>$valorFormatado</td>
                     <td>{$proposta['numeroRelatorio']}</td>
@@ -83,7 +105,7 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
                             <button type='submit' name='atualizarStatus'>
                                 <svg class='updateProposalBtn' xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
                                     <path
-                                        d='M222-200 80-342l56-56 85 85 170-170 56 57-225 226Zm0-320L80-662l56-56 85 85 170-170 56 57-225 226Zm298 240v-80h360v80H520Zm0-320v-80h360v80H520Z' />
+                                        d='M240-360h280l80-80H240v80Zm0-160h240v-80H240v80Zm-80-160v400h280l-80 80H80v-560h800v120h-80v-40H160Zm756 212q5 5 5 11t-5 11l-36 36-70-70 36-36q5-5 11-5t11 5l48 48ZM520-120v-70l266-266 70 70-266 266h-70ZM160-680v400-400Z' />
                                 </svg>
                             </button>
                         </form>
@@ -103,7 +125,6 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
                 </tr>
                 ";
         }
-
         ?>
     </tbody>
 </table>

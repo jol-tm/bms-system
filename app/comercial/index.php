@@ -10,13 +10,13 @@ if (!empty($_POST['numeroProposta']) && !empty($_POST['dataEnvioProposta']) && !
     $proposta->cadastrarProposta();
 }
 
-if (!empty($_POST['id']) && !empty($_POST['diasEmAnalise']) && isset($_POST['aceitarProposta']))
+if (!empty($_POST['id']) && isset($_POST['diasEmAnalise']) && isset($_POST['aceitarProposta']))
 {
     $proposta = new Proposta();
     $proposta->aceitarProposta();
 }
 
-if (!empty($_POST['id']) && !empty($_POST['diasEmAnalise']) && isset($_POST['recusarProposta']))
+if (!empty($_POST['id']) && isset($_POST['diasEmAnalise']) && isset($_POST['recusarProposta']))
 {
     $proposta = new Proposta();
     $proposta->recusarProposta();
@@ -31,19 +31,19 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
 ?>
 
 <button id="showRegisterProposalFormBtn">+ Nova Proposta</button>
-<div id="registerProposalFormWrapper">
-    <form action="" method="post" id="registerProposalForm">
+<div id="registerProposalForm" class="formWrapper">
+    <form action="" method="post" class="customForm">
         <h2>Cadastrar Proposta</h2>
         <label for="numeroProposta">N° da Proposta</label>
-        <input type="number" name="numeroProposta" placeholder="Ex: 2020001" required>
+        <input type="number" name="numeroProposta" id="numeroProposta" placeholder="Ex: 2020001" required>
         <label for="dataEnvioProposta">Data de Envio da Proposta</label>
-        <input type="datetime-local" name="dataEnvioProposta" required>
+        <input type="datetime-local" name="dataEnvioProposta" id="dataEnvioProposta" required>
         <label for="valor">Valor da Proposta</label>
-        <input type="text" name="valor" placeholder="Ex: 999,99" required>
+        <input type="text" name="valor" id="valor" placeholder="Ex: 999,99" required>
         <label for="cliente">Cliente</label>
-        <input type="text" name="cliente" placeholder="Nome do Cliente" required>
+        <input type="text" name="cliente" id="cliente" placeholder="Nome do Cliente" required>
         <label for="observacoes">Observações</label>
-        <input type="text" name="observacoes" placeholder="Ex: Desenvolvimento...">
+        <input type="text" name="observacoes" id="observacoes" placeholder="Ex: Desenvolvimento...">
         <button id="registerProposalBtn" type="submit" name="cadastrarProposta">Cadastrar</button>
         <button id="cancelRegisterProposalBtn" type="button">Cancelar</button>
     </form>
@@ -66,10 +66,9 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
     <tbody>
         <?php
 
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
+        $proposta = new Proposta();
+        $propostas = $proposta->verPropostasEmFaseComercial();
 
-        $propostas = $data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
         $hoje = new DateTime();
 
         foreach ($propostas as $proposta)

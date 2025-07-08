@@ -5,6 +5,20 @@ require_once 'DataRepository.php';
 
 class Proposta
 {
+    public function verPropostasEmFaseFinanceira(): array
+    {
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
+        return $data->read('propostas', 'WHERE statusProposta = "Aceita"');
+    }
+
+    public function verPropostasEmFaseComercial(): array
+    {
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
+        return  $data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
+    }
+
     public function cadastrarProposta(): bool
     {
         $conn = new DatabaseConnection();
@@ -24,7 +38,7 @@ class Proposta
             header('Location: ./');
             return true;
         }
-        
+
         $_SESSION['notification'] = 'Erro ao criar proposta.';
         header('Location: ./');
         return false;
