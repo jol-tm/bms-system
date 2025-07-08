@@ -30,7 +30,6 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
 
 ?>
 
-<h2><?= $pageTitle; ?></h2>
 <button id="showRegisterProposalFormBtn">+ Nova Proposta</button>
 <div id="registerProposalFormWrapper">
     <form action="" method="post" id="registerProposalForm">
@@ -66,7 +65,7 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
     </thead>
     <tbody>
         <?php
-        
+
         $connection = new DatabaseConnection();
         $data = new DataRepositoy($connection->start());
 
@@ -79,6 +78,8 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
             $diasEmAnalise = $proposta['statusProposta'] === 'Em análise' ? $hoje->diff($dataEnvioProposta)->days : $proposta['diasEmAnalise'];
             $valorFormatado = str_replace('.', ',', $proposta['valor']);
             $statusProposta = $proposta['statusProposta'] === 'Recusada' ? 'refused' : 'pending';
+
+            $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
 
             echo "
                 <tr>

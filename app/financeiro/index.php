@@ -13,7 +13,6 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
 
 ?>
 
-<h2><?= $pageTitle; ?></h2>
 <table>
     <thead>
         <tr>
@@ -65,6 +64,7 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
 
             $proposta['numeroNotaFiscal'] === null ? $proposta['numeroNotaFiscal'] = '-' : null;
             $proposta['numeroRelatorio'] === null ? $proposta['numeroRelatorio'] = '-' : null;
+            $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
 
             echo "
                 <tr>
