@@ -7,29 +7,29 @@ class Proposta
 {
     public function verProposta(int $id): array|false
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
+        $connectionection = new DatabaseConnection();
+        $data = new DataRepositoy($connectionection->start());
         return $data->read('propostas', "WHERE id = $id")[0];
     }
 
     public function verPropostasEmFaseFinanceira(): array
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
+        $connectionection = new DatabaseConnection();
+        $data = new DataRepositoy($connectionection->start());
         return $data->read('propostas', 'WHERE statusProposta = "Aceita"');
     }
 
     public function verPropostasEmFaseComercial(): array
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
-        return  $data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
+        $connectionection = new DatabaseConnection();
+        $data = new DataRepositoy($connectionection->start());
+        return $data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
     }
 
     public function cadastrarProposta(): bool
     {
-        $conn = new DatabaseConnection();
-        $data = new DataRepositoy($conn->start());
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
 
         $created = $data->create('propostas', [
             'numeroProposta' => $_POST['numeroProposta'],
@@ -51,16 +51,42 @@ class Proposta
         return false;
     }
 
+    public function atualizarStatusProposta(): bool
+    {
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
+
+        $updated = $data->update(
+            'propostas',
+            [
+                'numeroRelatorio' => empty($_POST['numeroRelatorio']) ? null : $_POST['numeroRelatorio'],
+                'dataEnvioRelatorio' => empty($_POST['dataEnvioRelatorio']) ? null : $_POST['dataEnvioRelatorio'],
+                'numeroNotaFiscal' => empty($_POST['numeroNotaFiscal']) ? null : $_POST['numeroNotaFiscal'],
+                'dataPagamento' => empty($_POST['dataPagamento']) ? null : $_POST['dataPagamento'],
+                'statusPagamento' => empty($_POST['dataPagamento']) ? 'Aguardando' : 'Recebido',
+            ],
+            [
+                'id' => $_POST['id']
+            ]
+        );
+
+        if ($updated)
+        {
+            $_SESSION['notification'] = 'Status da Proposta atualizado com sucesso.';
+            header('Location: ./');
+            return true;
+        }
+
+        $_SESSION['notification'] = 'Erro ao atualizar Status da Proposta. Nenhuma modificada.';
+        header('Location: ./');
+        return false;
+    }
+
     public function aceitarProposta(): bool
     {
-        $conn = new DatabaseConnection();
-        $data = new DataRepositoy($conn->start());
-        $affectedRows = $data->update('propostas', [
-            'statusProposta' => 'Aceita',
-            'diasEmAnalise' => $_POST['diasEmAnalise']
-        ], [
-            'id' => $_POST['id']
-        ]);
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
+        $affectedRows = $data->update('propostas', ['statusProposta' => 'Aceita', 'diasEmAnalise' => $_POST['diasEmAnalise']], ['id' => $_POST['id']]);
 
         if ($affectedRows > 0)
         {
@@ -76,8 +102,8 @@ class Proposta
 
     public function recusarProposta(): bool
     {
-        $conn = new DatabaseConnection();
-        $data = new DataRepositoy($conn->start());
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
         $affectedRows = $data->update('propostas', ['statusProposta' => 'Recusada', 'diasEmAnalise' => $_POST['diasEmAnalise']], ['id' => $_POST['id']]);
 
         if ($affectedRows > 0)
@@ -94,8 +120,8 @@ class Proposta
     }
     public function excluirProposta(): bool
     {
-        $conn = new DatabaseConnection();
-        $data = new DataRepositoy($conn->start());
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
         $affectedRows = $data->delete('propostas', ['id' => $_POST['id']]);
 
         if ($affectedRows > 0)

@@ -11,6 +11,12 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
     $proposta->excluirProposta();
 }
 
+if (!empty($_POST['id']) && isset($_POST['atualizarStatusProposta']))
+{
+    $proposta = new Proposta();
+    $proposta->atualizarStatusProposta();
+}
+
 if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtualizarStatus']))
 {
     $proposta = new Proposta();
@@ -20,15 +26,16 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
     <div class='formWrapper'>
     <form action='' method='post' class='customForm'>
         <h2>Atualizar Status</h2>
+        <input type='hidden' name='id' value='{$propostaParaAtualizar['id']}'>
         <label for='numeroRelatorio'>N° do Relatório</label>
         <input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' value='{$propostaParaAtualizar['numeroRelatorio']}'>
         <label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
         <input type='datetime-local' name='dataEnvioRelatorio' id='dataEnvioRelatorio' value='{$propostaParaAtualizar['dataEnvioRelatorio']}'>
         <label for='numeroNotaFiscal'>NF</label>
         <input type='number' name='numeroNotaFiscal' id='numeroNotaFiscal' placeholder='Ex: 123456789' value='{$propostaParaAtualizar['numeroNotaFiscal']}'>
-        <label for='dataPagamento'>Cliente</label>
+        <label for='dataPagamento'>Data do Pagamento</label>
         <input type='datetime-local' name='dataPagamento' id='dataPagamento' value='{$propostaParaAtualizar['dataPagamento']}'>
-        <button id='updateStatusBtn' type='submit' name='atualizarStatus'>Atualizar</button>
+        <button id='updateStatusBtn' type='submit' name='atualizarStatusProposta'>Atualizar</button>
         <a id='cancelUpdateStatusBtn' href=''>Cancelar</a>
     </form>
     </div>
@@ -116,7 +123,7 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
                     <td>
                        <form action='' method='post'>
                             <input type='hidden' name='id' value='{$proposta['id']}'>
-                            <button type='submit' name='excluirProposta' onclick=\"return confirm('ATENÇÃO! Exclusão é irreversível! Ok para prosseguir?')\">
+                            <button type='submit' name='excluirProposta' onclick=\"return confirm('ATENÇÃO! Exclusão é IRREVERSÍVEL! Ok para prosseguir?')\">
                                 <svg class='deleteProposalBtn' xmlns='http://www.w3.org/2000/svg'
                                     height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
                                     <path
