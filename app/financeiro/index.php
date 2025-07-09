@@ -11,23 +11,24 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
     $proposta->excluirProposta();
 }
 
-if (!empty($_POST['id']) && isset($_POST['atualizarStatus']))
+if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtualizarStatus']))
 {
     $proposta = new Proposta();
+    $propostaParaAtualizar = $proposta->verProposta($_POST['id']);
 
     echo "
     <div class='formWrapper'>
     <form action='' method='post' class='customForm'>
         <h2>Atualizar Status</h2>
         <label for='numeroRelatorio'>N° do Relatório</label>
-        <input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123'>
+        <input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' value='{$propostaParaAtualizar['numeroRelatorio']}'>
         <label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
-        <input type='datetime-local' name='dataEnvioRelatorio' id='dataEnvioRelatorio'>
+        <input type='datetime-local' name='dataEnvioRelatorio' id='dataEnvioRelatorio' value='{$propostaParaAtualizar['dataEnvioRelatorio']}'>
         <label for='numeroNotaFiscal'>NF</label>
-        <input type='number' name='numeroNotaFiscal' id='numeroNotaFiscal' placeholder='Ex: 123456789'>
+        <input type='number' name='numeroNotaFiscal' id='numeroNotaFiscal' placeholder='Ex: 123456789' value='{$propostaParaAtualizar['numeroNotaFiscal']}'>
         <label for='dataPagamento'>Cliente</label>
-        <input type='datetime-local' name='dataPagamento' id='dataPagamento'>
-        <button id='updateStatusBtn' type='submit' name='cadastrarProposta'>Atualizar</button>
+        <input type='datetime-local' name='dataPagamento' id='dataPagamento' value='{$propostaParaAtualizar['dataPagamento']}'>
+        <button id='updateStatusBtn' type='submit' name='atualizarStatus'>Atualizar</button>
         <a id='cancelUpdateStatusBtn' href=''>Cancelar</a>
     </form>
     </div>
@@ -36,61 +37,63 @@ if (!empty($_POST['id']) && isset($_POST['atualizarStatus']))
 
 ?>
 
-<table>
-    <thead>
-        <tr>
-            <th>N° Proposta</th>
-            <th>Cliente</th>
-            <th>Valor (R$)</th>
-            <th>N° Relatório</th>
-            <th>Data Envio Relatório</th>
-            <th>NF</th>
-            <th>Data Pagamento</th>
-            <th>Status Pagamento</th>
-            <th>Observações</th>
-            <th>Atualizar Status</th>
-            <th>Apagar</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
+<div class="tableResponsive">
+    <table>
+        <thead>
+            <tr>
+                <th>N° Proposta</th>
+                <th>Cliente</th>
+                <th>Valor (R$)</th>
+                <th>N° Relatório</th>
+                <th>Data Envio Relatório</th>
+                <th>NF</th>
+                <th>Data Pagamento</th>
+                <th>Status Pagamento</th>
+                <th>Observações</th>
+                <th>Atualizar Status</th>
+                <th>Apagar</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        $proposta = new Proposta();
+            <?php
 
-        $propostas = $proposta->verPropostasEmFaseFinanceira();
+            $proposta = new Proposta();
 
-        foreach ($propostas as $proposta)
-        {
-            $valorFormatado = str_replace('.', ',', $proposta['valor']);
-            $className = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
+            $propostas = $proposta->verPropostasEmFaseFinanceira();
 
-            if ($proposta['dataEnvioRelatorio'] !== null)
+            foreach ($propostas as $proposta)
             {
-                $dataEnvioRelatorio = new DateTime($proposta['dataEnvioRelatorio']);
-                $dataEnvioRelatorio = $dataEnvioRelatorio->format('d/m/Y H:m');
-            }
-            else
-            {
-                $dataEnvioRelatorio = '-';
-            }
+                $valorFormatado = str_replace('.', ',', $proposta['valor']);
+                $className = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
 
-            if ($proposta['dataPagamento'] !== null)
-            {
-                $dataPagamento = new DateTime($proposta['dataPagamento']);
-                $dataPagamento = $dataPagamento->format('d/m/Y H:m');
-            }
-            else
-            {
-                $dataPagamento = '-';
-            }
+                if ($proposta['dataEnvioRelatorio'] !== null)
+                {
+                    $dataEnvioRelatorio = new DateTime($proposta['dataEnvioRelatorio']);
+                    $dataEnvioRelatorio = $dataEnvioRelatorio->format('d/m/Y H:m');
+                }
+                else
+                {
+                    $dataEnvioRelatorio = '-';
+                }
 
-            $proposta['numeroNotaFiscal'] === null ? $proposta['numeroNotaFiscal'] = '-' : null;
-            $proposta['numeroRelatorio'] === null ? $proposta['numeroRelatorio'] = '-' : null;
-            $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
+                if ($proposta['dataPagamento'] !== null)
+                {
+                    $dataPagamento = new DateTime($proposta['dataPagamento']);
+                    $dataPagamento = $dataPagamento->format('d/m/Y H:m');
+                }
+                else
+                {
+                    $dataPagamento = '-';
+                }
 
-            echo "
+                $proposta['numeroNotaFiscal'] === null ? $proposta['numeroNotaFiscal'] = '-' : null;
+                $proposta['numeroRelatorio'] === null ? $proposta['numeroRelatorio'] = '-' : null;
+                $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
+
+                echo "
                 <tr>
-                    <td>{$proposta['numeroRelatorio']}</td>
+                    <td>{$proposta['numeroProposta']}</td>
                     <td>{$proposta['cliente']}</td>
                     <td>$valorFormatado</td>
                     <td>{$proposta['numeroRelatorio']}</td>
@@ -102,7 +105,7 @@ if (!empty($_POST['id']) && isset($_POST['atualizarStatus']))
                     <td>
                        <form action='' method='post'>
                             <input type='hidden' name='id' value='{$proposta['id']}'>
-                            <button type='submit' name='atualizarStatus'>
+                            <button type='submit' name='mostrarAtualizarStatus'>
                                 <svg class='updateProposalBtn' xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
                                     <path
                                         d='M240-360h280l80-80H240v80Zm0-160h240v-80H240v80Zm-80-160v400h280l-80 80H80v-560h800v120h-80v-40H160Zm756 212q5 5 5 11t-5 11l-36 36-70-70 36-36q5-5 11-5t11 5l48 48ZM520-120v-70l266-266 70 70-266 266h-70ZM160-680v400-400Z' />
@@ -124,10 +127,14 @@ if (!empty($_POST['id']) && isset($_POST['atualizarStatus']))
                     </td>
                 </tr>
                 ";
-        }
-        ?>
-    </tbody>
-</table>
+            }
+
+            ?>
+
+        </tbody>
+    </table>
+</div>
+
 </body>
 
 </html>

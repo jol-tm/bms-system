@@ -38,7 +38,7 @@ class DataRepositoy
         }
     }
 
-    public function read(string $table, ?string $parameters = null): array|bool
+    public function read(string $table, ?string $parameters = null): array|false
     {
         try
         {
@@ -55,7 +55,7 @@ class DataRepositoy
         }
     }
 
-    public function search(string $table, array $columns, string $keyWord): array|bool
+    public function search(string $table, array $columns, string $keyWord): array|false
     {
         try
         {
@@ -71,7 +71,7 @@ class DataRepositoy
             $sql = "SELECT * FROM $table WHERE $whereClause";
 
             $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue(':keyWord', '%' . $keyWord . '%', PDO::PARAM_STR);
+            $stmt->bindValue(':keyWord', "%$keyWord%", PDO::PARAM_STR);
             $stmt->execute();
 
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -85,7 +85,7 @@ class DataRepositoy
         }
     }
 
-    public function update(string $table, array $data, array $key): int|bool
+    public function update(string $table, array $data, array $key): int|false
     {
         try
         {
@@ -116,7 +116,7 @@ class DataRepositoy
         }
     }
 
-    public function delete(string $table, array $key): bool
+    public function delete(string $table, array $key): int|false
     {
         try
         {

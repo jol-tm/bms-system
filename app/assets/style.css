@@ -113,7 +113,8 @@ svg {
 }
 
 button:hover,
-svg:hover {
+svg:hover,
+#cancelUpdateStatusBtn:hover {
     transform: scale(1.05);
     cursor: pointer;
 }
@@ -121,6 +122,11 @@ svg:hover {
 button:active,
 svg:active {
     transform: scale(0.95);
+}
+
+.tableResponsive {
+    max-width: 95vw;
+    overflow: auto;
 }
 
 table {
@@ -213,6 +219,7 @@ th {
 #cancelUpdateStatusBtn {
     font-weight: bold;
     text-align: center;
+    text-decoration: none;
     padding: 0.5rem;
     border-radius: 0.5rem;
     color: var(--complementarColorLight);

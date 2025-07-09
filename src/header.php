@@ -39,12 +39,9 @@ if (isset($_SESSION['loggedUser']) && ($pageTitle === 'Acesso'))
 
         echo "
         <nav>
-            <a id='$comercialId' href='../comercial/ '>Comercial</a>
-            <a id='$financeiroId' href='../financeiro/'>Financeiro</a>
+        <a id='$comercialId' href='../comercial/ '>Comercial</a>
+        <a id='$financeiroId' href='../financeiro/'>Financeiro</a>
         </nav>
-        ";
-
-        echo "
         <h5 id='loggedUser'>
             Olá, {$_SESSION['loggedUser']}
             <br>

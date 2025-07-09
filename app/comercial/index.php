@@ -48,39 +48,41 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
         <button id="cancelRegisterProposalBtn" type="button">Cancelar</button>
     </form>
 </div>
-<table>
-    <thead>
-        <tr>
-            <th>N° Proposta</th>
-            <th>Data de Envio da Proposta</th>
-            <th>Cliente</th>
-            <th>Valor (R$)</th>
-            <th>Status</th>
-            <th>Dias em Análise</th>
-            <th>Observações</th>
-            <th>Aceitar</th>
-            <th>Recusar</th>
-            <th>Excluir</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
+<div class="tableResponsive">
+    <table>
+        <thead>
+            <tr>
+                <th>N° Proposta</th>
+                <th>Data de Envio da Proposta</th>
+                <th>Cliente</th>
+                <th>Valor (R$)</th>
+                <th>Status</th>
+                <th>Dias em Análise</th>
+                <th>Observações</th>
+                <th>Aceitar</th>
+                <th>Recusar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        $proposta = new Proposta();
-        $propostas = $proposta->verPropostasEmFaseComercial();
+            <?php
 
-        $hoje = new DateTime();
+            $proposta = new Proposta();
+            $propostas = $proposta->verPropostasEmFaseComercial();
 
-        foreach ($propostas as $proposta)
-        {
-            $dataEnvioProposta = new DateTime($proposta['dataEnvioProposta']);
-            $diasEmAnalise = $proposta['statusProposta'] === 'Em análise' ? $hoje->diff($dataEnvioProposta)->days : $proposta['diasEmAnalise'];
-            $valorFormatado = str_replace('.', ',', $proposta['valor']);
-            $statusProposta = $proposta['statusProposta'] === 'Recusada' ? 'refused' : 'pending';
+            $hoje = new DateTime();
 
-            $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
+            foreach ($propostas as $proposta)
+            {
+                $dataEnvioProposta = new DateTime($proposta['dataEnvioProposta']);
+                $diasEmAnalise = $proposta['statusProposta'] === 'Em análise' ? $hoje->diff($dataEnvioProposta)->days : $proposta['diasEmAnalise'];
+                $valorFormatado = str_replace('.', ',', $proposta['valor']);
+                $statusProposta = $proposta['statusProposta'] === 'Recusada' ? 'refused' : 'pending';
 
-            echo "
+                $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
+
+                echo "
                 <tr>
                     <td>{$proposta['numeroProposta']}</td>
                     <td>{$dataEnvioProposta->format('d/m/Y H:m')}</td>
@@ -129,11 +131,14 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
                     </td>
                 </tr>
                 ";
-        }
+            }
 
-        ?>
-    </tbody>
-</table>
+            ?>
+
+        </tbody>
+    </table>
+</div>
+
 </body>
 
 </html>

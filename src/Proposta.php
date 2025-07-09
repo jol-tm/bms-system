@@ -5,6 +5,13 @@ require_once 'DataRepository.php';
 
 class Proposta
 {
+    public function verProposta(int $id): array|false
+    {
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
+        return $data->read('propostas', "WHERE id = $id")[0];
+    }
+
     public function verPropostasEmFaseFinanceira(): array
     {
         $connection = new DatabaseConnection();
