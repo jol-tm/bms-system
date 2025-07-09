@@ -5,8 +5,7 @@ session_start();
 
 if (!isset($_SESSION['loggedUser']) && ($pageTitle !== 'Acesso'))
 {
-    http_response_code(404);
-    // header("Location: ../../app/acesso");
+    header("Location: ../../app/404");
     exit();
 }
 
@@ -19,7 +18,7 @@ if (isset($_SESSION['loggedUser']) && ($pageTitle === 'Acesso'))
 ?>
 
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='pt-br'>
 
 <head>
     <meta charset='UTF-8'>

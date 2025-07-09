@@ -10,7 +10,6 @@ require_once '../../src/Authenticator.php';
 if (!empty($_POST['email']) && !empty($_POST['senha']) && isset($_POST['entrar']))
 {
     $connection = new DatabaseConnection();
-    $data = new DataRepositoy($connection->start());
     $authenticator = new Authenticator($connection->start());
     $authenticationSuccess = $authenticator->authenticate('usuarios', ['email' => $_POST['email']], ['senha' => $_POST['senha']]);
 

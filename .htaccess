@@ -1,3 +1,5 @@
+ErrorDocument 404 ./app/404/index.php
+
 # Hides src/ content and .log files
 RewriteEngine On
 RewriteRule ^src/ - [R=404,L]
@@ -6,7 +8,7 @@ RewriteRule ^src/ - [R=404,L]
     RewriteRule .* - [R=404,L]
 </FilesMatch>
 
-# Gzip Compression
+# Gzip compression
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/plain
     AddOutputFilterByType DEFLATE text/html
@@ -21,7 +23,7 @@ RewriteRule ^src/ - [R=404,L]
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
-# Cache
+# Cache expiration
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresDefault "access plus 1 month"
