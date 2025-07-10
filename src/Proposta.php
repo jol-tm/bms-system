@@ -16,7 +16,7 @@ class Proposta
     {
         $connectionection = new DatabaseConnection();
         $data = new DataRepositoy($connectionection->start());
-        return $data->read('propostas', 'WHERE statusProposta = "Aceita"');
+        return $data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY dataEnvioProposta DESC');
     }
 
     public function verPropostasEmFaseComercial(): array
@@ -64,6 +64,7 @@ class Proposta
                 'numeroNotaFiscal' => empty($_POST['numeroNotaFiscal']) ? null : $_POST['numeroNotaFiscal'],
                 'dataPagamento' => empty($_POST['dataPagamento']) ? null : $_POST['dataPagamento'],
                 'statusPagamento' => empty($_POST['dataPagamento']) ? 'Aguardando' : 'Recebido',
+                'diasAguardandoPagamento' => $_POST['diasAguardandoPagamento'],
             ],
             [
                 'id' => $_POST['id']
