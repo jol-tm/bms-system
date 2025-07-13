@@ -22,3 +22,10 @@ RewriteRule ^src/ - [R=404,L]
     AddOutputFilterByType DEFLATE application/json
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
+
+# Cache
+<IfModule mod_headers.c>
+  <FilesMatch "\.(jpg|jpeg|png|gif|svg|webp|css|js|ttf|otf|woff|woff2|eot|mp3|mp4|pdf)$">
+    Header set Cache-Control "max-age=2592000, public, proxy-revalidate, must-revalidate"
+  </FilesMatch>
+</IfModule>
