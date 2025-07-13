@@ -29,13 +29,15 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
         <input type='hidden' name='id' value='{$propostaParaAtualizar['id']}'>
         <input type='hidden' name='diasAguardandoPagamento' value='{$_POST['diasAguardandoPagamento']}'>
         <label for='numeroRelatorio'>N° do Relatório</label>
-        <input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' value='{$propostaParaAtualizar['numeroRelatorio']}'>
+        <input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' max='99999999999' value='{$propostaParaAtualizar['numeroRelatorio']}'>
         <label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
         <input type='datetime-local' name='dataEnvioRelatorio' id='dataEnvioRelatorio' value='{$propostaParaAtualizar['dataEnvioRelatorio']}'>
         <label for='numeroNotaFiscal'>NF</label>
-        <input type='number' name='numeroNotaFiscal' id='numeroNotaFiscal' placeholder='Ex: 123456789' value='{$propostaParaAtualizar['numeroNotaFiscal']}'>
+        <input type='number' name='numeroNotaFiscal' id='numeroNotaFiscal' placeholder='Ex: 123456789' max='999999999' value='{$propostaParaAtualizar['numeroNotaFiscal']}'>
         <label for='dataPagamento'>Data do Pagamento</label>
         <input type='datetime-local' name='dataPagamento' id='dataPagamento' value='{$propostaParaAtualizar['dataPagamento']}'>
+        <label for='formaPagamento'>Forma de Pagamento</label>
+        <input type='text' name='formaPagamento' id='formaPagamento' placeholder='Ex: Parcelado 2x' maxlength='255' value='{$propostaParaAtualizar['formaPagamento']}'>
         <button id='updateStatusBtn' type='submit' name='atualizarStatusProposta'>Atualizar</button>
         <a id='cancelUpdateStatusBtn' href=''>Cancelar</a>
     </form>
@@ -56,6 +58,7 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
                 <th>Data de Envio do Relatório</th>
                 <th>NF</th>
                 <th>Data do Pagamento</th>
+                <th>Forma de Pagamento</th>
                 <th>Status do Pagamento</th>
                 <th>Dias Aguardando Pagamento</th>
                 <th>Observações</th>
@@ -77,10 +80,7 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
                 $dataEnvioProposta = new DateTime($proposta['dataEnvioProposta']);
                 $dataAceiteProposta = $dataEnvioProposta->modify("+{$proposta['diasEmAnalise']} days");
                 $diasAguardandoPagamento = $proposta['statusPagamento'] === 'Aguardando' ? $hoje->diff($dataAceiteProposta)->days : $proposta['diasAguardandoPagamento'];
-
-                $valorFormatado = str_replace('.', ',', $proposta['valor']);
-                $nomeClasse = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
-
+                
                 if ($proposta['dataEnvioRelatorio'] !== null)
                 {
                     $dataEnvioRelatorio = new DateTime($proposta['dataEnvioRelatorio']);
@@ -100,11 +100,14 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
                 {
                     $dataPagamento = '-';
                 }
-
+                
                 $proposta['numeroNotaFiscal'] === null ? $proposta['numeroNotaFiscal'] = '-' : null;
                 $proposta['numeroRelatorio'] === null ? $proposta['numeroRelatorio'] = '-' : null;
+                $proposta['formaPagamento'] === null ? $proposta['formaPagamento'] = '-' : null;
                 $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
-
+                $valorFormatado = str_replace('.', ',', $proposta['valor']);
+                $nomeClasse = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
+                
                 echo "
                 <tr>
                     <td>{$proposta['numeroProposta']}</td>
@@ -114,6 +117,7 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
                     <td>$dataEnvioRelatorio</td>
                     <td>{$proposta['numeroNotaFiscal']}</td>
                     <td>$dataPagamento</td>
+                    <td>{$proposta['formaPagamento']}</td>
                     <td class='{$nomeClasse}'>{$proposta['statusPagamento']}</td>
                     <td>$diasAguardandoPagamento</td>
                     <td>{$proposta['observacoes']}</td>

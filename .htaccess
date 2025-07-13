@@ -1,4 +1,4 @@
-ErrorDocument 404 https://bmslabcrm.ct.ws/app/404
+ErrorDocument 404 /crm-bms/app/404/index.php
 
 # Hides src/ content and .log files
 RewriteEngine On

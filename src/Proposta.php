@@ -64,6 +64,7 @@ class Proposta
                 'numeroNotaFiscal' => empty($_POST['numeroNotaFiscal']) ? null : $_POST['numeroNotaFiscal'],
                 'dataPagamento' => empty($_POST['dataPagamento']) ? null : $_POST['dataPagamento'],
                 'statusPagamento' => empty($_POST['dataPagamento']) ? 'Aguardando' : 'Recebido',
+                'formaPagamento' => empty($_POST['formaPagamento']) ? null : $_POST['formaPagamento'],
                 'diasAguardandoPagamento' => $_POST['diasAguardandoPagamento'],
             ],
             [

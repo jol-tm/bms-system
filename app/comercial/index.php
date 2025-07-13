@@ -35,15 +35,15 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
     <form action="" method="post" class="customForm">
         <h2>Cadastrar Proposta</h2>
         <label for="numeroProposta">N° da Proposta</label>
-        <input type="number" name="numeroProposta" id="numeroProposta" placeholder="Ex: 2020001" required>
+        <input type="number" name="numeroProposta" id="numeroProposta" placeholder="Ex: 2020001" max="99999999999" required>
         <label for="dataEnvioProposta">Data de Envio da Proposta</label>
         <input type="datetime-local" name="dataEnvioProposta" id="dataEnvioProposta" required>
         <label for="valor">Valor da Proposta</label>
-        <input type="text" name="valor" id="valor" placeholder="Ex: 999,99" required>
+        <input type="text" name="valor" id="valor" placeholder="Ex: 999,99" maxlength="10" required>
         <label for="cliente">Cliente</label>
-        <input type="text" name="cliente" id="cliente" placeholder="Nome do Cliente" required>
+        <input type="text" name="cliente" id="cliente" placeholder="Nome do Cliente" maxlength="255" required>
         <label for="observacoes">Observações</label>
-        <input type="text" name="observacoes" id="observacoes" placeholder="Ex: Desenvolvimento...">
+        <input type="text" name="observacoes" id="observacoes" placeholder="Ex: Desenvolvimento..." maxlength="255">
         <button id="registerProposalBtn" type="submit" name="cadastrarProposta">Cadastrar</button>
         <button id="cancelRegisterProposalBtn" type="button">Cancelar</button>
     </form>
@@ -77,9 +77,9 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
             {
                 $dataEnvioProposta = new DateTime($proposta['dataEnvioProposta']);
                 $diasEmAnalise = $proposta['statusProposta'] === 'Em análise' ? $hoje->diff($dataEnvioProposta)->days : $proposta['diasEmAnalise'];
-                $valorFormatado = str_replace('.', ',', $proposta['valor']);
+               
                 $statusProposta = $proposta['statusProposta'] === 'Recusada' ? 'refused' : 'pending';
-
+                $valorFormatado = str_replace('.', ',', $proposta['valor']);
                 $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
 
                 echo "
