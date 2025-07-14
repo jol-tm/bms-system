@@ -55,6 +55,13 @@ class Proposta
     {
         $connection = new DatabaseConnection();
         $data = new DataRepositoy($connection->start());
+        
+        $diasAguardandoPagamento = null;
+
+        if (!empty($_POST['dataPagamento']))
+        {
+            $diasAguardandoPagamento = ((new DateTime($_POST['dataAceiteProposta']))->diff(new DateTime($_POST['dataPagamento'])))->days;
+        }
 
         $updated = $data->update(
             'propostas',
@@ -65,7 +72,7 @@ class Proposta
                 'dataPagamento' => empty($_POST['dataPagamento']) ? null : $_POST['dataPagamento'],
                 'statusPagamento' => empty($_POST['dataPagamento']) ? 'Aguardando' : 'Recebido',
                 'formaPagamento' => empty($_POST['formaPagamento']) ? null : $_POST['formaPagamento'],
-                'diasAguardandoPagamento' => $_POST['diasAguardandoPagamento'],
+                'diasAguardandoPagamento' => $diasAguardandoPagamento,
             ],
             [
                 'id' => $_POST['id']

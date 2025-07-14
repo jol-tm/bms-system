@@ -11,13 +11,13 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
     $proposta->excluirProposta();
 }
 
-if (!empty($_POST['id']) && isset($_POST['diasAguardandoPagamento']) && isset($_POST['atualizarStatusProposta']))
+if (!empty($_POST['id']) && isset($_POST['dataAceiteProposta']) && isset($_POST['atualizarStatusProposta']))
 {
     $proposta = new Proposta();
     $proposta->atualizarStatusProposta();
 }
 
-if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtualizarStatus']))
+if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtualizarStatus']))
 {
     $proposta = new Proposta();
     $propostaParaAtualizar = $proposta->verProposta($_POST['id']);
@@ -27,7 +27,7 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
     <form action='' method='post' class='customForm'>
         <h2>Atualizar Status</h2>
         <input type='hidden' name='id' value='{$propostaParaAtualizar['id']}'>
-        <input type='hidden' name='diasAguardandoPagamento' value='{$_POST['diasAguardandoPagamento']}'>
+        <input type='hidden' name='dataAceiteProposta' value='{$_POST['dataAceiteProposta']}'>
         <label for='numeroRelatorio'>N° do Relatório</label>
         <input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' max='99999999999' value='{$propostaParaAtualizar['numeroRelatorio']}'>
         <label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
@@ -78,7 +78,8 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
             foreach ($propostas as $proposta)
             {
                 $dataEnvioProposta = new DateTime($proposta['dataEnvioProposta']);
-                $dataAceiteProposta = $dataEnvioProposta->modify("+{$proposta['diasEmAnalise']} days");
+                $diasEmAnalise = new DateInterval("P{$proposta['diasEmAnalise']}D");
+                $dataAceiteProposta = $dataEnvioProposta->add($diasEmAnalise);
                 $diasAguardandoPagamento = $proposta['statusPagamento'] === 'Aguardando' ? $hoje->diff($dataAceiteProposta)->days : $proposta['diasAguardandoPagamento'];
                 
                 if ($proposta['dataEnvioRelatorio'] !== null)
@@ -100,14 +101,14 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
                 {
                     $dataPagamento = '-';
                 }
-                
+
                 $proposta['numeroNotaFiscal'] === null ? $proposta['numeroNotaFiscal'] = '-' : null;
                 $proposta['numeroRelatorio'] === null ? $proposta['numeroRelatorio'] = '-' : null;
                 $proposta['formaPagamento'] === null ? $proposta['formaPagamento'] = '-' : null;
                 $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
                 $valorFormatado = str_replace('.', ',', $proposta['valor']);
                 $nomeClasse = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
-                
+
                 echo "
                 <tr>
                     <td>{$proposta['numeroProposta']}</td>
@@ -124,7 +125,7 @@ if (filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtuali
                     <td>
                        <form action='' method='post'>
                             <input type='hidden' name='id' value='{$proposta['id']}'>
-                            <input type='hidden' name='diasAguardandoPagamento' value='$diasAguardandoPagamento'>
+                            <input type='hidden' name='dataAceiteProposta' value='{$dataAceiteProposta->format('Y-m-d H:i:s')}'>
                             <button type='submit' name='mostrarAtualizarStatus'>
                                 <svg class='updateProposalBtn' xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
                                     <path

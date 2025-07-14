@@ -5,7 +5,7 @@ session_start();
 
 if (!isset($_SESSION['loggedUser']) && ($pageTitle !== 'Acesso'))
 {
-    header("Location: ../../app/404");
+    http_response_code(401);
     exit();
 }
 
@@ -25,8 +25,8 @@ if (isset($_SESSION['loggedUser']) && ($pageTitle === 'Acesso'))
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>BMS | <?= $pageTitle; ?></title>
     <link rel="icon" href="../assets/SUBMARK.webp" type="image/webp">
-    <link rel='stylesheet' href='../assets/style.css'>
-    <script defer src="../assets/script.js"></script>
+    <link rel='stylesheet' href='/crm-bms/app/assets/style.css'>
+    <script defer src="/crm-bms/app/assets/style.css"></script>
 </head>
 
 <body>

@@ -30,9 +30,7 @@ body {
     flex-direction: column;
     gap: 0.5rem;
     background-color: var(--backgroundColor);
-    overflow-y: scroll;
 }
-
 
 input,
 button,
@@ -158,9 +156,9 @@ th {
     }
 }
 
-/* LOGIN & 404 */
+/* LOGIN & Error pages */
 
-#bodyLogin, #body404 {
+#bodyLogin, #bodyError {
     width: 100dvw;
     height: 100dvh;
 }
