@@ -25,7 +25,7 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
     echo "
     <div class='formWrapper'>
     <form action='' method='post' class='customForm'>
-        <h2>Atualizar Status</h2>
+        <h2>Atualizando Proposta: {$_POST['numeroProposta']}</h2>
         <input type='hidden' name='id' value='{$propostaParaAtualizar['id']}'>
         <input type='hidden' name='dataAceiteProposta' value='{$_POST['dataAceiteProposta']}'>
         <label for='numeroRelatorio'>N° do Relatório</label>
@@ -125,6 +125,7 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
                     <td>
                        <form action='' method='post'>
                             <input type='hidden' name='id' value='{$proposta['id']}'>
+                            <input type='hidden' name='numeroProposta' value='{$proposta['numeroProposta']}'>
                             <input type='hidden' name='dataAceiteProposta' value='{$dataAceiteProposta->format('Y-m-d H:i:s')}'>
                             <button type='submit' name='mostrarAtualizarStatus'>
                                 <svg class='updateProposalBtn' xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>

@@ -24,13 +24,13 @@ if (isset($_SESSION['loggedUser']) && ($pageTitle === 'Acesso'))
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>BMS | <?= $pageTitle; ?></title>
-    <link rel="icon" href="../assets/SUBMARK.webp" type="image/webp">
-    <link rel='stylesheet' href='/crm-bms/app/assets/style.css'>
-    <script defer src="/crm-bms/app/assets/style.css"></script>
+    <link rel='icon' href='/app/assets/SUBMARK.webp' type='image/webp'>
+    <link rel='stylesheet' href='/app/assets/style.css'>
+    <script defer src='/app/assets/script.js'></script>
 </head>
 
 <body>
-    <svg id="logo" width="100" height="30" viewBox="0 0 1060 253" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg id="logo" width="150" height="50" viewBox="0 0 1100 250" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M458.732 121.709C472.612 126.104 483.485 133.507 491.35 143.917C499.216 154.096 503.149 166.704 503.149 181.741C503.149 203.024 494.821 219.448 478.164 231.015C461.739 242.351 437.68 248.019 405.987 248.019H280.371V5.11466H399.047C428.658 5.11466 451.329 10.7824 467.06 22.1179C483.022 33.4535 491.003 48.8374 491.003 68.2697C491.003 80.0679 488.112 90.5937 482.328 99.8472C476.776 109.101 468.911 116.388 458.732 121.709ZM336.239 47.4494V104.705H392.107C405.987 104.705 416.513 102.276 423.684 97.4182C430.856 92.5601 434.442 85.3886 434.442 75.9038C434.442 66.419 430.856 59.3632 423.684 54.7365C416.513 49.8784 405.987 47.4494 392.107 47.4494H336.239ZM401.823 205.684C416.629 205.684 427.733 203.255 435.136 198.397C442.77 193.539 446.587 186.02 446.587 175.841C446.587 155.715 431.666 145.652 401.823 145.652H336.239V205.684H401.823Z"
             fill="#847B75" />

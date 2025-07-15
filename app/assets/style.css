@@ -45,7 +45,6 @@ nav,
 }
 
 nav {
-    font-weight: bold;
     z-index: 1;
     position: sticky;
     top: 0.5rem;
@@ -54,6 +53,7 @@ nav {
 }
 
 #currentPage {
+    font-weight: bold;
     text-decoration: underline;
 }
 
@@ -76,7 +76,6 @@ form {
 }
 
 .customForm {
-    width: 15rem;
     background-color: var(--complementarColorLight);
     border: 2px solid var(--primaryColor);
 }
