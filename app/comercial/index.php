@@ -120,7 +120,7 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
                     <td>
                        <form action='' method='post'>
                             <input type='hidden' name='id' value='{$proposta['id']}'>
-                            <button type='submit' name='excluirProposta' onclick=\"return confirm('ATENÇÃO! Exclusão é irreversível! Ok para prosseguir?')\">
+                            <button type='submit' name='excluirProposta' onclick=\"return prompt('ATENÇÃO! Exclusão é irreversível! Caso tenha certeza, digite EXCLUIR abaixo.') === 'EXCLUIR'\">
                                 <svg class='deleteProposalBtn' xmlns='http://www.w3.org/2000/svg'
                                     height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
                                     <path
