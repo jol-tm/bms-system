@@ -39,7 +39,6 @@ svg,
 nav,
 .notification {
     font-family: var(--primaryFont), sans-serif;
-    font-size: 1rem;
     border-radius: 0.5rem;
     padding: 0.5rem;
 }

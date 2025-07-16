@@ -11,7 +11,7 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
     $proposta->excluirProposta();
 }
 
-if (!empty($_POST['id']) && isset($_POST['dataAceiteProposta']) && isset($_POST['atualizarStatusProposta']))
+if (!empty($_POST['id']) && isset($_POST['dataAceiteProposta']) && isset($_POST['diasAguardandoPagamento']) && isset($_POST['atualizarStatusProposta']))
 {
     $proposta = new Proposta();
     $proposta->atualizarStatusProposta();
@@ -27,6 +27,7 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
     <form action='' method='post' class='customForm'>
         <h2>Atualizando Proposta: {$_POST['numeroProposta']}</h2>
         <input type='hidden' name='id' value='{$propostaParaAtualizar['id']}'>
+        <input type='hidden' name='diasAguardandoPagamento' value='{$_POST['diasAguardandoPagamento']}'>
         <input type='hidden' name='dataAceiteProposta' value='{$_POST['dataAceiteProposta']}'>
         <label for='numeroRelatorio'>N° do Relatório</label>
         <input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' max='99999999999' value='{$propostaParaAtualizar['numeroRelatorio']}'>
@@ -54,6 +55,8 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
                 <th>N° Proposta</th>
                 <th>Cliente</th>
                 <th>Valor (R$)</th>
+                <th>Dias em Análise</th>
+                <th>Data de Aceite da Proposta</th>
                 <th>N° Relatório</th>
                 <th>Data de Envio do Relatório</th>
                 <th>NF</th>
@@ -77,15 +80,13 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
 
             foreach ($propostas as $proposta)
             {
-                $dataEnvioProposta = new DateTime($proposta['dataEnvioProposta']);
-                $diasEmAnalise = new DateInterval("P{$proposta['diasEmAnalise']}D");
-                $dataAceiteProposta = $dataEnvioProposta->add($diasEmAnalise);
+                $dataAceiteProposta = new DateTime($proposta['dataAceiteProposta']);
                 $diasAguardandoPagamento = $proposta['statusPagamento'] === 'Aguardando' ? $hoje->diff($dataAceiteProposta)->days : $proposta['diasAguardandoPagamento'];
                 
                 if ($proposta['dataEnvioRelatorio'] !== null)
                 {
                     $dataEnvioRelatorio = new DateTime($proposta['dataEnvioRelatorio']);
-                    $dataEnvioRelatorio = $dataEnvioRelatorio->format('d/m/Y H:m');
+                    $dataEnvioRelatorio = $dataEnvioRelatorio->format('d/m/Y H:i');
                 }
                 else
                 {
@@ -95,7 +96,7 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
                 if ($proposta['dataPagamento'] !== null)
                 {
                     $dataPagamento = new DateTime($proposta['dataPagamento']);
-                    $dataPagamento = $dataPagamento->format('d/m/Y H:m');
+                    $dataPagamento = $dataPagamento->format('d/m/Y H:i');
                 }
                 else
                 {
@@ -114,6 +115,8 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
                     <td>{$proposta['numeroProposta']}</td>
                     <td>{$proposta['cliente']}</td>
                     <td>$valorFormatado</td>
+                    <td>{$proposta['diasEmAnalise']}</td>
+                    <td>{$dataAceiteProposta->format('d/m/Y H:i')}</td>
                     <td>{$proposta['numeroRelatorio']}</td>
                     <td>$dataEnvioRelatorio</td>
                     <td>{$proposta['numeroNotaFiscal']}</td>
@@ -126,6 +129,7 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
                        <form action='' method='post'>
                             <input type='hidden' name='id' value='{$proposta['id']}'>
                             <input type='hidden' name='numeroProposta' value='{$proposta['numeroProposta']}'>
+                            <input type='hidden' name='diasAguardandoPagamento' value='{$diasAguardandoPagamento}'>
                             <input type='hidden' name='dataAceiteProposta' value='{$dataAceiteProposta->format('Y-m-d H:i:s')}'>
                             <button type='submit' name='mostrarAtualizarStatus'>
                                 <svg class='updateProposalBtn' xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>

@@ -85,7 +85,7 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
                 echo "
                 <tr>
                     <td>{$proposta['numeroProposta']}</td>
-                    <td>{$dataEnvioProposta->format('d/m/Y H:m')}</td>
+                    <td>{$dataEnvioProposta->format('d/m/Y H:i')}</td>
                     <td>{$proposta['cliente']}</td>
                     <td>$valorFormatado</td>
                     <td class='{$statusProposta}'>{$proposta['statusProposta']}</td>

@@ -7,7 +7,7 @@ require_once '../../src/DatabaseConnection.php';
 require_once '../../src/DataRepository.php';
 require_once '../../src/Authenticator.php';
 
-if (!empty($_POST['email']) && !empty($_POST['senha']) && isset($_POST['entrar']))
+if (!empty($_POST['email']) && !empty($_POST['senha']) && isset($_POST['acessar']))
 {
     $connection = new DatabaseConnection();
     $authenticator = new Authenticator($connection->start());
@@ -31,7 +31,7 @@ if (!empty($_POST['email']) && !empty($_POST['senha']) && isset($_POST['entrar']
         <h1>Acesso</h1>
         <input type='email' name='email' placeholder='Email' required>
         <input type='password' name='senha' placeholder='Senha' required>
-        <button id='loginBtn' type='submit' name='entrar'>Acessar</button>
+        <button id='loginBtn' type='submit' name='acessar'>Acessar</button>
     </form>
 </body>
 
