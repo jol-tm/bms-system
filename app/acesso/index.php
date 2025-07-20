@@ -7,7 +7,7 @@ require_once '../../src/DatabaseConnection.php';
 require_once '../../src/DataRepository.php';
 require_once '../../src/Authenticator.php';
 
-if (!empty($_POST['email']) && !empty($_POST['senha']) && isset($_POST['acessar']))
+if (isset($_POST['acessar'] && !empty($_POST['email']) && !empty($_POST['senha'])))
 {
     $connection = new DatabaseConnection();
     $authenticator = new Authenticator($connection->start());

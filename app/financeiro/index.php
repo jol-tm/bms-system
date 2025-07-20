@@ -5,21 +5,20 @@ $pageTitle = 'Financeiro';
 require_once '../../src/header.php';
 require_once '../../src/Proposta.php';
 
-if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
+$proposta = new Proposta();
+
+if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 {
-    $proposta = new Proposta();
     $proposta->excluirProposta();
 }
 
-if (!empty($_POST['id']) && isset($_POST['dataAceiteProposta']) && isset($_POST['diasAguardandoPagamento']) && isset($_POST['atualizarStatusProposta']))
+if (isset($_POST['atualizarStatusProposta']) && !empty($_POST['id']) && isset($_POST['dataAceiteProposta']) && isset($_POST['diasAguardandoPagamento']))
 {
-    $proposta = new Proposta();
     $proposta->atualizarStatusProposta();
 }
 
-if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && isset($_POST['mostrarAtualizarStatus']))
+if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_VALIDATE_INT))
 {
-    $proposta = new Proposta();
     $propostaParaAtualizar = $proposta->verProposta($_POST['id']);
 
     echo "
@@ -33,12 +32,16 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
         <input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' max='99999999999' value='{$propostaParaAtualizar['numeroRelatorio']}'>
         <label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
         <input type='datetime-local' name='dataEnvioRelatorio' id='dataEnvioRelatorio' value='{$propostaParaAtualizar['dataEnvioRelatorio']}'>
+        <label for='valor'>Valor da Proposta</label>
+        <input type='text' name='valor' id='valor' placeholder='Ex: 999,99' maxlength='10' value='{$propostaParaAtualizar['valor']}'>
         <label for='numeroNotaFiscal'>NF</label>
         <input type='number' name='numeroNotaFiscal' id='numeroNotaFiscal' placeholder='Ex: 123456789' max='999999999' value='{$propostaParaAtualizar['numeroNotaFiscal']}'>
         <label for='dataPagamento'>Data do Pagamento</label>
         <input type='datetime-local' name='dataPagamento' id='dataPagamento' value='{$propostaParaAtualizar['dataPagamento']}'>
         <label for='formaPagamento'>Forma de Pagamento</label>
         <input type='text' name='formaPagamento' id='formaPagamento' placeholder='Ex: Parcelado 2x' maxlength='255' value='{$propostaParaAtualizar['formaPagamento']}'>
+		<label for='observacoes'>Observações</label>
+        <input type='text' name='observacoes' id='observacoes' placeholder='Ex: Desenvolvimento...' maxlength='255' value='{$propostaParaAtualizar['observacoes']}'>
         <button id='updateStatusBtn' type='submit' name='atualizarStatusProposta'>Atualizar</button>
         <a id='cancelUpdateStatusBtn' href=''>Cancelar</a>
     </form>
@@ -73,7 +76,6 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
 
             <?php
 
-            $proposta = new Proposta();
             $propostas = $proposta->verPropostasEmFaseFinanceira();
 
             $hoje = new DateTime();
@@ -106,7 +108,7 @@ if (!empty($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT) && iss
                 $proposta['numeroNotaFiscal'] === null ? $proposta['numeroNotaFiscal'] = '-' : null;
                 $proposta['numeroRelatorio'] === null ? $proposta['numeroRelatorio'] = '-' : null;
                 $proposta['formaPagamento'] === null ? $proposta['formaPagamento'] = '-' : null;
-                $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
+                $proposta['observacoes'] === null ? $proposta['observacoes'] = '-' : null;
                 $valorFormatado = str_replace('.', ',', $proposta['valor']);
                 $nomeClasse = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
 

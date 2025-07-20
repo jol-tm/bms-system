@@ -1,30 +1,29 @@
 <?php
+
 $pageTitle = 'Comercial';
 
 require_once '../../src/header.php';
 require_once '../../src/Proposta.php';
 
-if (!empty($_POST['numeroProposta']) && !empty($_POST['dataEnvioProposta']) && !empty($_POST['valor']) && !empty($_POST['cliente']))
+$proposta = new Proposta();
+
+if (isset($_POST['cadastrarProposta']) && !empty($_POST['numeroProposta']) && !empty($_POST['dataEnvioProposta']) && !empty($_POST['valor']) && !empty($_POST['cliente']))
 {
-    $proposta = new Proposta();
     $proposta->cadastrarProposta();
 }
 
-if (!empty($_POST['id']) && isset($_POST['diasEmAnalise']) && isset($_POST['aceitarProposta']))
+if (isset($_POST['aceitarProposta']) && !empty($_POST['id']) && isset($_POST['diasEmAnalise']))
 {
-    $proposta = new Proposta();
     $proposta->aceitarProposta();
 }
 
-if (!empty($_POST['id']) && isset($_POST['diasEmAnalise']) && isset($_POST['recusarProposta']))
+if (isset($_POST['recusarProposta']) && !empty($_POST['id']) && isset($_POST['diasEmAnalise']))
 {
-    $proposta = new Proposta();
     $proposta->recusarProposta();
 }
 
-if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
+if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 {
-    $proposta = new Proposta();
     $proposta->excluirProposta();
 }
 
@@ -68,7 +67,6 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
 
             <?php
 
-            $proposta = new Proposta();
             $propostas = $proposta->verPropostasEmFaseComercial();
 
             $hoje = new DateTime();
@@ -80,8 +78,8 @@ if (!empty($_POST['id']) && isset($_POST['excluirProposta']))
                
                 $statusProposta = $proposta['statusProposta'] === 'Recusada' ? 'refused' : 'pending';
                 $valorFormatado = str_replace('.', ',', $proposta['valor']);
-                $proposta['observacoes'] === '' ? $proposta['observacoes'] = '-' : null;
-
+				$proposta['observacoes'] === null ? $proposta['observacoes'] = '-' : null;
+				
                 echo "
                 <tr>
                     <td>{$proposta['numeroProposta']}</td>

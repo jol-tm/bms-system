@@ -7,22 +7,22 @@ class Proposta
 {
     public function verProposta(int $id): array|false
     {
-        $connectionection = new DatabaseConnection();
-        $data = new DataRepositoy($connectionection->start());
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
         return $data->read('propostas', "WHERE id = $id")[0];
     }
 
     public function verPropostasEmFaseFinanceira(): array
     {
-        $connectionection = new DatabaseConnection();
-        $data = new DataRepositoy($connectionection->start());
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
         return $data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY diasAguardandoPagamento DESC');
     }
 
     public function verPropostasEmFaseComercial(): array
     {
-        $connectionection = new DatabaseConnection();
-        $data = new DataRepositoy($connectionection->start());
+        $connection = new DatabaseConnection();
+        $data = new DataRepositoy($connection->start());
         return $data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
     }
 
@@ -36,7 +36,7 @@ class Proposta
             'dataEnvioProposta' => $_POST['dataEnvioProposta'],
             'valor' => str_replace(',', '.', $_POST['valor']),
             'cliente' => $_POST['cliente'],
-            'observacoes' => $_POST['observacoes'],
+            'observacoes' => empty($_POST['observacoes']) ? null : $_POST['observacoes'],
         ]);
 
         if ($created)
@@ -56,15 +56,17 @@ class Proposta
         $connection = new DatabaseConnection();
         $data = new DataRepositoy($connection->start());
         
-        $updated = $data->update(
+        $affectedRows = $data->update(
             'propostas',
             [
                 'numeroRelatorio' => empty($_POST['numeroRelatorio']) ? null : $_POST['numeroRelatorio'],
                 'dataEnvioRelatorio' => empty($_POST['dataEnvioRelatorio']) ? null : $_POST['dataEnvioRelatorio'],
+                'valor' => empty($_POST['valor']) ? null : $_POST['valor'],
                 'numeroNotaFiscal' => empty($_POST['numeroNotaFiscal']) ? null : $_POST['numeroNotaFiscal'],
                 'dataPagamento' => empty($_POST['dataPagamento']) ? null : $_POST['dataPagamento'],
                 'statusPagamento' => empty($_POST['dataPagamento']) ? 'Aguardando' : 'Recebido',
                 'formaPagamento' => empty($_POST['formaPagamento']) ? null : $_POST['formaPagamento'],
+				'observacoes' => empty($_POST['observacoes']) ? null : $_POST['observacoes'],
                 'diasAguardandoPagamento' => $_POST['diasAguardandoPagamento'],
                 'dataAceiteProposta' => $_POST['dataAceiteProposta'],
             ],
@@ -73,7 +75,7 @@ class Proposta
             ]
         );
 
-        if ($updated)
+        if ($affectedRows > 0)
         {
             $_SESSION['notification'] = 'Status da Proposta atualizado com sucesso.';
             header('Location: ./');
