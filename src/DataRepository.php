@@ -1,6 +1,6 @@
 <?php
 
-class DataRepositoy
+class DataRepository
 {
     private ?object $connection = null;
 

@@ -4,10 +4,9 @@ $pageTitle = 'Acesso';
 
 require_once '../../src/header.php';
 require_once '../../src/DatabaseConnection.php';
-require_once '../../src/DataRepository.php';
 require_once '../../src/Authenticator.php';
 
-if (isset($_POST['acessar'] && !empty($_POST['email']) && !empty($_POST['senha'])))
+if (isset($_POST['acessar']) && !empty($_POST['email']) && !empty($_POST['senha']))
 {
     $connection = new DatabaseConnection();
     $authenticator = new Authenticator($connection->start());

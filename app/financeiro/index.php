@@ -40,6 +40,8 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
         <input type='datetime-local' name='dataPagamento' id='dataPagamento' value='{$propostaParaAtualizar['dataPagamento']}'>
         <label for='formaPagamento'>Forma de Pagamento</label>
         <input type='text' name='formaPagamento' id='formaPagamento' placeholder='Ex: Parcelado 2x' maxlength='255' value='{$propostaParaAtualizar['formaPagamento']}'>
+		<label for='dataUltimaCobranca'>Data Última Cobrança</label>
+        <input type='datetime-local' name='dataUltimaCobranca' id='dataUltimaCobranca' value='{$propostaParaAtualizar['dataUltimaCobranca']}'>
 		<label for='observacoes'>Observações</label>
         <input type='text' name='observacoes' id='observacoes' placeholder='Ex: Desenvolvimento...' maxlength='255' value='{$propostaParaAtualizar['observacoes']}'>
         <button id='updateStatusBtn' type='submit' name='atualizarStatusProposta'>Atualizar</button>
@@ -67,6 +69,8 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
                 <th>Forma de Pagamento</th>
                 <th>Status do Pagamento</th>
                 <th>Dias Aguardando Pagamento</th>
+                <th>Data Última Cobrança</th>
+                <th>Dias desde Última Cobrança</th>
                 <th>Observações</th>
                 <th>Atualizar Status</th>
                 <th>Apagar</th>
@@ -82,27 +86,35 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 
             foreach ($propostas as $proposta)
             {
-                $dataAceiteProposta = new DateTime($proposta['dataAceiteProposta']);
-                $diasAguardandoPagamento = $proposta['statusPagamento'] === 'Aguardando' ? $hoje->diff($dataAceiteProposta)->days : $proposta['diasAguardandoPagamento'];
+				$dataAceiteProposta = '-';
+				$dataUltimaCobranca = '-';
+				$diasUltimaCobranca = '-';
+				$dataEnvioRelatorio = '-';
+				$dataPagamento = '-';
+				
+				if ($proposta['dataAceiteProposta'] !== null)
+				{
+					$dataAceiteProposta = new DateTime($proposta['dataAceiteProposta']);
+					$diasAguardandoPagamento = $proposta['statusPagamento'] === 'Aguardando' ? $hoje->diff($dataAceiteProposta)->days : $proposta['diasAguardandoPagamento'];
+				}
+				
+				if ($proposta['dataUltimaCobranca'] !== null)
+				{
+					$dataUltimaCobranca = new DateTime($proposta['dataUltimaCobranca']);
+					$diasUltimaCobranca = $hoje->diff($dataUltimaCobranca)->days;
+					$dataUltimaCobranca = $dataUltimaCobranca->format('d/m/Y H:i');
+				}
                 
                 if ($proposta['dataEnvioRelatorio'] !== null)
                 {
                     $dataEnvioRelatorio = new DateTime($proposta['dataEnvioRelatorio']);
                     $dataEnvioRelatorio = $dataEnvioRelatorio->format('d/m/Y H:i');
                 }
-                else
-                {
-                    $dataEnvioRelatorio = '-';
-                }
 
                 if ($proposta['dataPagamento'] !== null)
                 {
                     $dataPagamento = new DateTime($proposta['dataPagamento']);
                     $dataPagamento = $dataPagamento->format('d/m/Y H:i');
-                }
-                else
-                {
-                    $dataPagamento = '-';
                 }
 
                 $proposta['numeroNotaFiscal'] === null ? $proposta['numeroNotaFiscal'] = '-' : null;
@@ -126,6 +138,8 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
                     <td>{$proposta['formaPagamento']}</td>
                     <td class='{$nomeClasse}'>{$proposta['statusPagamento']}</td>
                     <td>$diasAguardandoPagamento</td>
+                    <td>$dataUltimaCobranca</td>
+                    <td>$diasUltimaCobranca</td>
                     <td>{$proposta['observacoes']}</td>
                     <td>
                        <form action='' method='post'>

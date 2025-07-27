@@ -5,33 +5,33 @@ require_once 'DataRepository.php';
 
 class Proposta
 {
+	private ?object $connection = null;
+	private ?object $data = null;
+	
+	public function __construct()
+	{
+		$this->connection = new DatabaseConnection();
+		$this->data = new DataRepository($this->connection->start());
+	}
+	
     public function verProposta(int $id): array|false
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
-        return $data->read('propostas', "WHERE id = $id")[0];
+        return $this->data->read('propostas', "WHERE id = $id")[0];
     }
 
     public function verPropostasEmFaseFinanceira(): array
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
-        return $data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY diasAguardandoPagamento DESC');
-    }
+        return $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY dataUltimaCobranca ASC, diasAguardandoPagamento DESC;');
+	}
 
     public function verPropostasEmFaseComercial(): array
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
-        return $data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
+        return $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
     }
 
     public function cadastrarProposta(): bool
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
-
-        $created = $data->create('propostas', [
+        $created = $this->data->create('propostas', [
             'numeroProposta' => $_POST['numeroProposta'],
             'dataEnvioProposta' => $_POST['dataEnvioProposta'],
             'valor' => str_replace(',', '.', $_POST['valor']),
@@ -52,23 +52,21 @@ class Proposta
     }
 
     public function atualizarStatusProposta(): bool
-    {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
-        
-        $affectedRows = $data->update(
+    {  
+        $affectedRows = $this->data->update(
             'propostas',
             [
                 'numeroRelatorio' => empty($_POST['numeroRelatorio']) ? null : $_POST['numeroRelatorio'],
                 'dataEnvioRelatorio' => empty($_POST['dataEnvioRelatorio']) ? null : $_POST['dataEnvioRelatorio'],
-                'valor' => empty($_POST['valor']) ? null : $_POST['valor'],
+                'valor' => empty($_POST['valor']) ? null : str_replace(',', '.', $_POST['valor']),
                 'numeroNotaFiscal' => empty($_POST['numeroNotaFiscal']) ? null : $_POST['numeroNotaFiscal'],
                 'dataPagamento' => empty($_POST['dataPagamento']) ? null : $_POST['dataPagamento'],
                 'statusPagamento' => empty($_POST['dataPagamento']) ? 'Aguardando' : 'Recebido',
                 'formaPagamento' => empty($_POST['formaPagamento']) ? null : $_POST['formaPagamento'],
 				'observacoes' => empty($_POST['observacoes']) ? null : $_POST['observacoes'],
-                'diasAguardandoPagamento' => $_POST['diasAguardandoPagamento'],
-                'dataAceiteProposta' => $_POST['dataAceiteProposta'],
+                'diasAguardandoPagamento' => empty($_POST['diasAguardandoPagamento']) ? null : $_POST['diasAguardandoPagamento'],
+                'dataAceiteProposta' => $_POST['dataAceiteProposta'], // preciso disso?
+                'dataUltimaCobranca' => empty($_POST['dataUltimaCobranca']) ? null : $_POST['dataUltimaCobranca'],
             ],
             [
                 'id' => $_POST['id']
@@ -89,12 +87,9 @@ class Proposta
 
     public function aceitarProposta(): bool
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
+        $now = (new DateTime())->format('Y-m-d H:i');
 
-        $agora = (new DateTime())->format('Y-m-d H:i');
-
-        $affectedRows = $data->update('propostas', ['statusProposta' => 'Aceita', 'dataAceiteProposta' => $agora, 'diasEmAnalise' => $_POST['diasEmAnalise']], ['id' => $_POST['id']]);
+        $affectedRows = $this->data->update('propostas', ['statusProposta' => 'Aceita', 'dataAceiteProposta' => $now, 'diasEmAnalise' => $_POST['diasEmAnalise']], ['id' => $_POST['id']]);
 
         if ($affectedRows > 0)
         {
@@ -110,9 +105,7 @@ class Proposta
 
     public function recusarProposta(): bool
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
-        $affectedRows = $data->update('propostas', ['statusProposta' => 'Recusada', 'diasEmAnalise' => $_POST['diasEmAnalise']], ['id' => $_POST['id']]);
+        $affectedRows = $this->data->update('propostas', ['statusProposta' => 'Recusada', 'diasEmAnalise' => $_POST['diasEmAnalise']], ['id' => $_POST['id']]);
 
         if ($affectedRows > 0)
         {
@@ -126,11 +119,10 @@ class Proposta
         return false;
 
     }
+    
     public function excluirProposta(): bool
     {
-        $connection = new DatabaseConnection();
-        $data = new DataRepositoy($connection->start());
-        $affectedRows = $data->delete('propostas', ['id' => $_POST['id']]);
+        $affectedRows = $this->data->delete('propostas', ['id' => $_POST['id']]);
 
         if ($affectedRows > 0)
         {

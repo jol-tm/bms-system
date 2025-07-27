@@ -1,8 +1,8 @@
 :root {
+	--primaryColor: #C1A995;
     --backgroundColor: #dddddd;
-    --complementarColorDark: #000000;
-    --complementarColorLight: #ffffff;
-    --primaryColor: #C1A995;
+    --contrastColorDark: #000000;
+    --contrastColorLight: #ffffff;
     --confirmColor: darkgreen;
     --warnColor: darkgoldenrod;
     --destructiveColor: darkred;
@@ -39,6 +39,7 @@ svg,
 nav,
 .notification {
     font-family: var(--primaryFont), sans-serif;
+    font-size: 1rem;
     border-radius: 0.5rem;
     padding: 0.5rem;
 }
@@ -57,7 +58,7 @@ nav {
 }
 
 a {
-    color: var(--complementarColorDark);
+    color: var(--contrastColorDark);
     text-decoration: none;
     transition: var(--transitonsDuration);
 }
@@ -75,7 +76,7 @@ form {
 }
 
 .customForm {
-    background-color: var(--complementarColorLight);
+    background-color: var(--contrastColorLight);
     border: 2px solid var(--primaryColor);
 }
 
@@ -88,6 +89,7 @@ form {
     justify-content: center;
     height: 100vh;
     width: 100vw;
+    overflow: auto; 
     backdrop-filter: blur(5px);
     animation: showUp var(--transitonsDuration) ease;
 }
@@ -129,7 +131,7 @@ button:active {
 
 table {
     border: 2px solid var(--primaryColor);
-    background-color: var(--complementarColorLight);
+    background-color: var(--contrastColorLight);
 }
 
 td,
@@ -162,7 +164,7 @@ th {
 }
 
 #formLogin {
-    background-color: var(--complementarColorLight);
+    background-color: var(--contrastColorLight);
     width: 15rem;
 }
 
@@ -182,7 +184,7 @@ th {
 }
 
 #showRegisterProposalFormBtn {
-    color: var(--complementarColorLight);
+    color: var(--contrastColorLight);
     background-color: var(--confirmColor);
 }
 
@@ -191,12 +193,12 @@ th {
 }
 
 #registerProposalBtn {
-    color: var(--complementarColorLight);
+    color: var(--contrastColorLight);
     background-color: var(--confirmColor);
 }
 
 #cancelRegisterProposalBtn {
-    color: var(--complementarColorLight);
+    color: var(--contrastColorLight);
     background-color: var(--destructiveColor);
 }
 
@@ -207,7 +209,7 @@ th {
 }
 
 #updateStatusBtn {
-    color: var(--complementarColorLight);
+    color: var(--contrastColorLight);
     background-color: var(--confirmColor);
 }
 
@@ -217,7 +219,7 @@ th {
     text-decoration: none;
     padding: 0.5rem;
     border-radius: 0.5rem;
-    color: var(--complementarColorLight);
+    color: var(--contrastColorLight);
     background-color: var(--destructiveColor);
 }
 
