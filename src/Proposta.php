@@ -21,7 +21,7 @@ class Proposta
 
     public function verPropostasEmFaseFinanceira(): array
     {
-        return $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY dataUltimaCobranca ASC, diasAguardandoPagamento DESC;');
+        return $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY dataUltimaCobranca ASC, dataAceiteProposta DESC;');
 	}
 
     public function verPropostasEmFaseComercial(): array
@@ -53,9 +53,8 @@ class Proposta
 
     public function atualizarStatusProposta(): bool
     {  
-        $affectedRows = $this->data->update(
-            'propostas',
-            [
+        $affectedRows = $this->data->update('propostas',
+			[
                 'numeroRelatorio' => empty($_POST['numeroRelatorio']) ? null : $_POST['numeroRelatorio'],
                 'dataEnvioRelatorio' => empty($_POST['dataEnvioRelatorio']) ? null : $_POST['dataEnvioRelatorio'],
                 'valor' => empty($_POST['valor']) ? null : str_replace(',', '.', $_POST['valor']),

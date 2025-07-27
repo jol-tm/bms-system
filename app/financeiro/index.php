@@ -102,19 +102,18 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 				{
 					$dataUltimaCobranca = new DateTime($proposta['dataUltimaCobranca']);
 					$diasUltimaCobranca = $hoje->diff($dataUltimaCobranca)->days;
+					
 					$dataUltimaCobranca = $dataUltimaCobranca->format('d/m/Y H:i');
 				}
                 
                 if ($proposta['dataEnvioRelatorio'] !== null)
                 {
-                    $dataEnvioRelatorio = new DateTime($proposta['dataEnvioRelatorio']);
-                    $dataEnvioRelatorio = $dataEnvioRelatorio->format('d/m/Y H:i');
+                    $dataEnvioRelatorio = (new DateTime($proposta['dataEnvioRelatorio']))->format('d/m/Y H:i');
                 }
 
                 if ($proposta['dataPagamento'] !== null)
                 {
-                    $dataPagamento = new DateTime($proposta['dataPagamento']);
-                    $dataPagamento = $dataPagamento->format('d/m/Y H:i');
+                    $dataPagamento = (new DateTime($proposta['dataPagamento']))->format('d/m/Y H:i');
                 }
 
                 $proposta['numeroNotaFiscal'] === null ? $proposta['numeroNotaFiscal'] = '-' : null;
@@ -122,7 +121,7 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
                 $proposta['formaPagamento'] === null ? $proposta['formaPagamento'] = '-' : null;
                 $proposta['observacoes'] === null ? $proposta['observacoes'] = '-' : null;
                 $valorFormatado = str_replace('.', ',', $proposta['valor']);
-                $nomeClasse = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
+                $statusProposta = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
 
                 echo "
                 <tr>
@@ -136,7 +135,7 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
                     <td>{$proposta['numeroNotaFiscal']}</td>
                     <td>$dataPagamento</td>
                     <td>{$proposta['formaPagamento']}</td>
-                    <td class='{$nomeClasse}'>{$proposta['statusPagamento']}</td>
+                    <td class='$statusProposta'>{$proposta['statusPagamento']}</td>
                     <td>$diasAguardandoPagamento</td>
                     <td>$dataUltimaCobranca</td>
                     <td>$diasUltimaCobranca</td>

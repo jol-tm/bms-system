@@ -1,4 +1,4 @@
-<?php $baseAssetsPath = '/crm-bms/app/assets/'; ?>
+<?php $baseAssetsPath = '/app/assets/'; ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
