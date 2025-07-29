@@ -101,7 +101,11 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 				if ($proposta['dataUltimaCobranca'] !== null)
 				{
 					$dataUltimaCobranca = new DateTime($proposta['dataUltimaCobranca']);
-					$diasUltimaCobranca = $hoje->diff($dataUltimaCobranca)->days;
+					
+					if ($proposta['statusPagamento'] === 'Aguardando')
+					{
+						$diasUltimaCobranca = $hoje->diff($dataUltimaCobranca)->days;
+					}
 					
 					$dataUltimaCobranca = $dataUltimaCobranca->format('d/m/Y H:i');
 				}

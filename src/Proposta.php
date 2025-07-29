@@ -21,7 +21,7 @@ class Proposta
 
     public function verPropostasEmFaseFinanceira(): array
     {
-        return $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY dataUltimaCobranca ASC, dataAceiteProposta DESC;');
+        return $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY statusPagamento ASC, dataAceiteProposta DESC;');
 	}
 
     public function verPropostasEmFaseComercial(): array
@@ -53,6 +53,12 @@ class Proposta
 
     public function atualizarStatusProposta(): bool
     {  
+		// Corrigi dias aguardando pagamento caso data de pagamento seja diferente de hoje
+		if (new DateTime($_POST['dataPagamento']) !== new DateTime())
+		{
+			$_POST['diasAguardandoPagamento'] = (new DateTime($_POST['dataPagamento']))->diff(new DateTime($_POST['dataAceiteProposta']))->days;
+		}
+		
         $affectedRows = $this->data->update('propostas',
 			[
                 'numeroRelatorio' => empty($_POST['numeroRelatorio']) ? null : $_POST['numeroRelatorio'],
@@ -64,7 +70,6 @@ class Proposta
                 'formaPagamento' => empty($_POST['formaPagamento']) ? null : $_POST['formaPagamento'],
 				'observacoes' => empty($_POST['observacoes']) ? null : $_POST['observacoes'],
                 'diasAguardandoPagamento' => empty($_POST['diasAguardandoPagamento']) ? null : $_POST['diasAguardandoPagamento'],
-                'dataAceiteProposta' => $_POST['dataAceiteProposta'], // preciso disso?
                 'dataUltimaCobranca' => empty($_POST['dataUltimaCobranca']) ? null : $_POST['dataUltimaCobranca'],
             ],
             [
