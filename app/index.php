@@ -4,9 +4,9 @@ session_start();
 
 if (!isset($_SESSION['loggedUser']))
 {
-    header("Location: acesso");
+	header("Location: acesso");
 }
 else
 {
-    header("Location: comercial");
+	header("Location: comercial");
 }

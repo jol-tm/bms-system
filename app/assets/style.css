@@ -1,35 +1,35 @@
 :root {
 	--primaryColor: #C1A995;
-    --backgroundColor: #dddddd;
-    --contrastColorDark: #000000;
-    --contrastColorLight: #ffffff;
-    --confirmColor: darkgreen;
-    --warnColor: darkgoldenrod;
-    --destructiveColor: darkred;
-    --transitonsDuration: 0.3s;
-    --primaryFont: 'Funnel Sans'
+	--backgroundColor: #dddddd;
+	--contrastColorDark: #000000;
+	--contrastColorLight: #ffffff;
+	--confirmColor: darkgreen;
+	--warnColor: darkgoldenrod;
+	--destructiveColor: darkred;
+	--transitonsDuration: 0.3s;
+	--primaryFont: 'Funnel Sans'
 }
 
 /* BASE STYLES */
 
 * {
-    padding: 0;
-    margin: 0;
+	padding: 0;
+	margin: 0;
 }
 
 @font-face {
-    font-family: 'Funnel Sans';
-    src: url('FunnelSans.ttf');
+	font-family: 'Funnel Sans';
+	src: url('FunnelSans.ttf');
 }
 
 body {
-    font-family: var(--primaryFont), sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 0.5rem;
-    background-color: var(--backgroundColor);
+	font-family: var(--primaryFont), sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 0.5rem;
+	background-color: var(--backgroundColor);
 }
 
 input,
@@ -38,232 +38,232 @@ table,
 svg,
 nav,
 .notification {
-    font-family: var(--primaryFont), sans-serif;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
+	font-family: var(--primaryFont), sans-serif;
+	font-size: 1rem;
+	border-radius: 0.5rem;
+	padding: 0.5rem;
 }
 
 nav {
-    z-index: 1;
-    position: sticky;
-    top: 0.5rem;
-    background-color: var(--primaryColor);
+	z-index: 1;
+	position: sticky;
+	top: 0.5rem;
+	background-color: var(--primaryColor);
 
 }
 
 #currentPage {
-    font-weight: bold;
-    text-decoration: underline;
+	font-weight: bold;
+	text-decoration: underline;
 }
 
 a {
-    color: var(--contrastColorDark);
-    text-decoration: none;
-    transition: var(--transitonsDuration);
+	color: var(--contrastColorDark);
+	text-decoration: none;
+	transition: var(--transitonsDuration);
 }
 
 a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem;
-    border-radius: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 1rem;
+	border-radius: 1rem;
 }
 
 .customForm {
-    background-color: var(--contrastColorLight);
-    border: 2px solid var(--primaryColor);
+	background-color: var(--contrastColorLight);
+	border: 2px solid var(--primaryColor);
 }
 
 .formWrapper {
-    display: flex;
-    z-index: 2;
-    position: fixed;
-    top: 0;
-    align-items: baseline;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    overflow: auto;
-    backdrop-filter: blur(5px);
-    animation: showUp var(--transitonsDuration) ease;
+	display: flex;
+	z-index: 2;
+	position: fixed;
+	top: 0;
+	align-items: baseline;
+	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+	overflow: auto;
+	backdrop-filter: blur(5px);
+	animation: showUp var(--transitonsDuration) ease;
 }
 
 label {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 input {
-    width: auto;
-    border: 2px solid var(--primaryColor);
+	width: auto;
+	border: 2px solid var(--primaryColor);
 }
 
 button {
-    font-weight: bold;
-    border: none;
-    transition: var(--transitonsDuration);
-    background-color: transparent;
+	font-weight: bold;
+	border: none;
+	transition: var(--transitonsDuration);
+	background-color: transparent;
 }
 
 svg {
-    transition: var(--transitonsDuration);
+	transition: var(--transitonsDuration);
 }
 
 button:hover,
 #cancelUpdateStatusBtn:hover {
-    transform: scale(1.05);
-    cursor: pointer;
+	transform: scale(1.05);
+	cursor: pointer;
 }
 
 button:active {
-    transform: scale(0.95);
+	transform: scale(0.95);
 }
 
 .tableResponsive {
-    max-width: 98vw;
-    overflow: auto;
+	max-width: 98vw;
+	overflow: auto;
 }
 
 table {
-    border: 2px solid var(--primaryColor);
-    background-color: var(--contrastColorLight);
+	border: 2px solid var(--primaryColor);
+	background-color: var(--contrastColorLight);
 }
 
 td,
 th {
-    text-align: center;
-    padding: 0.5rem;
+	text-align: center;
+	padding: 0.5rem;
 }
 
 .notification {
-    z-index: 1;
-    position: absolute;
-    top: -5rem;
-    background-color: var(--primaryColor);
-    animation: notification 5s ease;
+	z-index: 1;
+	position: absolute;
+	top: -5rem;
+	background-color: var(--primaryColor);
+	animation: notification 5s ease;
 }
 
 #loggedUser {
-    text-align: center;
-    
-    a {
-        color: var(--destructiveColor);
-    }
+	text-align: center;
+	
+	a {
+		color: var(--destructiveColor);
+	}
 }
 
 /* LOGIN & Error pages */
 
 #bodyLogin, #bodyError {
-    width: 100dvw;
-    height: 100dvh;
+	width: 100dvw;
+	height: 100dvh;
 }
 
 #formLogin {
-    background-color: var(--contrastColorLight);
-    width: 15rem;
+	background-color: var(--contrastColorLight);
+	width: 15rem;
 }
 
 #loginBtn {
-    background-color: var(--primaryColor);
+	background-color: var(--primaryColor);
 }
 
 /* COMERCIAL */
 
 .aproveProposalBtn {
-    background-color: var(--confirmColor);
+	background-color: var(--confirmColor);
 }
 
 .denyProposalBtn,
 .deleteProposalBtn {
-    background-color: var(--destructiveColor);
+	background-color: var(--destructiveColor);
 }
 
 #showRegisterProposalFormBtn {
-    color: var(--contrastColorLight);
-    background-color: var(--confirmColor);
+	color: var(--contrastColorLight);
+	background-color: var(--confirmColor);
 }
 
 #registerProposalForm {
-    display: none;
+	display: none;
 }
 
 #registerProposalBtn {
-    color: var(--contrastColorLight);
-    background-color: var(--confirmColor);
+	color: var(--contrastColorLight);
+	background-color: var(--confirmColor);
 }
 
 #cancelRegisterProposalBtn {
-    color: var(--contrastColorLight);
-    background-color: var(--destructiveColor);
+	color: var(--contrastColorLight);
+	background-color: var(--destructiveColor);
 }
 
 /* FINANCES */
 
 .updateProposalBtn {
-    background-color: var(--confirmColor);
+	background-color: var(--confirmColor);
 }
 
 #updateStatusBtn {
-    color: var(--contrastColorLight);
-    background-color: var(--confirmColor);
+	color: var(--contrastColorLight);
+	background-color: var(--confirmColor);
 }
 
 #cancelUpdateStatusBtn {
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    color: var(--contrastColorLight);
-    background-color: var(--destructiveColor);
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	color: var(--contrastColorLight);
+	background-color: var(--destructiveColor);
 }
 
 /* PROPOSALS WARNING STATUS */
 
 .received {
-    color: var(--confirmColor);
-    font-weight: bold;
+	color: var(--confirmColor);
+	font-weight: bold;
 }
 
 .refused {
-    color: var(--destructiveColor);
-    font-weight: bold;
+	color: var(--destructiveColor);
+	font-weight: bold;
 }
 
 .pending {
-    color: var(--warnColor);
-    font-weight: bold;
+	color: var(--warnColor);
+	font-weight: bold;
 }
 
 /* ANIMATIONS */
 
 @keyframes notification {
-    10% {
-        top: 0.5rem;
-    }
+	10% {
+		top: 0.5rem;
+	}
 
-    90% {
-        top: 0.5rem;
-    }
+	90% {
+		top: 0.5rem;
+	}
 
-    100% {
-        top: -5rem;
-    }
+	100% {
+		top: -5rem;
+	}
 }
 
 @keyframes showUp {
-    0% {
-        scale: 0.9;
-        opacity: 0;
-    }
+	0% {
+		scale: 0.9;
+		opacity: 0;
+	}
 
-    100% {
-        scale: 1;
-        opacity: 1;
-    }
+	100% {
+		scale: 1;
+		opacity: 1;
+	}
 }

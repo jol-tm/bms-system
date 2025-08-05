@@ -6,17 +6,13 @@ class DatabaseConnection
     private string $username = "root";
     private string $password = "";
     private string $database = "CRM_BMS";
-    private string $timeZoneId = "America/Sao_Paulo";
     private ?object $connection = null;
 
     public function start(): object|bool
     {
         try
         {
-            date_default_timezone_set($this->timeZoneId);
-
             $this->connection = new PDO("mysql:host=$this->hostname;dbname=$this->database;charset=UTF8", $this->username, $this->password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-
             return $this->connection;
         }
         catch (PDOException $e)

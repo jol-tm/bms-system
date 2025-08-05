@@ -2,49 +2,57 @@
 
 class Authenticator
 {
-    private ?object $connection = null;
+	private ?object $connection = null;
 
-    public function __construct($connection)
-    {
-        $this->connection = $connection;
-    }
+	public function __construct($connection)
+	{
+		$this->connection = $connection;
+	}
 
-    public function authenticate(string $table, array $email, array $password): bool
-    {
-        try
-        {
-            $emailKey = array_keys($email)[0];
-            $passwordKey = array_keys($password)[0];
+	public function authenticate(string $table, array $email, array $password): bool
+	{
+		try
+		{
+			$emailKey = array_keys($email)[0];
+			$passwordKey = array_keys($password)[0];
 
-            $sql = "SELECT $passwordKey FROM $table WHERE $emailKey = :$emailKey";
+			$sql = "SELECT $passwordKey FROM $table WHERE $emailKey = :$emailKey";
 
-            $stmt = $this->connection->prepare($sql);
-            $stmt->bindParam(":email", $email[$emailKey], PDO::PARAM_STR);
+			$stmt = $this->connection->prepare($sql);
+			$stmt->bindParam(":email", $email[$emailKey], PDO::PARAM_STR);
 
-            $stmt->execute();
+			$stmt->execute();
 
-            $hash = $stmt->fetchColumn();
+			$hash = $stmt->fetchColumn();
 
-            if (password_verify($password[$passwordKey], $hash))
-            {
-                session_regenerate_id(true);
-                $_SESSION['loggedUser'] = $email[$emailKey];
+			if (password_verify($password[$passwordKey], $hash))
+			{
+				session_regenerate_id(true);
+				$_SESSION['authenticatedUser'] = $email[$emailKey];
 
-                return true;
-            }
+				return true;
+			}
 
-            return false;
-        }
-        catch (PDOException $e)
-        {
-            error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
-            return false;
-        }
-    }
+			return false;
+		}
+		catch (PDOException $e)
+		{
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			return false;
+		}
+	}
 
-    public function disconnect(): bool
-    {
-        $_SESSION = [];
-        return session_destroy();
-    }
+	public function disconnect(): bool
+	{
+		$params = session_get_cookie_params();
+		
+		setcookie(
+			session_name(), '', time() - 86400,
+			$params["path"], $params["domain"],
+			$params["secure"], $params["httponly"]
+		);
+		
+		session_unset();
+		return session_destroy();
+	}
 }

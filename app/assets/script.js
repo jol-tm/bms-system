@@ -7,10 +7,10 @@ cancelRegisterProposalBtn !== null ? cancelRegisterProposalBtn.addEventListener(
 
 function showModal(modal)
 {
-    modal.style.display = 'flex';
+	modal.style.display = 'flex';
 }
 
 function hideModal(modal)
 {
-    modal.style.display = 'none';
+	modal.style.display = 'none';
 }
