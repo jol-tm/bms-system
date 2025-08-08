@@ -28,12 +28,23 @@ class Proposta
 	{
 		return $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
 	}
+	
+	public function pesquisarProposta(): array|false
+	{
+		return $this->data->search('propostas', [
+			'numeroProposta',
+			'dataEnvioProposta',
+			'cliente',
+			'valor',
+			'numeroNotaFiscal',
+			'observacoes',
+		], $_GET['pesquisa']);
+	}
 
 	public function cadastrarProposta(): bool
 	{
 		$created = $this->data->create('propostas', [
 			'numeroProposta' => $_POST['numeroProposta'],
-			'dataEnvioProposta' => $_POST['dataEnvioProposta'],
 			'valor' => str_replace(',', '.', $_POST['valor']),
 			'cliente' => $_POST['cliente'],
 			'observacoes' => empty($_POST['observacoes']) ? null : $_POST['observacoes'],

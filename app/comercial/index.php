@@ -6,6 +6,16 @@ require_once '../../src/header.php';
 require_once '../../src/Proposta.php';
 
 $proposta = new Proposta();
+$propostas = [];
+
+if (!empty($_GET['pesquisa']))
+{
+	$propostas = $proposta->pesquisarProposta();
+}
+else
+{
+	$propostas = $proposta->verPropostasEmFaseComercial();
+}
 
 if (isset($_POST['cadastrarProposta']) && !empty($_POST['numeroProposta']) && !empty($_POST['dataEnvioProposta']) && !empty($_POST['valor']) && !empty($_POST['cliente']))
 {
@@ -52,7 +62,7 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 		<thead>
 			<tr>
 				<th>N° Proposta</th>
-				<th>Data de Envio da Proposta</th>
+				<th>Data Envio Proposta</th>
 				<th>Cliente</th>
 				<th>Valor (R$)</th>
 				<th>Status</th>
@@ -67,8 +77,6 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 
 			<?php
 
-			$propostas = $proposta->verPropostasEmFaseComercial();
-
 			$hoje = new DateTime();
 
 			foreach ($propostas as $proposta)
@@ -76,10 +84,22 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 				$dataEnvioProposta = new DateTime($proposta['dataEnvioProposta']);
 				$diasEmAnalise = $proposta['statusProposta'] === 'Em análise' ? $hoje->diff($dataEnvioProposta)->days : $proposta['diasEmAnalise'];
 				$dataEnvioProposta = $dataEnvioProposta->format('d/m/Y H:i');
-			   
-				$statusProposta = $proposta['statusProposta'] === 'Recusada' ? 'refused' : 'pending';
+				
+				if ($proposta['statusProposta'] === 'Recusada')
+				{
+					$statusProposta = 'refused';
+				}
+				elseif ($proposta['statusProposta'] === 'Aceita')
+				{
+					$statusProposta = 'accepted';
+				}
+				else
+				{
+					$statusProposta = 'pending';
+				}
+				
 				$valorFormatado = str_replace('.', ',', $proposta['valor']);
-				$proposta['observacoes'] === null ? $proposta['observacoes'] = '-' : null;
+				empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
 				
 				echo "
 				<tr>

@@ -6,6 +6,16 @@ require_once '../../src/header.php';
 require_once '../../src/Proposta.php';
 
 $proposta = new Proposta();
+$propostas = [];
+
+if (!empty($_GET['pesquisa']))
+{
+	$propostas = $proposta->pesquisarProposta();
+}
+else
+{
+	$propostas = $proposta->verPropostasEmFaseFinanceira();
+}
 
 if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 {
@@ -61,13 +71,14 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 				<th>Cliente</th>
 				<th>Valor (R$)</th>
 				<th>Dias em Análise</th>
-				<th>Data de Aceite da Proposta</th>
+				<th>Status Proposta</th>
+				<th>Data Aceite Proposta</th>
 				<th>N° Relatório</th>
-				<th>Data de Envio do Relatório</th>
+				<th>Data Envio Relatório</th>
 				<th>NF</th>
-				<th>Data do Pagamento</th>
-				<th>Forma de Pagamento</th>
-				<th>Status do Pagamento</th>
+				<th>Data Pagamento</th>
+				<th>Forma Pagamento</th>
+				<th>Status Pagamento</th>
 				<th>Dias Aguardando Pagamento</th>
 				<th>Data Última Cobrança</th>
 				<th>Dias desde Última Cobrança</th>
@@ -80,8 +91,6 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 
 			<?php
 
-			$propostas = $proposta->verPropostasEmFaseFinanceira();
-
 			$hoje = new DateTime();
 
 			foreach ($propostas as $proposta)
@@ -92,12 +101,28 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 				$dataEnvioRelatorio = '-';
 				$dataPagamento = '-';
 				
-				$proposta['numeroNotaFiscal'] === null ? $proposta['numeroNotaFiscal'] = '-' : null;
-				$proposta['numeroRelatorio'] === null ? $proposta['numeroRelatorio'] = '-' : null;
-				$proposta['formaPagamento'] === null ? $proposta['formaPagamento'] = '-' : null;
-				$proposta['observacoes'] === null ? $proposta['observacoes'] = '-' : null;
+				empty($proposta['numeroNotaFiscal']) ? $proposta['numeroNotaFiscal'] = '-' : null;
+				empty($proposta['formaPagamento']) ? $proposta['formaPagamento'] = '-' : null;
+				empty($proposta['numeroRelatorio']) ? $proposta['numeroRelatorio'] = '-' : null;
+				empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
+				isset($proposta['diasEmAnalise']) ? null : $proposta['diasEmAnalise'] = '-';
+				
 				$valorFormatado = str_replace('.', ',', $proposta['valor']);
-				$statusProposta = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
+				
+				$statusPagamento = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
+				
+				if ($proposta['statusProposta'] === 'Recusada')
+				{
+					$statusProposta = 'refused';
+				}
+				elseif ($proposta['statusProposta'] === 'Aceita')
+				{
+					$statusProposta = 'accepted';
+				}
+				else
+				{
+					$statusProposta = 'pending';
+				}
 				
 				if ($proposta['dataAceiteProposta'] !== null)
 				{
@@ -134,13 +159,14 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 					<td>{$proposta['cliente']}</td>
 					<td>$valorFormatado</td>
 					<td>{$proposta['diasEmAnalise']}</td>
+					<td class='{$statusProposta}'>{$proposta['statusProposta']}</td>
 					<td>$dataAceiteProposta</td>
 					<td>{$proposta['numeroRelatorio']}</td>
 					<td>$dataEnvioRelatorio</td>
 					<td>{$proposta['numeroNotaFiscal']}</td>
 					<td>$dataPagamento</td>
 					<td>{$proposta['formaPagamento']}</td>
-					<td class='$statusProposta'>{$proposta['statusPagamento']}</td>
+					<td class='$statusPagamento'>{$proposta['statusPagamento']}</td>
 					<td>$diasAguardandoPagamento</td>
 					<td>$dataUltimaCobranca</td>
 					<td>$diasUltimaCobranca</td>
