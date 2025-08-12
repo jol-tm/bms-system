@@ -2,14 +2,11 @@ ErrorDocument 404 /err/404/index.php
 ErrorDocument 403 /err/403/index.php
 
 # Blocks access to src/ content and .log files
-<Directory ~ "src">
-    Order Deny,Allow
-    Deny from all
-</Directory>
+RewriteEngine On
+RewriteRule ^src/ - [F,L]
 
 <FilesMatch "\.log$">
-    Order Deny,Allow
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 # Gzip compression

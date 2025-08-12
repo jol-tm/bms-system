@@ -6,16 +6,7 @@ require_once '../../src/header.php';
 require_once '../../src/Proposta.php';
 
 $proposta = new Proposta();
-$propostas = [];
-
-if (!empty($_GET['pesquisa']))
-{
-	$propostas = $proposta->pesquisarProposta();
-}
-else
-{
-	$propostas = $proposta->verPropostasEmFaseComercial();
-}
+$propostas = $proposta->verPropostasEmFaseComercial();
 
 if (isset($_POST['cadastrarProposta']) && !empty($_POST['numeroProposta']) && !empty($_POST['dataEnvioProposta']) && !empty($_POST['valor']) && !empty($_POST['cliente']))
 {

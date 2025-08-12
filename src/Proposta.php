@@ -31,20 +31,26 @@ class Proposta
 	
 	public function pesquisarProposta(): array|false
 	{
+		if ($data = DateTime::createFromFormat('m/Y', $_POST['pesquisa']))
+		{
+			$_POST['pesquisa'] = $data->format('Y-m');
+		}
+		
 		return $this->data->search('propostas', [
 			'numeroProposta',
-			'dataEnvioProposta',
-			'cliente',
-			'valor',
 			'numeroNotaFiscal',
+			'dataAceiteProposta',
+			'valor',
+			'cliente',
 			'observacoes',
-		], $_GET['pesquisa']);
+		], $_POST['pesquisa']);
 	}
 
 	public function cadastrarProposta(): bool
 	{
 		$created = $this->data->create('propostas', [
 			'numeroProposta' => $_POST['numeroProposta'],
+			'dataEnvioProposta' => $_POST['dataEnvioProposta'],
 			'valor' => str_replace(',', '.', $_POST['valor']),
 			'cliente' => $_POST['cliente'],
 			'observacoes' => empty($_POST['observacoes']) ? null : $_POST['observacoes'],
