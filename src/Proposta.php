@@ -73,7 +73,16 @@ class Proposta
 		// Corrigi dias aguardando pagamento caso data de pagamento seja diferente de hoje
 		if (new DateTime($_POST['dataPagamento']) !== new DateTime())
 		{
-			$_POST['diasAguardandoPagamento'] = (new DateTime($_POST['dataPagamento']))->diff(new DateTime($_POST['dataAceiteProposta']))->days;
+			try
+			{
+				$_POST['diasAguardandoPagamento'] = (new DateTime($_POST['dataPagamento']))->diff(new DateTime($_POST['dataAceiteProposta']))->days;
+			}
+			catch (Exception)
+			{
+				$_SESSION['notification'] = 'Erro ao atualizar! Essa proposta ainda pode estar em fase comercial.';
+				header('Location: ./');
+				return false;
+			}
 		}
 		
 		$affectedRows = $this->data->update('propostas', [
