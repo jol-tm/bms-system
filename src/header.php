@@ -1,8 +1,8 @@
 <?php
 
-//~ ini_set('display_errors', 1);
-ini_set('session.cookie_lifetime', 300);
-ini_set('session.gc_maxlifetime', 300);
+ini_set('display_errors', 1);
+ini_set('session.cookie_lifetime', 600);
+ini_set('session.gc_maxlifetime', 600);
 
 date_default_timezone_set('America/Sao_Paulo');
 
@@ -21,7 +21,7 @@ if (isset($_SESSION['authenticatedUser']) && ($pageTitle === 'Acesso'))
 	exit();
 }
 
-$baseAssetsPath = '/app/assets/';
+$baseAssetsPath = '/crm-bms/app/assets/';
 
 ?>
 

@@ -68,14 +68,8 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 
 			<?php
 
-			$hoje = new DateTime();
-
 			foreach ($propostas as $proposta)
 			{
-				$dataEnvioProposta = new DateTime($proposta['dataEnvioProposta']);
-				$diasEmAnalise = $proposta['statusProposta'] === 'Em análise' ? $hoje->diff($dataEnvioProposta)->days : $proposta['diasEmAnalise'];
-				$dataEnvioProposta = $dataEnvioProposta->format('d/m/Y H:i');
-				
 				if ($proposta['statusProposta'] === 'Recusada')
 				{
 					$statusProposta = 'refused';
@@ -89,22 +83,19 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 					$statusProposta = 'pending';
 				}
 				
-				$valorFormatado = str_replace('.', ',', $proposta['valor']);
-				empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
-				
 				echo "
 				<tr>
 					<td>{$proposta['numeroProposta']}</td>
-					<td>$dataEnvioProposta</td>
+					<td>{$proposta['dataEnvioProposta']}</td>
 					<td>{$proposta['cliente']}</td>
-					<td>$valorFormatado</td>
+					<td>{$proposta['valor']}</td>
 					<td class='{$statusProposta}'>{$proposta['statusProposta']}</td>
-					<td>$diasEmAnalise</td>
+					<td>{$proposta['diasEmAnalise']}</td>
 					<td>{$proposta['observacoes']}</td>
 					<td>
 						<form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
-							<input type='hidden' name='diasEmAnalise' value='$diasEmAnalise'>
+							<input type='hidden' name='diasEmAnalise' value='{$proposta['diasEmAnalise']}'>
 							<button type='submit' name='aceitarProposta'>
 								<svg class='aproveProposalBtn' xmlns='http://www.w3.org/2000/svg'
 									height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
@@ -117,7 +108,7 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 					<td>
 						<form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
-							<input type='hidden' name='diasEmAnalise' value='$diasEmAnalise'>
+							<input type='hidden' name='diasEmAnalise' value='{$proposta['diasEmAnalise']}'>
 							<button type='submit' name='recusarProposta'>
 								<svg class='denyProposalBtn' xmlns='http://www.w3.org/2000/svg'
 									height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>

@@ -21,12 +21,68 @@ class Proposta
 
 	public function verPropostasEmFaseFinanceira(): array
 	{
-		return $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY statusPagamento ASC, dataAceiteProposta DESC;');
+		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY statusPagamento ASC, dataAceiteProposta DESC;');
+		
+		$hoje = new DateTime();
+
+		foreach ($propostas as &$proposta)
+		{
+			if ($proposta['dataAceiteProposta'] !== null)
+			{
+				$proposta['dataAceiteProposta'] = new DateTime($proposta['dataAceiteProposta']);
+				$proposta['diasAguardandoPagamento'] = $proposta['statusPagamento'] === 'Aguardando' ? $hoje->diff($proposta['dataAceiteProposta'])->days : $proposta['diasAguardandoPagamento'];
+				$proposta['dataAceiteProposta'] = $proposta['dataAceiteProposta']->format('d/m/Y H:i');
+			}
+			
+			if ($proposta['dataUltimaCobranca'] !== null)
+			{
+				$proposta['dataUltimaCobranca'] = new DateTime($proposta['dataUltimaCobranca']);
+				
+				if ($proposta['statusPagamento'] === 'Aguardando')
+				{
+					$proposta['diasUltimaCobranca'] = $hoje->diff($proposta['dataUltimaCobranca'])->days;
+				}
+				
+				$proposta['dataUltimaCobranca'] = $proposta['dataUltimaCobranca']->format('d/m/Y H:i');
+			}
+			
+			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : null;
+			empty($proposta['diasAguardandoPagamento']) ? $proposta['diasAguardandoPagamento'] = '-' : null;
+			empty($proposta['dataUltimaCobranca']) ? $proposta['dataUltimaCobranca'] = '-' : null;
+			empty($proposta['diasUltimaCobranca']) ? $proposta['diasUltimaCobranca'] = '-' : null;
+			empty($proposta['dataEnvioRelatorio']) ? $proposta['dataEnvioRelatorio'] = '-' : $proposta['dataEnvioRelatorio'] = (new DateTime($proposta['dataEnvioRelatorio']))->format('d/m/Y H:i');
+			empty($proposta['dataPagamento']) ? $proposta['dataPagamento'] = '-' : $proposta['dataPagamento'] = (new DateTime($proposta['dataPagamento']))->format('d/m/Y H:i');
+			empty($proposta['numeroNotaFiscal']) ? $proposta['numeroNotaFiscal'] = '-' : null;
+			empty($proposta['formaPagamento']) ? $proposta['formaPagamento'] = '-' : null;
+			empty($proposta['numeroRelatorio']) ? $proposta['numeroRelatorio'] = '-' : null;
+			empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
+			isset($proposta['diasEmAnalise']) ? null : $proposta['diasEmAnalise'] = '-';
+			isset($proposta['valor']) ? $proposta['valor'] = str_replace('.', ',', $proposta['valor']) : $proposta['valor'] = '-';
+		}
+		
+		return $propostas;
 	}
 
 	public function verPropostasEmFaseComercial(): array
 	{
-		return $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
+		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
+		
+		$hoje = new DateTime();
+		
+		foreach ($propostas as &$proposta)
+		{
+			$proposta['dataEnvioProposta'] = new DateTime($proposta['dataEnvioProposta']);
+			
+			$proposta['diasEmAnalise'] = $proposta['statusProposta'] === 'Em análise' ? $hoje->diff($proposta['dataEnvioProposta'])->days : $proposta['diasEmAnalise'];
+			
+			$proposta['dataEnvioProposta'] = $proposta['dataEnvioProposta']->format('d/m/Y H:i');
+			
+			$proposta['valor'] = str_replace('.', ',', $proposta['valor']);
+			
+			empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
+		}
+		
+		return $propostas;
 	}
 	
 	public function pesquisarProposta(): array|false
@@ -36,14 +92,33 @@ class Proposta
 			$_POST['pesquisa'] = $data->format('Y-m');
 		}
 		
-		return $this->data->search('propostas', [
+		$propostas = $this->data->search('propostas', [
 			'numeroProposta',
 			'numeroNotaFiscal',
 			'dataAceiteProposta',
+			'dataEnvioProposta',
 			'valor',
 			'cliente',
 			'observacoes',
 		], $_POST['pesquisa']);
+		
+		foreach ($propostas as &$proposta)
+		{
+			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : $proposta['dataAceiteProposta'] = (new DateTime($proposta['dataAceiteProposta']))->format('d/m/Y H:i');
+			empty($proposta['diasAguardandoPagamento']) ? $proposta['diasAguardandoPagamento'] = '-' : null;
+			empty($proposta['dataUltimaCobranca']) ? $proposta['dataUltimaCobranca'] = '-' : $proposta['dataUltimaCobranca'] = (new DateTime($proposta['dataUltimaCobranca']))->format('d/m/Y H:i');
+			empty($proposta['diasUltimaCobranca']) ? $proposta['diasUltimaCobranca'] = '-' : null;
+			empty($proposta['dataEnvioRelatorio']) ? $proposta['dataEnvioRelatorio'] = '-' : $proposta['dataEnvioRelatorio'] = (new DateTime($proposta['dataEnvioRelatorio']))->format('d/m/Y H:i');
+			empty($proposta['dataPagamento']) ? $proposta['dataPagamento'] = '-' : $proposta['dataPagamento'] = (new DateTime($proposta['dataPagamento']))->format('d/m/Y H:i');
+			empty($proposta['numeroNotaFiscal']) ? $proposta['numeroNotaFiscal'] = '-' : null;
+			empty($proposta['formaPagamento']) ? $proposta['formaPagamento'] = '-' : null;
+			empty($proposta['numeroRelatorio']) ? $proposta['numeroRelatorio'] = '-' : null;
+			empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
+			isset($proposta['diasEmAnalise']) ? null : $proposta['diasEmAnalise'] = '-';
+			isset($proposta['valor']) ? $proposta['valor'] = str_replace('.', ',', $proposta['valor'])  : $proposta['valor'] = '-';
+		}
+		
+		return $propostas;
 	}
 
 	public function cadastrarProposta(): bool
@@ -70,19 +145,13 @@ class Proposta
 
 	public function atualizarStatusProposta(): bool
 	{  
-		// Corrigi dias aguardando pagamento caso data de pagamento seja diferente de hoje
-		if (new DateTime($_POST['dataPagamento']) !== new DateTime())
+		// Corrigi dias aguardando pagamento para o caso de a data de pagamento seja diferente de hoje
+		$dataPagamento = new DateTime($_POST['dataPagamento']);
+		$dataAceiteProposta = DateTime::createFromFormat('d/m/Y H:i', $_POST['dataAceiteProposta']);
+		
+		if ($dataAceiteProposta !== false)
 		{
-			try
-			{
-				$_POST['diasAguardandoPagamento'] = (new DateTime($_POST['dataPagamento']))->diff(new DateTime($_POST['dataAceiteProposta']))->days;
-			}
-			catch (Exception)
-			{
-				$_SESSION['notification'] = 'Erro ao atualizar! Essa proposta ainda pode estar em fase comercial.';
-				header('Location: ./');
-				return false;
-			}
+			$_POST['diasAguardandoPagamento'] = (($dataPagamento)->diff($dataAceiteProposta))->days;
 		}
 		
 		$affectedRows = $this->data->update('propostas', [
@@ -94,7 +163,7 @@ class Proposta
 				'statusPagamento' => empty($_POST['dataPagamento']) ? 'Aguardando' : 'Recebido',
 				'formaPagamento' => empty($_POST['formaPagamento']) ? null : $_POST['formaPagamento'],
 				'observacoes' => empty($_POST['observacoes']) ? null : $_POST['observacoes'],
-				'diasAguardandoPagamento' => empty($_POST['diasAguardandoPagamento']) ? null : $_POST['diasAguardandoPagamento'],
+				'diasAguardandoPagamento' => !filter_var($_POST['diasAguardandoPagamento'], FILTER_VALIDATE_INT) ? null : $_POST['diasAguardandoPagamento'],
 				'dataUltimaCobranca' => empty($_POST['dataUltimaCobranca']) ? null : $_POST['dataUltimaCobranca'],
 			],
 			[
