@@ -127,7 +127,7 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 				echo "
 				<tr>
 					<td>{$proposta['numeroProposta']}</td>
-					<td>{$proposta['cliente']}</td>
+					<td>" . htmlspecialchars($proposta['cliente']) . "</td>
 					<td>{$proposta['valor']}</td>
 					<td>{$proposta['diasEmAnalise']}</td>
 					<td class='$statusProposta'>{$proposta['statusProposta']}</td>
@@ -136,12 +136,12 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 					<td>{$proposta['dataEnvioRelatorio']}</td>
 					<td>{$proposta['numeroNotaFiscal']}</td>
 					<td>{$proposta['dataPagamento']}</td>
-					<td>{$proposta['formaPagamento']}</td>
+					<td>" . htmlspecialchars($proposta['formaPagamento']) . "</td>
 					<td class='$statusPagamento'>{$proposta['statusPagamento']}</td>
 					<td>{$proposta['diasAguardandoPagamento']}</td>
 					<td>{$proposta['dataUltimaCobranca']}</td>
 					<td>{$proposta['diasUltimaCobranca']}</td>
-					<td>{$proposta['observacoes']}</td>
+					<td>" . htmlspecialchars($proposta['observacoes']) . "</td>
 					<td>
 					   <form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>

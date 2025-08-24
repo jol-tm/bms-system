@@ -87,11 +87,11 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 				<tr>
 					<td>{$proposta['numeroProposta']}</td>
 					<td>{$proposta['dataEnvioProposta']}</td>
-					<td>{$proposta['cliente']}</td>
+					<td>" . htmlspecialchars($proposta['cliente']) . "</td>
 					<td>{$proposta['valor']}</td>
 					<td class='{$statusProposta}'>{$proposta['statusProposta']}</td>
 					<td>{$proposta['diasEmAnalise']}</td>
-					<td>{$proposta['observacoes']}</td>
+					<td>" . htmlspecialchars($proposta['observacoes']) . "</td>
 					<td>
 						<form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>

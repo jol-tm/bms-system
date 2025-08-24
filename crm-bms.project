@@ -28,21 +28,21 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=7
+current_page=13
 FILE_NAME_0=5;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fapp%2Findex.php;0;4
 FILE_NAME_1=561;Javascript;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fapp%2Fassets%2Fscript.js;0;4
 FILE_NAME_2=739;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fsrc%2FAuthenticator.php;0;4
 FILE_NAME_3=492;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fsrc%2FDatabaseConnection.php;0;4
 FILE_NAME_4=232;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fsrc%2FDatabaseConnection%20copy.php;0;4
 FILE_NAME_5=1224;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fsrc%2FDataRepository.php;0;4
-FILE_NAME_6=185;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fsrc%2Fheader.php;0;4
-FILE_NAME_7=1276;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fsrc%2FProposta.php;0;4
+FILE_NAME_6=523;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fsrc%2Fheader.php;0;4
+FILE_NAME_7=7428;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fsrc%2FProposta.php;0;4
 FILE_NAME_8=306;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fapp%2Facesso%2Findex.php;0;4
-FILE_NAME_9=169;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fapp%2Fcomercial%2Findex.php;0;4
+FILE_NAME_9=2902;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fapp%2Fcomercial%2Findex.php;0;4
 FILE_NAME_10=821;None;0;EUTF-8;1;1;1;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2F.htaccess;0;4
 FILE_NAME_11=455;PHP;0;EUTF-8;1;1;1;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Ferr%2F404%2Findex.php;0;4
 FILE_NAME_12=0;PHP;0;EUTF-8;1;1;1;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Ferr%2F403%2Findex.php;0;4
-FILE_NAME_13=238;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fapp%2Ffinanceiro%2Findex.php;0;4
+FILE_NAME_13=5290;PHP;0;EUTF-8;1;1;0;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fapp%2Ffinanceiro%2Findex.php;0;4
 FILE_NAME_14=838;CSS;0;EUTF-8;1;1;1;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fapp%2Fassets%2Fstyle.css;0;4
 FILE_NAME_15=409;SQL;0;EUTF-8;1;1;1;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Fsrc%2Fbmscrm.sql;0;4
 FILE_NAME_16=0;PHP;0;EUTF-8;1;1;1;%2Fopt%2Flampp%2Fhtdocs%2Fcrm-bms%2Findex.php;0;4
