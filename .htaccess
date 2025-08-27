@@ -17,14 +17,7 @@ RewriteRule ^src/ - [F,L]
   AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
-# Cache 48 hours
-<IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresDefault "access plus 48 hours"
-</IfModule>
-
+# Cache 48h
 <IfModule mod_headers.c>
-  <FilesMatch "\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|ttf|otf|woff|woff2|eot|mp3|mp4|pdf)$">
-    Header set Cache-Control "must-revalidate"
-  </FilesMatch>
+  Header set Cache-Control "max-age=172800, must-revalidate"
 </IfModule>

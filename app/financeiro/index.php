@@ -32,7 +32,7 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 	$proposta->excluirProposta();
 }
 
-if (isset($_POST['atualizarStatusProposta']) && !empty($_POST['id']) && isset($_POST['dataAceiteProposta']) && isset($_POST['diasAguardandoPagamento']))
+if (isset($_POST['atualizarStatusProposta']) && !empty($_POST['id']) && isset($_POST['dataAceiteProposta']))
 {
 	$proposta->atualizarStatusProposta();
 }
@@ -46,7 +46,6 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 	<form action='' method='post' class='customForm'>
 		<h2>Atualizando Proposta: {$_POST['numeroProposta']}</h2>
 		<input type='hidden' name='id' value='{$propostaParaAtualizar['id']}'>
-		<input type='hidden' name='diasAguardandoPagamento' value='{$_POST['diasAguardandoPagamento']}'>
 		<input type='hidden' name='dataAceiteProposta' value='{$_POST['dataAceiteProposta']}'>
 		<label for='numeroRelatorio'>N° do Relatório</label>
 		<input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' max='99999999999' value='{$propostaParaAtualizar['numeroRelatorio']}'>
@@ -146,7 +145,6 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 					   <form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
 							<input type='hidden' name='numeroProposta' value='{$proposta['numeroProposta']}'>
-							<input type='hidden' name='diasAguardandoPagamento' value='{$proposta['diasAguardandoPagamento']}'>
 							<input type='hidden' name='dataAceiteProposta' value='{$proposta['dataAceiteProposta']}'>
 							<button type='submit' name='mostrarAtualizarStatus'>
 								<svg class='updateProposalBtn' xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
