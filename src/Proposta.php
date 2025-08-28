@@ -57,7 +57,7 @@ class Proposta
 			empty($proposta['numeroRelatorio']) ? $proposta['numeroRelatorio'] = '-' : null;
 			empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
 			isset($proposta['diasEmAnalise']) ? null : $proposta['diasEmAnalise'] = '-';
-			isset($proposta['valor']) ? $proposta['valor'] = str_replace('.', ',', $proposta['valor']) : $proposta['valor'] = '-';
+			$proposta['valor'] = str_replace('.', ',', $proposta['valor']);
 		}
 		
 		return $propostas;
@@ -115,7 +115,7 @@ class Proposta
 			empty($proposta['numeroRelatorio']) ? $proposta['numeroRelatorio'] = '-' : null;
 			empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
 			isset($proposta['diasEmAnalise']) ? null : $proposta['diasEmAnalise'] = '-';
-			isset($proposta['valor']) ? $proposta['valor'] = str_replace('.', ',', $proposta['valor'])  : $proposta['valor'] = '-';
+			$proposta['valor'] = str_replace('.', ',', $proposta['valor']);
 		}
 		
 		return $propostas;

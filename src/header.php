@@ -3,8 +3,7 @@
 ini_set('display_errors', 1);
 ini_set('session.cookie_lifetime', 600);
 ini_set('session.gc_maxlifetime', 600);
-
-date_default_timezone_set('America/Sao_Paulo');
+ini_set('date.timezone', 'America/Sao_Paulo');
 
 session_start();
 
