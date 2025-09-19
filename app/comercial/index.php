@@ -140,6 +140,10 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 	</table>
 </div>
 
+<?php
+require_once '../../src/footer.php';
+?>
+
 </body>
 
 </html>

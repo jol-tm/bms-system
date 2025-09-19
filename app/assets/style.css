@@ -171,14 +171,16 @@ th {
 	}
 }
 
-#scrollTopBtn {
-	position: fixed;
-	bottom: 0.5rem;
+#scrollTopBtn, #scrollBottomBtn {
 	padding: 0.25rem;
 	border-radius: 0.5rem;
 	background-color: var(--primaryColor);
 }
 
+#anchorLinksBox {
+	position: fixed;
+	bottom: 0.5rem;
+}
 /* LOGIN & Error pages */
 
 #bodyLogin, #bodyError {

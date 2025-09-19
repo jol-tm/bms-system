@@ -66,7 +66,10 @@ $baseAssetsPath = '/crm-bms/app/assets/';
 			<a id='$comercialId' href='../comercial/ '>Comercial</a>
 			<a id='$financeiroId' href='../financeiro/'>Financeiro</a>
 		</nav>
-		<a id='scrollTopBtn' href='#'>↑ Topo</a>
+		<div id='anchorLinksBox'>
+			<a id='scrollTopBtn' href='#'>↑ Topo</a>
+			<a id='scrollBottomBtn' href='#footer'>↓ Final</a>
+		</div>
 		";
 	}
 

@@ -178,6 +178,10 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 	</table>
 </div>
 
+<?php
+require_once '../../src/footer.php';
+?>
+
 </body>
 
 </html>
