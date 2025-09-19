@@ -50,17 +50,17 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 		<label for='numeroRelatorio'>N° do Relatório</label>
 		<input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' max='99999999999' value='{$propostaParaAtualizar['numeroRelatorio']}'>
 		<label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
-		<input type='datetime-local' name='dataEnvioRelatorio' id='dataEnvioRelatorio' value='{$propostaParaAtualizar['dataEnvioRelatorio']}'>
+		<input type='date' name='dataEnvioRelatorio' id='dataEnvioRelatorio' value='{$propostaParaAtualizar['dataEnvioRelatorio']}'>
 		<label for='valor'>Valor da Proposta</label>
 		<input type='text' name='valor' id='valor' placeholder='Ex: 999,99' maxlength='10' value='{$propostaParaAtualizar['valor']}'>
 		<label for='numeroNotaFiscal'>NF</label>
 		<input type='number' name='numeroNotaFiscal' id='numeroNotaFiscal' placeholder='Ex: 123456789' max='999999999' value='{$propostaParaAtualizar['numeroNotaFiscal']}'>
 		<label for='dataPagamento'>Data do Pagamento</label>
-		<input type='datetime-local' name='dataPagamento' id='dataPagamento' value='{$propostaParaAtualizar['dataPagamento']}'>
+		<input type='date' name='dataPagamento' id='dataPagamento' value='{$propostaParaAtualizar['dataPagamento']}'>
 		<label for='formaPagamento'>Forma de Pagamento</label>
 		<input type='text' name='formaPagamento' id='formaPagamento' placeholder='Ex: Parcelado 2x' maxlength='255' value='{$propostaParaAtualizar['formaPagamento']}'>
 		<label for='dataUltimaCobranca'>Data Última Cobrança</label>
-		<input type='datetime-local' name='dataUltimaCobranca' id='dataUltimaCobranca' value='{$propostaParaAtualizar['dataUltimaCobranca']}'>
+		<input type='date' name='dataUltimaCobranca' id='dataUltimaCobranca' value='{$propostaParaAtualizar['dataUltimaCobranca']}'>
 		<label for='observacoes'>Observações</label>
 		<input type='text' name='observacoes' id='observacoes' placeholder='Ex: Desenvolvimento...' maxlength='255' value='{$propostaParaAtualizar['observacoes']}'>
 		<button id='updateStatusBtn' type='submit' name='atualizarStatusProposta'>Atualizar</button>
@@ -85,9 +85,10 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 				<th>N° Proposta</th>
 				<th>Cliente</th>
 				<th>Valor (R$)</th>
+				<th>Data Envio Proposta</th>
+				<th>Data Aceite Proposta</th>
 				<th>Dias em Análise</th>
 				<th>Status Proposta</th>
-				<th>Data Aceite Proposta</th>
 				<th>N° Relatório</th>
 				<th>Data Envio Relatório</th>
 				<th>NF</th>
@@ -128,9 +129,10 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 					<td>{$proposta['numeroProposta']}</td>
 					<td>" . htmlspecialchars($proposta['cliente']) . "</td>
 					<td>{$proposta['valor']}</td>
+					<td>{$proposta['dataEnvioProposta']}</td>
+					<td>{$proposta['dataAceiteProposta']}</td>
 					<td>{$proposta['diasEmAnalise']}</td>
 					<td class='$statusProposta'>{$proposta['statusProposta']}</td>
-					<td>{$proposta['dataAceiteProposta']}</td>
 					<td>{$proposta['numeroRelatorio']}</td>
 					<td>{$proposta['dataEnvioRelatorio']}</td>
 					<td>{$proposta['numeroNotaFiscal']}</td>

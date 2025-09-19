@@ -1,8 +1,8 @@
 <?php
 
 ini_set('display_errors', 1);
-ini_set('session.cookie_lifetime', 600);
-ini_set('session.gc_maxlifetime', 600);
+ini_set('session.cookie_lifetime', 3600);
+ini_set('session.gc_maxlifetime', 3600);
 ini_set('date.timezone', 'America/Sao_Paulo');
 
 session_start();
@@ -51,7 +51,6 @@ $baseAssetsPath = '/crm-bms/app/assets/';
 		<path d="M118.75 0.814232L0 245.98L118.75 190.245V0.814232Z" fill="#A17850" />
 		<path d="M239.346 252.693H6.12891L122.154 199.01L239.346 252.693Z" fill="#F5F5F5" />
 	</svg>
-
 	<?php
 
 	if ($pageTitle !== 'Acesso')
@@ -67,6 +66,7 @@ $baseAssetsPath = '/crm-bms/app/assets/';
 			<a id='$comercialId' href='../comercial/ '>Comercial</a>
 			<a id='$financeiroId' href='../financeiro/'>Financeiro</a>
 		</nav>
+		<a id='scrollTopBtn' href='#'>↑ Topo</a>
 		";
 	}
 

@@ -8,7 +8,7 @@ require_once '../../src/Proposta.php';
 $proposta = new Proposta();
 $propostas = $proposta->verPropostasEmFaseComercial();
 
-if (isset($_POST['cadastrarProposta']) && !empty($_POST['numeroProposta']) && !empty($_POST['dataEnvioProposta']) && !empty($_POST['valor']) && !empty($_POST['cliente']))
+if (isset($_POST['cadastrarProposta']) && !empty($_POST['dataEnvioProposta']) && !empty($_POST['valor']) && !empty($_POST['cliente']))
 {
 	$proposta->cadastrarProposta();
 }
@@ -37,7 +37,7 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 		<label for="numeroProposta">N° da Proposta</label>
 		<input type="number" name="numeroProposta" id="numeroProposta" placeholder="Ex: 2020001" max="99999999999" required>
 		<label for="dataEnvioProposta">Data de Envio da Proposta</label>
-		<input type="datetime-local" name="dataEnvioProposta" id="dataEnvioProposta" required>
+		<input type="date" name="dataEnvioProposta" id="dataEnvioProposta" required>
 		<label for="valor">Valor da Proposta</label>
 		<input type="text" name="valor" id="valor" placeholder="Ex: 999,99" maxlength="10" required>
 		<label for="cliente">Cliente</label>
@@ -53,11 +53,11 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 		<thead>
 			<tr>
 				<th>N° Proposta</th>
-				<th>Data Envio Proposta</th>
 				<th>Cliente</th>
 				<th>Valor (R$)</th>
-				<th>Status</th>
+				<th>Data Envio Proposta</th>
 				<th>Dias em Análise</th>
+				<th>Status</th>
 				<th>Observações</th>
 				<th>Aceitar</th>
 				<th>Recusar</th>
@@ -86,11 +86,11 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 				echo "
 				<tr>
 					<td>{$proposta['numeroProposta']}</td>
-					<td>{$proposta['dataEnvioProposta']}</td>
 					<td>" . htmlspecialchars($proposta['cliente']) . "</td>
 					<td>{$proposta['valor']}</td>
-					<td class='{$statusProposta}'>{$proposta['statusProposta']}</td>
+					<td>{$proposta['dataEnvioProposta']}</td>
 					<td>{$proposta['diasEmAnalise']}</td>
+					<td class='{$statusProposta}'>{$proposta['statusProposta']}</td>
 					<td>" . htmlspecialchars($proposta['observacoes']) . "</td>
 					<td>
 						<form action='' method='post'>

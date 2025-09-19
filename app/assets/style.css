@@ -6,7 +6,7 @@
 	--confirmColor: darkgreen;
 	--warnColor: darkgoldenrod;
 	--destructiveColor: darkred;
-	--transitonsDuration: 0.3s;
+	--transitionsDuration: 0.3s;
 	--primaryFont: 'Funnel Sans'
 }
 
@@ -20,6 +20,10 @@
 @font-face {
 	font-family: 'Funnel Sans';
 	src: url('FunnelSans.ttf');
+}
+
+html {
+	scroll-behavior: smooth;
 }
 
 body {
@@ -70,7 +74,7 @@ nav {
 a {
 	color: var(--contrastColorDark);
 	text-decoration: none;
-	transition: var(--transitonsDuration);
+	transition: var(--transitionsDuration);
 }
 
 a:hover {
@@ -102,7 +106,7 @@ form {
 	width: 100vw;
 	overflow: auto;
 	backdrop-filter: blur(5px);
-	animation: showUp var(--transitonsDuration) ease;
+	animation: showUp var(--transitionsDuration) ease;
 }
 
 label {
@@ -117,12 +121,12 @@ input {
 button {
 	font-weight: bold;
 	border: none;
-	transition: var(--transitonsDuration);
+	transition: var(--transitionsDuration);
 	background-color: transparent;
 }
 
 svg {
-	transition: var(--transitonsDuration);
+	transition: var(--transitionsDuration);
 }
 
 button:hover,
@@ -165,6 +169,14 @@ th {
 	a {
 		color: var(--destructiveColor);
 	}
+}
+
+#scrollTopBtn {
+	position: fixed;
+	bottom: 0.5rem;
+	padding: 0.25rem;
+	border-radius: 0.5rem;
+	background-color: var(--primaryColor);
 }
 
 /* LOGIN & Error pages */

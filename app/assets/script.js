@@ -14,3 +14,4 @@ function hideModal(modal)
 {
 	modal.style.display = 'none';
 }
+

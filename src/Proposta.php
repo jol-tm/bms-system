@@ -21,7 +21,7 @@ class Proposta
 
 	public function verPropostasEmFaseFinanceira(): array
 	{
-		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY statusPagamento ASC, dataAceiteProposta DESC;');
+		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY statusPagamento ASC, dataAceiteProposta ASC;');
 		
 		$hoje = new DateTime();
 
@@ -31,7 +31,7 @@ class Proposta
 			{
 				$proposta['dataAceiteProposta'] = new DateTime($proposta['dataAceiteProposta']);
 				$proposta['diasAguardandoPagamento'] = $proposta['statusPagamento'] === 'Aguardando' ? $hoje->diff($proposta['dataAceiteProposta'])->days : $proposta['diasAguardandoPagamento'];
-				$proposta['dataAceiteProposta'] = $proposta['dataAceiteProposta']->format('d/m/Y H:i');
+				$proposta['dataAceiteProposta'] = $proposta['dataAceiteProposta']->format('d/m/Y');
 			}
 			
 			if ($proposta['dataUltimaCobranca'] !== null)
@@ -43,20 +43,22 @@ class Proposta
 					$proposta['diasUltimaCobranca'] = $hoje->diff($proposta['dataUltimaCobranca'])->days;
 				}
 				
-				$proposta['dataUltimaCobranca'] = $proposta['dataUltimaCobranca']->format('d/m/Y H:i');
+				$proposta['dataUltimaCobranca'] = $proposta['dataUltimaCobranca']->format('d/m/Y');
 			}
 			
+			$proposta['dataEnvioProposta'] = (new DateTime($proposta['dataEnvioProposta']))->format('d/m/Y');
 			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : null;
 			empty($proposta['diasAguardandoPagamento']) ? $proposta['diasAguardandoPagamento'] = '-' : null;
 			empty($proposta['dataUltimaCobranca']) ? $proposta['dataUltimaCobranca'] = '-' : null;
 			empty($proposta['diasUltimaCobranca']) ? $proposta['diasUltimaCobranca'] = '-' : null;
-			empty($proposta['dataEnvioRelatorio']) ? $proposta['dataEnvioRelatorio'] = '-' : $proposta['dataEnvioRelatorio'] = (new DateTime($proposta['dataEnvioRelatorio']))->format('d/m/Y H:i');
-			empty($proposta['dataPagamento']) ? $proposta['dataPagamento'] = '-' : $proposta['dataPagamento'] = (new DateTime($proposta['dataPagamento']))->format('d/m/Y H:i');
+			empty($proposta['dataEnvioRelatorio']) ? $proposta['dataEnvioRelatorio'] = '-' : $proposta['dataEnvioRelatorio'] = (new DateTime($proposta['dataEnvioRelatorio']))->format('d/m/Y');
+			empty($proposta['dataPagamento']) ? $proposta['dataPagamento'] = '-' : $proposta['dataPagamento'] = (new DateTime($proposta['dataPagamento']))->format('d/m/Y');
 			empty($proposta['numeroNotaFiscal']) ? $proposta['numeroNotaFiscal'] = '-' : null;
 			empty($proposta['formaPagamento']) ? $proposta['formaPagamento'] = '-' : null;
 			empty($proposta['numeroRelatorio']) ? $proposta['numeroRelatorio'] = '-' : null;
 			empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
 			isset($proposta['diasEmAnalise']) ? null : $proposta['diasEmAnalise'] = '-';
+			$proposta['numeroProposta'] === null ? $proposta['numeroProposta'] = '-' : null;
 			$proposta['valor'] = str_replace('.', ',', $proposta['valor']);
 		}
 		
@@ -65,7 +67,7 @@ class Proposta
 
 	public function verPropostasEmFaseComercial(): array
 	{
-		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta DESC');
+		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta ASC');
 		
 		$hoje = new DateTime();
 		
@@ -75,9 +77,11 @@ class Proposta
 			
 			$proposta['diasEmAnalise'] = $proposta['statusProposta'] === 'Em análise' ? $hoje->diff($proposta['dataEnvioProposta'])->days : $proposta['diasEmAnalise'];
 			
-			$proposta['dataEnvioProposta'] = $proposta['dataEnvioProposta']->format('d/m/Y H:i');
+			$proposta['dataEnvioProposta'] = $proposta['dataEnvioProposta']->format('d/m/Y');
 			
 			$proposta['valor'] = str_replace('.', ',', $proposta['valor']);
+			
+			$proposta['numeroProposta'] === null ? $proposta['numeroProposta'] = '-' : null;
 			
 			empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
 		}
@@ -104,12 +108,12 @@ class Proposta
 		
 		foreach ($propostas as &$proposta)
 		{
-			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : $proposta['dataAceiteProposta'] = (new DateTime($proposta['dataAceiteProposta']))->format('d/m/Y H:i');
+			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : $proposta['dataAceiteProposta'] = (new DateTime($proposta['dataAceiteProposta']))->format('d/m/Y');
 			empty($proposta['diasAguardandoPagamento']) ? $proposta['diasAguardandoPagamento'] = '-' : null;
-			empty($proposta['dataUltimaCobranca']) ? $proposta['dataUltimaCobranca'] = '-' : $proposta['dataUltimaCobranca'] = (new DateTime($proposta['dataUltimaCobranca']))->format('d/m/Y H:i');
+			empty($proposta['dataUltimaCobranca']) ? $proposta['dataUltimaCobranca'] = '-' : $proposta['dataUltimaCobranca'] = (new DateTime($proposta['dataUltimaCobranca']))->format('d/m/Y');
 			empty($proposta['diasUltimaCobranca']) ? $proposta['diasUltimaCobranca'] = '-' : null;
-			empty($proposta['dataEnvioRelatorio']) ? $proposta['dataEnvioRelatorio'] = '-' : $proposta['dataEnvioRelatorio'] = (new DateTime($proposta['dataEnvioRelatorio']))->format('d/m/Y H:i');
-			empty($proposta['dataPagamento']) ? $proposta['dataPagamento'] = '-' : $proposta['dataPagamento'] = (new DateTime($proposta['dataPagamento']))->format('d/m/Y H:i');
+			empty($proposta['dataEnvioRelatorio']) ? $proposta['dataEnvioRelatorio'] = '-' : $proposta['dataEnvioRelatorio'] = (new DateTime($proposta['dataEnvioRelatorio']))->format('d/m/Y');
+			empty($proposta['dataPagamento']) ? $proposta['dataPagamento'] = '-' : $proposta['dataPagamento'] = (new DateTime($proposta['dataPagamento']))->format('d/m/Y');
 			empty($proposta['numeroNotaFiscal']) ? $proposta['numeroNotaFiscal'] = '-' : null;
 			empty($proposta['formaPagamento']) ? $proposta['formaPagamento'] = '-' : null;
 			empty($proposta['numeroRelatorio']) ? $proposta['numeroRelatorio'] = '-' : null;
@@ -124,7 +128,7 @@ class Proposta
 	public function cadastrarProposta(): bool
 	{
 		$created = $this->data->create('propostas', [
-			'numeroProposta' => $_POST['numeroProposta'],
+			'numeroProposta' => $_POST['numeroProposta'] == 0 ? null : $_POST['numeroProposta'],
 			'dataEnvioProposta' => $_POST['dataEnvioProposta'],
 			'valor' => str_replace(',', '.', $_POST['valor']),
 			'cliente' => $_POST['cliente'],
@@ -146,7 +150,7 @@ class Proposta
 	public function atualizarStatusProposta(): bool
 	{  
 		$dataPagamento = new DateTime($_POST['dataPagamento']);
-		$dataAceiteProposta = DateTime::createFromFormat('d/m/Y H:i', $_POST['dataAceiteProposta']);
+		$dataAceiteProposta = DateTime::createFromFormat('d/m/Y', $_POST['dataAceiteProposta']);
 		
 		if ($dataAceiteProposta !== false)
 		{
@@ -184,7 +188,7 @@ class Proposta
 
 	public function aceitarProposta(): bool
 	{
-		$now = (new DateTime())->format('Y-m-d H:i');
+		$now = (new DateTime())->format('Y-m-d');
 
 		$affectedRows = $this->data->update('propostas', [
 				'statusProposta' => 'Aceita', 

@@ -6,7 +6,7 @@ CREATE TABLE usuarios (
 
 CREATE TABLE propostas (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    numeroProposta INT UNIQUE NOT NULL,
+    numeroProposta INT UNIQUE NULL,
     dataEnvioProposta DATETIME,
     cliente VARCHAR(255) NOT NULL,
     valor DECIMAL(10, 2) NOT NULL,
