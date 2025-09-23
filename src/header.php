@@ -20,7 +20,7 @@ if (isset($_SESSION['authenticatedUser']) && ($pageTitle === 'Acesso'))
 	exit();
 }
 
-$baseAssetsPath = '/crm-bms/app/assets/';
+$baseAssetsPath = '/bms-system/app/assets/';
 
 ?>
 

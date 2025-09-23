@@ -67,7 +67,7 @@ class Proposta
 
 	public function verPropostasEmFaseComercial(): array
 	{
-		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta ASC');
+		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY statusProposta ASC, dataEnvioProposta ASC');
 		
 		$hoje = new DateTime();
 		
@@ -109,6 +109,7 @@ class Proposta
 		foreach ($propostas as &$proposta)
 		{
 			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : $proposta['dataAceiteProposta'] = (new DateTime($proposta['dataAceiteProposta']))->format('d/m/Y');
+			empty($proposta['dataEnvioProposta']) ?	'-' : $proposta['dataEnvioProposta'] = (new DateTime($proposta['dataEnvioProposta']))->format('d/m/Y');
 			empty($proposta['diasAguardandoPagamento']) ? $proposta['diasAguardandoPagamento'] = '-' : null;
 			empty($proposta['dataUltimaCobranca']) ? $proposta['dataUltimaCobranca'] = '-' : $proposta['dataUltimaCobranca'] = (new DateTime($proposta['dataUltimaCobranca']))->format('d/m/Y');
 			empty($proposta['diasUltimaCobranca']) ? $proposta['diasUltimaCobranca'] = '-' : null;
@@ -158,6 +159,7 @@ class Proposta
 		}
 		
 		$affectedRows = $this->data->update('propostas', [
+				'statusProposta' => empty($_POST['statusProposta']) ? null : $_POST['statusProposta'],
 				'numeroRelatorio' => empty($_POST['numeroRelatorio']) ? null : $_POST['numeroRelatorio'],
 				'dataEnvioRelatorio' => empty($_POST['dataEnvioRelatorio']) ? null : $_POST['dataEnvioRelatorio'],
 				'valor' => empty($_POST['valor']) ? null : str_replace(',', '.', $_POST['valor']),
@@ -188,12 +190,13 @@ class Proposta
 
 	public function aceitarProposta(): bool
 	{
-		$now = (new DateTime())->format('Y-m-d');
+		$now = new DateTime();
+		$diasEmAnalise = ($now->diff(DateTime::createFromFormat('d/m/Y', $_POST['dataEnvioProposta'])))->days;
 
 		$affectedRows = $this->data->update('propostas', [
 				'statusProposta' => 'Aceita', 
-				'dataAceiteProposta' => $now, 
-				'diasEmAnalise' => $_POST['diasEmAnalise']
+				'dataAceiteProposta' => $now->format('Y-m-d'), 
+				'diasEmAnalise' => $diasEmAnalise
 			], 
 			[
 				'id' => $_POST['id']
@@ -213,7 +216,16 @@ class Proposta
 
 	public function recusarProposta(): bool
 	{
-		$affectedRows = $this->data->update('propostas', ['statusProposta' => 'Recusada', 'diasEmAnalise' => $_POST['diasEmAnalise']], ['id' => $_POST['id']]);
+		$now = new DateTime();
+		$diasEmAnalise = ($now->diff(DateTime::createFromFormat('d/m/Y', $_POST['dataEnvioProposta'])))->days;
+
+		$affectedRows = $this->data->update('propostas', [
+			'statusProposta' => 'Recusada',
+			'diasEmAnalise' => $diasEmAnalise
+		], 
+		[
+			'id' => $_POST['id']
+		]);
 
 		if ($affectedRows > 0)
 		{

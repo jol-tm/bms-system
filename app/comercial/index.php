@@ -13,12 +13,12 @@ if (isset($_POST['cadastrarProposta']) && !empty($_POST['dataEnvioProposta']) &&
 	$proposta->cadastrarProposta();
 }
 
-if (isset($_POST['aceitarProposta']) && !empty($_POST['id']) && isset($_POST['diasEmAnalise']))
+if (isset($_POST['aceitarProposta']) && !empty($_POST['id']) && isset($_POST['dataEnvioProposta']))
 {
 	$proposta->aceitarProposta();
 }
 
-if (isset($_POST['recusarProposta']) && !empty($_POST['id']) && isset($_POST['diasEmAnalise']))
+if (isset($_POST['recusarProposta']) && !empty($_POST['id']) && isset($_POST['dataEnvioProposta']))
 {
 	$proposta->recusarProposta();
 }
@@ -95,39 +95,21 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 					<td>
 						<form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
-							<input type='hidden' name='diasEmAnalise' value='{$proposta['diasEmAnalise']}'>
-							<button type='submit' name='aceitarProposta'>
-								<svg class='aproveProposalBtn' xmlns='http://www.w3.org/2000/svg'
-									height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
-									<path
-										d='m382-354 339-339q12-12 28-12t28 12q12 12 12 28.5T777-636L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497q12-12 28.5-12t28.5 12l142 143Z' />
-								</svg>
-							</button>
+							<input type='hidden' name='dataEnvioProposta' value='{$proposta['dataEnvioProposta']}'>
+							<button class='aproveProposalBtn' type='submit' name='aceitarProposta'>✓</button>
 						</form>
 					</td>
 					<td>
 						<form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
-							<input type='hidden' name='diasEmAnalise' value='{$proposta['diasEmAnalise']}'>
-							<button type='submit' name='recusarProposta'>
-								<svg class='denyProposalBtn' xmlns='http://www.w3.org/2000/svg'
-									height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
-									<path
-										d='M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z' />
-								</svg>
-							</button>
+							<input type='hidden' name='dataEnvioProposta' value='{$proposta['dataEnvioProposta']}'>
+							<button  class='denyProposalBtn' type='submit' name='recusarProposta'>✗</button>
 						</form>
 					</td>
 					<td>
 					   <form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
-							<button type='submit' name='excluirProposta' onclick=\"return prompt('ATENÇÃO! Excluir permanentemente proposta N° {$proposta['numeroProposta']}? Caso tenha certeza, digite EXCLUIR abaixo.') === 'EXCLUIR'\">
-								<svg class='deleteProposalBtn' xmlns='http://www.w3.org/2000/svg'
-									height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
-									<path
-										d='M280-120q-33 0-56.5-23.5T200-200v-520q-17 0-28.5-11.5T160-760q0-17 11.5-28.5T200-800h160q0-17 11.5-28.5T400-840h160q17 0 28.5 11.5T600-800h160q17 0 28.5 11.5T800-760q0 17-11.5 28.5T760-720v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Zm200 316 76 76q11 11 28 11t28-11q11-11 11-28t-11-28l-76-76 76-76q11-11 11-28t-11-28q-11-11-28-11t-28 11l-76 76-76-76q-11-11-28-11t-28 11q-11 11-11 28t11 28l76 76-76 76q-11 11-11 28t11 28q11 11 28 11t28-11l76-76Z' />
-								</svg>
-							</button>
+							<button class='deleteProposalBtn type='submit' name='excluirProposta' onclick=\"return prompt('ATENÇÃO! Excluir permanentemente proposta N° {$proposta['numeroProposta']}? Caso tenha certeza, digite EXCLUIR abaixo.') === 'EXCLUIR'\">✖</button>
 						</form>
 					</td>
 				</tr>

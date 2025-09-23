@@ -55,7 +55,6 @@ nav,
 
 #searchBtn {
 	display: flex;
-	padding: 0;
 	background-color: var(--confirmColor);
 }
 
@@ -105,7 +104,7 @@ form {
 	height: 100vh;
 	width: 100vw;
 	overflow: auto;
-	backdrop-filter: blur(5px);
+	backdrop-filter: blur(2px);
 	animation: showUp var(--transitionsDuration) ease;
 }
 
@@ -122,6 +121,7 @@ button {
 	font-weight: bold;
 	border: none;
 	transition: var(--transitionsDuration);
+	color: var(--contrastColorLight);
 	background-color: transparent;
 }
 
@@ -131,7 +131,7 @@ svg {
 
 button:hover,
 #cancelUpdateStatusBtn:hover {
-	transform: scale(1.05);
+	transform: translateY(-2px);
 	cursor: pointer;
 }
 
@@ -165,13 +165,14 @@ th {
 
 #authenticatedUser {
 	text-align: center;
-	
+
 	a {
 		color: var(--destructiveColor);
 	}
 }
 
-#scrollTopBtn, #scrollBottomBtn {
+#scrollTopBtn,
+#scrollBottomBtn {
 	padding: 0.25rem;
 	border-radius: 0.5rem;
 	background-color: var(--primaryColor);
@@ -181,9 +182,11 @@ th {
 	position: fixed;
 	bottom: 0.5rem;
 }
+
 /* LOGIN & Error pages */
 
-#bodyLogin, #bodyError {
+#bodyLogin,
+#bodyError {
 	width: 100dvw;
 	height: 100dvh;
 }
@@ -194,37 +197,38 @@ th {
 }
 
 #loginBtn {
-	background-color: var(--primaryColor);
+	background-color: var(--confirmColor);
+}
+
+/* 1:1 BUTTONS */
+
+.aproveProposalBtn,
+.denyProposalBtn,
+.deleteProposalBtn,
+.updateProposalBtn,
+#searchBtn {
+	font-weight: normal;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
 }
 
 /* COMERCIAL */
 
-.aproveProposalBtn {
+.aproveProposalBtn,
+#showRegisterProposalFormBtn,
+#registerProposalBtn {
 	background-color: var(--confirmColor);
 }
 
 .denyProposalBtn,
-.deleteProposalBtn {
+.deleteProposalBtn,
+#cancelRegisterProposalBtn {
 	background-color: var(--destructiveColor);
-}
-
-#showRegisterProposalFormBtn {
-	color: var(--contrastColorLight);
-	background-color: var(--confirmColor);
 }
 
 #registerProposalForm {
 	display: none;
-}
-
-#registerProposalBtn {
-	color: var(--contrastColorLight);
-	background-color: var(--confirmColor);
-}
-
-#cancelRegisterProposalBtn {
-	color: var(--contrastColorLight);
-	background-color: var(--destructiveColor);
 }
 
 /* FINANCES */

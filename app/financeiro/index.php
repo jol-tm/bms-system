@@ -40,6 +40,7 @@ if (isset($_POST['atualizarStatusProposta']) && !empty($_POST['id']) && isset($_
 if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_VALIDATE_INT))
 {
 	$propostaParaAtualizar = $proposta->verProposta($_POST['id']);
+	$propostaParaAtualizar['statusProposta'] === 'Em análise' ? $analise = 'checked' : $aceita = 'checked';
 
 	echo "
 	<div class='formWrapper'>
@@ -47,6 +48,15 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 		<h2>Atualizando Proposta: {$_POST['numeroProposta']}</h2>
 		<input type='hidden' name='id' value='{$propostaParaAtualizar['id']}'>
 		<input type='hidden' name='dataAceiteProposta' value='{$_POST['dataAceiteProposta']}'>
+		<h3>Status Proposta</h3>
+		<div>
+			<input id='aceita' type='radio' name='statusProposta' value='Aceita' $aceita>
+			<label for='aceita'>Aceita</label>
+		</div>
+		<div>
+			<input id='emAnalise' type='radio' name='statusProposta' value='Em análise' $analise>
+			<label for='emAnalise'>Em análise</label>
+		</div>
 		<label for='numeroRelatorio'>N° do Relatório</label>
 		<input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' max='99999999999' value='{$propostaParaAtualizar['numeroRelatorio']}'>
 		<label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
@@ -74,9 +84,7 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 
 <form id='searchBox' action='' method='post'>
 	<input type='text' name='pesquisa' value='<?= $pesquisa; ?>' placeholder='Texto para pesquisa'>
-	<button id='searchBtn' name=''>
-		<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'><path d='M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z'/></svg>
-	</button>
+	<button id='searchBtn' type='submit' name=''>🔍︎</button>
 </form>
 <div class="tableResponsive">
 	<table>
@@ -148,24 +156,13 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 							<input type='hidden' name='id' value='{$proposta['id']}'>
 							<input type='hidden' name='numeroProposta' value='{$proposta['numeroProposta']}'>
 							<input type='hidden' name='dataAceiteProposta' value='{$proposta['dataAceiteProposta']}'>
-							<button type='submit' name='mostrarAtualizarStatus'>
-								<svg class='updateProposalBtn' xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
-									<path
-										d='M240-360h280l80-80H240v80Zm0-160h240v-80H240v80Zm-80-160v400h280l-80 80H80v-560h800v120h-80v-40H160Zm756 212q5 5 5 11t-5 11l-36 36-70-70 36-36q5-5 11-5t11 5l48 48ZM520-120v-70l266-266 70 70-266 266h-70ZM160-680v400-400Z' />
-								</svg>
-							</button>
+							<button class='updateProposalBtn' type='submit' name='mostrarAtualizarStatus'>✎</button>
 						</form>
 					</td>
 					<td>
 					   <form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
-							<button type='submit' name='excluirProposta' onclick=\"return prompt('ATENÇÃO! Excluir permanentemente proposta N° {$proposta['numeroProposta']}? Caso tenha certeza, digite EXCLUIR abaixo.') === 'EXCLUIR'\">
-								<svg class='deleteProposalBtn' xmlns='http://www.w3.org/2000/svg'
-									height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'>
-									<path
-										d='M280-120q-33 0-56.5-23.5T200-200v-520q-17 0-28.5-11.5T160-760q0-17 11.5-28.5T200-800h160q0-17 11.5-28.5T400-840h160q17 0 28.5 11.5T600-800h160q17 0 28.5 11.5T800-760q0 17-11.5 28.5T760-720v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Zm200 316 76 76q11 11 28 11t28-11q11-11 11-28t-11-28l-76-76 76-76q11-11 11-28t-11-28q-11-11-28-11t-28 11l-76 76-76-76q-11-11-28-11t-28 11q-11 11-11 28t11 28l76 76-76 76q-11 11-11 28t11 28q11 11 28 11t28-11l76-76Z' />
-								</svg>
-							</button>
+							<button class='deleteProposalBtn' type='submit' name='excluirProposta' onclick=\"return prompt('ATENÇÃO! Excluir permanentemente proposta N° {$proposta['numeroProposta']}? Caso tenha certeza, digite EXCLUIR abaixo.') === 'EXCLUIR'\">✖</button>
 						</form>
 					</td>
 				</tr>
