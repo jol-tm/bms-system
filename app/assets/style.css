@@ -54,7 +54,6 @@ nav,
 }
 
 #searchBtn {
-	display: flex;
 	background-color: var(--confirmColor);
 }
 
@@ -118,7 +117,6 @@ input {
 }
 
 button {
-	font-weight: bold;
 	border: none;
 	transition: var(--transitionsDuration);
 	color: var(--contrastColorLight);
@@ -157,7 +155,7 @@ th {
 
 .notification {
 	z-index: 1;
-	position: absolute;
+	position: fixed;
 	top: -5rem;
 	background-color: var(--primaryColor);
 	animation: notification 5s ease;
@@ -205,10 +203,10 @@ th {
 .aproveProposalBtn,
 .denyProposalBtn,
 .deleteProposalBtn,
-.updateProposalBtn,
-#searchBtn {
+.updateProposalBtn {
+	font-size: 1.5rem;
 	font-weight: normal;
-	justify-content: center;
+	padding: 0;
 	width: 2.5rem;
 	height: 2.5rem;
 }
@@ -255,19 +253,24 @@ th {
 /* PROPOSALS WARNING STATUS */
 
 .received,
+.accepted,
+.refused,
+.pending {
+	color: var(--contrastColorLight);
+	border-radius: 0.5rem;
+}
+
+.received,
 .accepted {
-	color: var(--confirmColor);
-	font-weight: bold;
+	background-color: var(--confirmColor);
 }
 
 .refused {
-	color: var(--destructiveColor);
-	font-weight: bold;
+	background-color: var(--destructiveColor);
 }
 
 .pending {
-	color: var(--warnColor);
-	font-weight: bold;
+	background-color: var(--warnColor);
 }
 
 /* ANIMATIONS */
