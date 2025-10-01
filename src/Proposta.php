@@ -48,9 +48,7 @@ class Proposta
 			
 			$proposta['dataEnvioProposta'] = (new DateTime($proposta['dataEnvioProposta']))->format('d/m/Y');
 			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : null;
-			empty($proposta['diasAguardandoPagamento']) ? $proposta['diasAguardandoPagamento'] = '-' : null;
 			empty($proposta['dataUltimaCobranca']) ? $proposta['dataUltimaCobranca'] = '-' : null;
-			empty($proposta['diasUltimaCobranca']) ? $proposta['diasUltimaCobranca'] = '-' : null;
 			empty($proposta['dataEnvioRelatorio']) ? $proposta['dataEnvioRelatorio'] = '-' : $proposta['dataEnvioRelatorio'] = (new DateTime($proposta['dataEnvioRelatorio']))->format('d/m/Y');
 			empty($proposta['dataPagamento']) ? $proposta['dataPagamento'] = '-' : $proposta['dataPagamento'] = (new DateTime($proposta['dataPagamento']))->format('d/m/Y');
 			empty($proposta['numeroNotaFiscal']) ? $proposta['numeroNotaFiscal'] = '-' : null;
@@ -58,6 +56,8 @@ class Proposta
 			empty($proposta['numeroRelatorio']) ? $proposta['numeroRelatorio'] = '-' : null;
 			empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
 			isset($proposta['diasEmAnalise']) ? null : $proposta['diasEmAnalise'] = '-';
+			isset($proposta['diasAguardandoPagamento']) ? null : $proposta['diasAguardandoPagamento'] = '-';
+			isset($proposta['diasUltimaCobranca']) ? null : $proposta['diasUltimaCobranca'] = '-';
 			$proposta['numeroProposta'] === null ? $proposta['numeroProposta'] = '-' : null;
 			$proposta['valor'] = str_replace('.', ',', $proposta['valor']);
 		}
@@ -91,9 +91,9 @@ class Proposta
 	
 	public function pesquisarProposta(): array|false
 	{
-		if ($data = DateTime::createFromFormat('m/Y', $_POST['pesquisa']))
+		if ($data = DateTime::createFromFormat('m/Y', $_GET['q']))
 		{
-			$_POST['pesquisa'] = $data->format('Y-m');
+			$_GET['q'] = $data->format('Y-m');
 		}
 		
 		$propostas = $this->data->search('propostas', [
@@ -104,10 +104,11 @@ class Proposta
 			'valor',
 			'cliente',
 			'observacoes',
-		], $_POST['pesquisa']);
+		], $_GET['q']);
 		
 		foreach ($propostas as &$proposta)
 		{
+			empty($proposta['numeroProposta']) ? $proposta['numeroProposta'] = '-' : null;
 			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : $proposta['dataAceiteProposta'] = (new DateTime($proposta['dataAceiteProposta']))->format('d/m/Y');
 			empty($proposta['dataEnvioProposta']) ?	'-' : $proposta['dataEnvioProposta'] = (new DateTime($proposta['dataEnvioProposta']))->format('d/m/Y');
 			empty($proposta['diasAguardandoPagamento']) ? $proposta['diasAguardandoPagamento'] = '-' : null;

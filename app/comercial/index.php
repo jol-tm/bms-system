@@ -35,11 +35,11 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 	<form action="" method="post" class="customForm">
 		<h2>Cadastrar Proposta</h2>
 		<label for="numeroProposta">N° da Proposta</label>
-		<input type="number" name="numeroProposta" id="numeroProposta" placeholder="Ex: 2020001" max="99999999999" required>
+		<input type="number" name="numeroProposta" id="numeroProposta" placeholder="Ex: 12325 ou 0 para nulo" max="99999999999" required>
 		<label for="dataEnvioProposta">Data de Envio da Proposta</label>
 		<input type="date" name="dataEnvioProposta" id="dataEnvioProposta" required>
 		<label for="valor">Valor da Proposta</label>
-		<input type="text" name="valor" id="valor" placeholder="Ex: 999,99" maxlength="10" required>
+		<input type="number" step="0.01" name="valor" id="valor" placeholder="Ex: 999,99" maxlength="10" required>
 		<label for="cliente">Cliente</label>
 		<input type="text" name="cliente" id="cliente" placeholder="Nome do Cliente" maxlength="255" required>
 		<label for="observacoes">Observações</label>

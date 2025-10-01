@@ -9,17 +9,17 @@ $proposta = new Proposta();
 $propostas = [];
 $pesquisa = '';
 
-if (!empty($_POST['pesquisa']))
+if (!empty($_GET['q']))
 {
 	$propostas = $proposta->pesquisarProposta();
 	
-	if ($pesquisa = DateTime::createFromFormat('Y-m', $_POST['pesquisa']))
+	if ($pesquisa = DateTime::createFromFormat('Y-m', $_GET['q']))
 	{
 		$pesquisa = $pesquisa->format('m/Y');
 	}
 	else
 	{
-		$pesquisa = $_POST['pesquisa'];
+		$pesquisa = $_GET['q'];
 	}
 }
 else
@@ -62,7 +62,7 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 		<label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
 		<input type='date' name='dataEnvioRelatorio' id='dataEnvioRelatorio' value='{$propostaParaAtualizar['dataEnvioRelatorio']}'>
 		<label for='valor'>Valor da Proposta</label>
-		<input type='text' name='valor' id='valor' placeholder='Ex: 999,99' maxlength='10' value='{$propostaParaAtualizar['valor']}'>
+		<input type='number' step='0.01' name='valor' id='valor' placeholder='Ex: 999,99' maxlength='10' value='{$propostaParaAtualizar['valor']}'>
 		<label for='numeroNotaFiscal'>NF</label>
 		<input type='number' name='numeroNotaFiscal' id='numeroNotaFiscal' placeholder='Ex: 123456789' max='999999999' value='{$propostaParaAtualizar['numeroNotaFiscal']}'>
 		<label for='dataPagamento'>Data do Pagamento</label>
@@ -82,8 +82,8 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 
 ?>
 
-<form id='searchBox' action='' method='post'>
-	<input type='text' name='pesquisa' value='<?= $pesquisa; ?>' placeholder='Texto para pesquisa'>
+<form id='searchBox' action='' method='get'>
+	<input type='text' name='q' value='<?= $pesquisa; ?>' placeholder='Texto para pesquisa'>
 	<button id='searchBtn' type='submit' name=''>Pesquisar</button>
 </form>
 <div class="tableResponsive">

@@ -65,8 +65,14 @@ nav {
 }
 
 #currentPage {
+/*
 	font-weight: bold;
 	text-decoration: underline;
+*/
+	background-color: var(--confirmColor);
+	color: var(--contrastColorLight);
+	padding: 0 0.25rem;
+	border-radius: 0.25rem;
 }
 
 a {
@@ -134,7 +140,7 @@ button:hover,
 }
 
 button:active {
-	transform: scale(0.95);
+	transform: scale(0.9) translateY(-2px);
 }
 
 .tableResponsive {
