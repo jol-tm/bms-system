@@ -32,7 +32,7 @@ $baseAssetsPath = '/bms-system/app/assets/';
 	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 	<title>BMS | <?= $pageTitle; ?></title>
 	<link rel='icon' href='<?= $baseAssetsPath . 'LOGOTIPO.svg'; ?>' type='image/svg+xml'>
-	<link rel='stylesheet' href='<?= $baseAssetsPath . 'style.css'; ?>'>
+	<link rel='stylesheet' href='<?= $baseAssetsPath . 'style.css?v=1'; ?>'>
 	<script defer src='<?= $baseAssetsPath . 'script.js'; ?>'></script>
 </head>
 
@@ -91,12 +91,12 @@ $baseAssetsPath = '/bms-system/app/assets/';
 
 	if (isset($_GET['desconectado']))
 	{
-		echo "<div class='notification'>Desconectado com sucesso.</div>";
+		echo "<div class='notification successNotification'>Desconectado com sucesso.</div>";
 	}
 
 	if (isset($_SESSION['notification']))
 	{
-		echo "<div class='notification'>{$_SESSION['notification']}</div>";
+		echo "<div class='notification {$_SESSION['notification']['status']}" . "Notification" . "'>{$_SESSION['notification']['message']}</div>";
 		unset($_SESSION['notification']);
 	}
 

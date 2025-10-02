@@ -67,9 +67,34 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 		<tbody>
 
 			<?php
-
+			
+			$meses = [
+				1 => 'Janeiro',
+				2 => 'Fevereiro',
+				3 => 'Março',
+				4 => 'Abril',
+				5 => 'Maio',
+				6 => 'Junho',
+				7 => 'Julho',
+				8 => 'Agosto',
+				9 => 'Setembro',
+				10 => 'Outubro',
+				11 => 'Novembro',
+				12 => 'Dezembro'
+			];
+			$ultimoMes = 0;
+			
 			foreach ($propostas as $proposta)
 			{
+				$mes = (int)(DateTime::createFromFormat('d/m/Y', $proposta['dataEnvioProposta']))->format('m');
+				
+				if ($ultimoMes !== $mes)
+				{
+					echo "<tr><td colspan='19'><h2>{$meses[$mes]}</h2></td></tr>";
+				}
+				
+				$ultimoMes = $mes;
+				
 				if ($proposta['statusProposta'] === 'Recusada')
 				{
 					$statusProposta = 'refused';

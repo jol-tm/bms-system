@@ -18,7 +18,10 @@ if (isset($_POST['acessar']) && !empty($_POST['email']) && !empty($_POST['senha'
 	}
 	else
 	{
-		$_SESSION['notification'] = 'Erro na autenticação. Verifique as credenciais.';
+		$_SESSION['notification'] = [
+			'message' => 'Erro na autenticação. Verifique as credenciais.',
+			'status' => 'failure'			
+		];
 		header('Location: ../../app/acesso');
 	}
 }

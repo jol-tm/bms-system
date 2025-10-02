@@ -114,9 +114,34 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 		<tbody>
 
 			<?php
-
+			
+			$meses = [
+				1 => 'Janeiro',
+				2 => 'Fevereiro',
+				3 => 'Março',
+				4 => 'Abril',
+				5 => 'Maio',
+				6 => 'Junho',
+				7 => 'Julho',
+				8 => 'Agosto',
+				9 => 'Setembro',
+				10 => 'Outubro',
+				11 => 'Novembro',
+				12 => 'Dezembro'
+			];
+			$ultimoMes = 0;
+			
 			foreach ($propostas as $proposta)
 			{
+				$mes = (int)(DateTime::createFromFormat('d/m/Y', $proposta['dataAceiteProposta']))->format('m');
+				
+				if ($ultimoMes !== $mes)
+				{
+					echo "<tr><td colspan='19'><h2>{$meses[$mes]}</h2></td></tr>";
+				}
+				
+				$ultimoMes = $mes;
+				
 				$statusPagamento = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
 				
 				if ($proposta['statusProposta'] === 'Recusada')

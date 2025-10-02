@@ -20,5 +20,5 @@ RewriteRule ^src/ - [F,L]
 
 # Cache 48 hours
 <IfModule mod_headers.c>
-  Header set Cache-Control "max-age=172800, must-revalidate"
+  Header set Cache-Control "max-age=2592000, must-revalidate"
 </IfModule>

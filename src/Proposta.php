@@ -21,7 +21,7 @@ class Proposta
 
 	public function verPropostasEmFaseFinanceira(): array
 	{
-		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY statusPagamento ASC, dataAceiteProposta ASC;');
+		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Aceita" ORDER BY dataAceiteProposta ASC;');
 		
 		$hoje = new DateTime();
 
@@ -67,7 +67,7 @@ class Proposta
 
 	public function verPropostasEmFaseComercial(): array
 	{
-		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY statusProposta ASC, dataEnvioProposta ASC');
+		$propostas = $this->data->read('propostas', 'WHERE statusProposta = "Em análise" OR statusProposta = "Recusada" ORDER BY dataEnvioProposta ASC');
 		
 		$hoje = new DateTime();
 		
@@ -139,12 +139,18 @@ class Proposta
 
 		if ($created)
 		{
-			$_SESSION['notification'] = 'Proposta criada com sucesso.';
+			$_SESSION['notification'] = [
+				'message' => 'Proposta criada com sucesso.',
+				'status' => 'success'			
+			];
 			header('Location: ./');
 			return true;
 		}
 
-		$_SESSION['notification'] = 'Erro ao criar proposta.';
+		$_SESSION['notification'] = [
+			'message' => 'Erro ao criar proposta.',
+			'status' => 'failure'			
+		];
 		header('Location: ./');
 		return false;
 	}
@@ -179,12 +185,18 @@ class Proposta
 
 		if ($affectedRows > 0)
 		{
-			$_SESSION['notification'] = 'Status da Proposta atualizado com sucesso.';
+			$_SESSION['notification'] = [
+				'message' => 'Status da Proposta atualizado com sucesso.',
+				'status' => 'success'			
+			];
 			header('Location: ./');
 			return true;
 		}
-
-		$_SESSION['notification'] = 'Erro ao atualizar Status da Proposta. Nenhuma modificada.';
+		
+		$_SESSION['notification'] = [
+			'message' => 'Erro ao atualizar Status da Proposta. Nenhuma modificada.',
+			'status' => 'failure'			
+		];
 		header('Location: ./');
 		return false;
 	}
@@ -205,12 +217,18 @@ class Proposta
 
 		if ($affectedRows > 0)
 		{
-			$_SESSION['notification'] = 'Proposta aceita com sucesso. Movida para "Financeiro".';
+			$_SESSION['notification'] = [
+				'message' => 'Proposta aceita com sucesso. Movida para "Financeiro".',
+				'status' => 'success'			
+			];
 			header('Location: ./');
 			return true;
 		}
-
-		$_SESSION['notification'] = 'Erro ao aceitar proposta. Nenhuma modificada.';
+		
+		$_SESSION['notification'] = [
+			'message' => 'Erro ao aceitar proposta. Nenhuma modificada.',
+			'status' => 'failure'			
+		];
 		header('Location: ./');
 		return false;
 	}
@@ -230,12 +248,18 @@ class Proposta
 
 		if ($affectedRows > 0)
 		{
-			$_SESSION['notification'] = 'Proposta recusada com sucesso.';
+			$_SESSION['notification'] = [
+				'message' => 'Proposta recusada com sucesso.',
+				'status' => 'success'			
+			];
 			header('Location: ./');
 			return true;
 		}
 
-		$_SESSION['notification'] = 'Erro ao recusar proposta. Nenhuma modificada.';
+		$_SESSION['notification'] = [
+			'message' => 'Erro ao recusar proposta. Nenhuma modificada.',
+			'status' => 'failure'			
+		];
 		header('Location: ./');
 		return false;
 
@@ -247,12 +271,18 @@ class Proposta
 
 		if ($affectedRows > 0)
 		{
-			$_SESSION['notification'] = 'Proposta excluída com sucesso.';
+			$_SESSION['notification'] = [
+				'message' => 'Proposta excluída com sucesso.',
+				'status' => 'success'			
+			];
 			header('Location: ./');
 			return true;
 		}
-
-		$_SESSION['notification'] = 'Erro ao excluir proposta. Nenhuma modificada.';
+		
+		$_SESSION['notification'] = [
+			'message' => 'Erro ao excluir proposta. Nenhuma modificada.',
+			'status' => 'failure'			
+		];
 		header('Location: ./');
 		return false;
 	}

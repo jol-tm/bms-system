@@ -1,8 +1,8 @@
 :root {
 	--primaryColor: #C1A995;
 	--backgroundColor: #dddddd;
-	--contrastColorDark: #000000;
-	--contrastColorLight: #ffffff;
+	--darkColor: #000000;
+	--lightColor: #ffffff;
 	--confirmColor: darkgreen;
 	--warnColor: darkgoldenrod;
 	--destructiveColor: darkred;
@@ -70,13 +70,13 @@ nav {
 	text-decoration: underline;
 */
 	background-color: var(--confirmColor);
-	color: var(--contrastColorLight);
+	color: var(--lightColor);
 	padding: 0 0.25rem;
 	border-radius: 0.25rem;
 }
 
 a {
-	color: var(--contrastColorDark);
+	color: var(--darkColor);
 	text-decoration: none;
 	transition: var(--transitionsDuration);
 }
@@ -95,7 +95,7 @@ form {
 
 .customForm {
 	margin: 0.5rem;
-	background-color: var(--contrastColorLight);
+	background-color: var(--lightColor);
 	border: 2px solid var(--primaryColor);
 }
 
@@ -125,7 +125,7 @@ input {
 button {
 	border: none;
 	transition: var(--transitionsDuration);
-	color: var(--contrastColorLight);
+	color: var(--lightColor);
 	background-color: transparent;
 }
 
@@ -150,7 +150,7 @@ button:active {
 
 table {
 	border: 2px solid var(--primaryColor);
-	background-color: var(--contrastColorLight);
+	background-color: var(--lightColor);
 }
 
 td,
@@ -163,8 +163,16 @@ th {
 	z-index: 1;
 	position: fixed;
 	top: -5rem;
-	background-color: var(--primaryColor);
+	color: var(--lightColor);
 	animation: notification 5s ease;
+}
+
+.successNotification {
+	background-color: var(--confirmColor);
+}
+
+.failureNotification {
+	background-color: var(--destructiveColor);
 }
 
 #authenticatedUser {
@@ -196,7 +204,7 @@ th {
 }
 
 #formLogin {
-	background-color: var(--contrastColorLight);
+	background-color: var(--lightColor);
 	width: 15rem;
 }
 
@@ -242,7 +250,7 @@ th {
 }
 
 #updateStatusBtn {
-	color: var(--contrastColorLight);
+	color: var(--lightColor);
 	background-color: var(--confirmColor);
 }
 
@@ -251,7 +259,7 @@ th {
 	text-decoration: none;
 	padding: 0.5rem;
 	border-radius: 0.5rem;
-	color: var(--contrastColorLight);
+	color: var(--lightColor);
 	background-color: var(--destructiveColor);
 }
 
@@ -261,7 +269,7 @@ th {
 .accepted,
 .refused,
 .pending {
-	color: var(--contrastColorLight);
+	color: var(--lightColor);
 	border-radius: 0.5rem;
 }
 
