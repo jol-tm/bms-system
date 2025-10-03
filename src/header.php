@@ -10,7 +10,10 @@ session_start();
 if (!isset($_SESSION['authenticatedUser']) && ($pageTitle !== 'Acesso'))
 {
 	header('Location: ../acesso');
-	$_SESSION['notification'] = 'Não autenticado ou sessão expirada!';
+	$_SESSION['notification'] = [
+		'message' => 'Não autenticado ou sessão expirada!',
+		'status' => 'failure'
+	];
 	exit();
 }
 
@@ -20,7 +23,7 @@ if (isset($_SESSION['authenticatedUser']) && ($pageTitle === 'Acesso'))
 	exit();
 }
 
-$baseAssetsPath = '/bms-system/app/assets/';
+$baseAssetsPath = '/app/assets/';
 
 ?>
 
