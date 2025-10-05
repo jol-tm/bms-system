@@ -30,6 +30,8 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 
 ?>
 
+<body>
+
 <button id="showRegisterProposalFormBtn">+ Nova Proposta</button>
 <div id="registerProposalForm" class="formWrapper">
 	<form action="" method="post" class="customForm">
@@ -86,11 +88,13 @@ if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
 			
 			foreach ($propostas as $proposta)
 			{
-				$mes = (int)(DateTime::createFromFormat('d/m/Y', $proposta['dataEnvioProposta']))->format('m');
+				$dataEnvioProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataEnvioProposta']);
+				$mes = (int)$dataEnvioProposta->format('m');
+				$ano = $dataEnvioProposta->format('Y');
 				
 				if ($ultimoMes !== $mes)
 				{
-					echo "<tr><td colspan='19'><h2>{$meses[$mes]}</h2></td></tr>";
+					echo "<tr><td colspan='19'><h2>{$meses[$mes]}/$ano</h2></td></tr>";
 				}
 				
 				$ultimoMes = $mes;

@@ -55,7 +55,7 @@ class DataRepository
 		}
 	}
 
-	public function search(string $table, array $columns, string $keyWord): array|false
+	public function search(string $table, array $columns, string $keyWord, ?string $parameters = null): array|false
 	{
 		try
 		{
@@ -68,7 +68,7 @@ class DataRepository
 
 			$whereClause = implode(" OR ", $likeClauses);
 
-			$sql = "SELECT * FROM $table WHERE $whereClause";
+			$sql = "SELECT * FROM $table WHERE $whereClause $parameters";
 
 			$stmt = $this->connection->prepare($sql);
 			$stmt->bindValue(':keyWord', "%$keyWord%", PDO::PARAM_STR);
@@ -78,6 +78,41 @@ class DataRepository
 
 			return $data;
 		}
+		catch (PDOException $e)
+		{
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			return false;
+		}
+	}
+	
+	public function count(string $table, ?string $parameters = null): int|false
+	{
+		try
+		{
+			$sql = "SELECT COUNT(*) FROM $table $parameters";
+
+			$data = $this->connection->query($sql)->fetchColumn();
+
+			return $data;
+		}
+		catch (PDOException $e)
+		{
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			return false;
+		}
+	}
+	
+	public function sum(string $table, string $column, ?string $parameters = null): float|false
+	{
+		try
+		{
+			$sql = "SELECT SUM($column) FROM $table $parameters";
+
+			$data = $this->connection->query($sql)->fetchColumn();
+			$data === null ? $data = 0 : null;
+			
+			return $data;
+		} 	
 		catch (PDOException $e)
 		{
 			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");

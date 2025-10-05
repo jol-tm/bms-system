@@ -101,26 +101,50 @@ class Proposta
 			'numeroNotaFiscal',
 			'dataAceiteProposta',
 			'dataEnvioProposta',
+			'statusPagamento',
 			'valor',
 			'cliente',
 			'observacoes',
-		], $_GET['q']);
+		], $_GET['q'], 'ORDER BY dataEnvioProposta ASC;');
+		
+		$hoje = new DateTime();
 		
 		foreach ($propostas as &$proposta)
 		{
+			if ($proposta['dataAceiteProposta'] !== null)
+			{
+				$proposta['dataAceiteProposta'] = new DateTime($proposta['dataAceiteProposta']);
+				$proposta['diasAguardandoPagamento'] = $proposta['statusPagamento'] === 'Aguardando' ? $hoje->diff($proposta['dataAceiteProposta'])->days : $proposta['diasAguardandoPagamento'];
+				$proposta['dataAceiteProposta'] = $proposta['dataAceiteProposta']->format('d/m/Y');
+			}
+			
+			if ($proposta['dataUltimaCobranca'] !== null)
+			{
+				$proposta['dataUltimaCobranca'] = new DateTime($proposta['dataUltimaCobranca']);
+				
+				if ($proposta['statusPagamento'] === 'Aguardando')
+				{
+					$proposta['diasUltimaCobranca'] = $hoje->diff($proposta['dataUltimaCobranca'])->days;
+				}
+				
+				$proposta['dataUltimaCobranca'] = $proposta['dataUltimaCobranca']->format('d/m/Y');
+			}
+			
+			$proposta['dataEnvioProposta'] = new DateTime($proposta['dataEnvioProposta']);
+			
 			empty($proposta['numeroProposta']) ? $proposta['numeroProposta'] = '-' : null;
-			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : $proposta['dataAceiteProposta'] = (new DateTime($proposta['dataAceiteProposta']))->format('d/m/Y');
-			empty($proposta['dataEnvioProposta']) ?	'-' : $proposta['dataEnvioProposta'] = (new DateTime($proposta['dataEnvioProposta']))->format('d/m/Y');
-			empty($proposta['diasAguardandoPagamento']) ? $proposta['diasAguardandoPagamento'] = '-' : null;
-			empty($proposta['dataUltimaCobranca']) ? $proposta['dataUltimaCobranca'] = '-' : $proposta['dataUltimaCobranca'] = (new DateTime($proposta['dataUltimaCobranca']))->format('d/m/Y');
-			empty($proposta['diasUltimaCobranca']) ? $proposta['diasUltimaCobranca'] = '-' : null;
+			empty($proposta['dataAceiteProposta']) ? $proposta['dataAceiteProposta'] = '-' : null;
+			empty($proposta['dataUltimaCobranca']) ? $proposta['dataUltimaCobranca'] = '-' : null;
 			empty($proposta['dataEnvioRelatorio']) ? $proposta['dataEnvioRelatorio'] = '-' : $proposta['dataEnvioRelatorio'] = (new DateTime($proposta['dataEnvioRelatorio']))->format('d/m/Y');
 			empty($proposta['dataPagamento']) ? $proposta['dataPagamento'] = '-' : $proposta['dataPagamento'] = (new DateTime($proposta['dataPagamento']))->format('d/m/Y');
 			empty($proposta['numeroNotaFiscal']) ? $proposta['numeroNotaFiscal'] = '-' : null;
 			empty($proposta['formaPagamento']) ? $proposta['formaPagamento'] = '-' : null;
 			empty($proposta['numeroRelatorio']) ? $proposta['numeroRelatorio'] = '-' : null;
 			empty($proposta['observacoes']) ? $proposta['observacoes'] = '-' : null;
-			isset($proposta['diasEmAnalise']) ? null : $proposta['diasEmAnalise'] = '-';
+			isset($proposta['diasAguardandoPagamento']) ? null : $proposta['diasAguardandoPagamento'] = '-';
+			isset($proposta['diasUltimaCobranca']) ? null : $proposta['diasUltimaCobranca'] = '-';
+			$proposta['diasEmAnalise'] = $proposta['statusProposta'] === 'Em análise' ? $hoje->diff($proposta['dataEnvioProposta'])->days : $proposta['diasEmAnalise'];
+			$proposta['dataEnvioProposta'] = ($proposta['dataEnvioProposta'])->format('d/m/Y');
 			$proposta['valor'] = str_replace('.', ',', $proposta['valor']);
 		}
 		
@@ -240,6 +264,7 @@ class Proposta
 
 		$affectedRows = $this->data->update('propostas', [
 			'statusProposta' => 'Recusada',
+			'statusPagamento' => 'Recusada',
 			'diasEmAnalise' => $diasEmAnalise
 		], 
 		[
@@ -285,5 +310,23 @@ class Proposta
 		];
 		header('Location: ./');
 		return false;
+	}
+	
+	public function gerarRelatorio(string $data): array|bool
+	{
+		$data = new DateTime($data);
+		$mes = $data->format('m');
+		$ano = $data->format('Y');
+
+		$propostasEnviadas = $this->data->count('propostas', "WHERE MONTH(dataEnvioProposta) = $mes AND YEAR(dataEnvioProposta) = $ano");
+		$propostasAceitas = $this->data->count('propostas', "WHERE MONTH(dataAceiteProposta) = $mes AND YEAR(dataAceiteProposta) = $ano");
+		$valorRecebido = $this->data->sum('propostas', 'valor', "WHERE (MONTH(dataAceiteProposta) = $mes AND YEAR(dataAceiteProposta) = $ano) AND statusPagamento = 'Recebido'");
+		
+		return [
+			'data' => "$mes/$ano",
+			'propostasEnviadas' => $propostasEnviadas,
+			'propostasAceitas' => $propostasAceitas,
+			'valorRecebido' => $valorRecebido
+		];
 	}
 }

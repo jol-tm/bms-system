@@ -39,6 +39,8 @@ if (isset($_POST['atualizarStatusProposta']) && !empty($_POST['id']) && isset($_
 
 if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_VALIDATE_INT))
 {
+	$analise = null;
+	$aceita = null;
 	$propostaParaAtualizar = $proposta->verProposta($_POST['id']);
 	$propostaParaAtualizar['statusProposta'] === 'Em análise' ? $analise = 'checked' : $aceita = 'checked';
 
@@ -82,8 +84,10 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 
 ?>
 
+<body>
+	
 <form id='searchBox' action='' method='get'>
-	<input type='text' name='q' value='<?= $pesquisa; ?>' placeholder='Texto para pesquisa'>
+	<input type='text' name='q' value='<?= $pesquisa; ?>' placeholder='Ex: Aguardando'>
 	<button id='searchBtn' type='submit' name=''>Pesquisar</button>
 </form>
 <div class="tableResponsive">
@@ -133,19 +137,40 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 			
 			foreach ($propostas as $proposta)
 			{
+				$dataAceiteProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataAceiteProposta']);
+				$dataEnvioProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataEnvioProposta']);
+				
 				if (empty($_GET['q']))
 				{
-					$mes = (int)(DateTime::createFromFormat('d/m/Y', $proposta['dataAceiteProposta']))->format('m');
-					
-					if ($ultimoMes !== $mes)
-					{
-						echo "<tr><td colspan='19'><h2>{$meses[$mes]}</h2></td></tr>";
-					}
-					
-					$ultimoMes = $mes;
+					$mes = (int)$dataAceiteProposta->format('m');
+					$ano = $dataAceiteProposta->format('Y');
+				}
+				else
+				{
+					$mes = (int)$dataEnvioProposta->format('m');
+					$ano = $dataEnvioProposta->format('Y');
 				}
 				
-				$statusPagamento = $proposta['statusPagamento'] === 'Aguardando' ? 'pending' : 'received';
+				if ($ultimoMes !== $mes)
+				{
+					echo "<tr><td colspan='19'><h2>{$meses[$mes]}/$ano</h2></td></tr>";
+				}
+				
+				$ultimoMes = $mes;
+				
+				if ($proposta['statusPagamento'] === 'Aguardando')
+				{
+					$statusPagamento = 'pending';
+				}
+				elseif ($proposta['statusPagamento'] === 'Recebido')
+				{
+					$statusPagamento = 'received';
+				}
+				elseif ($proposta['statusPagamento'] === 'Recusada')
+				{
+					$statusPagamento = 'refused';
+				}
+				
 				
 				if ($proposta['statusProposta'] === 'Recusada')
 				{

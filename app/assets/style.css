@@ -53,10 +53,6 @@ nav,
 	flex-direction: row;
 }
 
-#searchBtn {
-	background-color: var(--confirmColor);
-}
-
 nav {
 	z-index: 1;
 	position: sticky;
@@ -126,7 +122,7 @@ button {
 	border: none;
 	transition: var(--transitionsDuration);
 	color: var(--lightColor);
-	background-color: transparent;
+	background-color: var(--confirmColor);
 }
 
 svg {
@@ -160,7 +156,7 @@ th {
 }
 
 .notification {
-	z-index: 1;
+	z-index: 2;
 	position: fixed;
 	top: -5rem;
 	color: var(--lightColor);
@@ -208,10 +204,6 @@ th {
 	width: 15rem;
 }
 
-#loginBtn {
-	background-color: var(--confirmColor);
-}
-
 /* 1:1 BUTTONS */
 
 .aproveProposalBtn,
@@ -227,12 +219,6 @@ th {
 
 /* COMERCIAL */
 
-.aproveProposalBtn,
-#showRegisterProposalFormBtn,
-#registerProposalBtn {
-	background-color: var(--confirmColor);
-}
-
 .denyProposalBtn,
 .deleteProposalBtn,
 #cancelRegisterProposalBtn {
@@ -245,13 +231,8 @@ th {
 
 /* FINANCES */
 
-.updateProposalBtn {
-	background-color: var(--confirmColor);
-}
-
 #updateStatusBtn {
 	color: var(--lightColor);
-	background-color: var(--confirmColor);
 }
 
 #cancelUpdateStatusBtn {
@@ -262,6 +243,8 @@ th {
 	color: var(--lightColor);
 	background-color: var(--destructiveColor);
 }
+
+/* REPORT */
 
 /* PROPOSALS WARNING STATUS */
 
