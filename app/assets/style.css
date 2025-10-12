@@ -61,10 +61,6 @@ nav {
 }
 
 #currentPage {
-/*
-	font-weight: bold;
-	text-decoration: underline;
-*/
 	background-color: var(--confirmColor);
 	color: var(--lightColor);
 	padding: 0 0.25rem;

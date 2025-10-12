@@ -8,24 +8,69 @@ require_once '../../src/Proposta.php';
 $proposta = new Proposta();
 $propostas = $proposta->verPropostasEmFaseComercial();
 
-if (isset($_POST['cadastrarProposta']) && !empty($_POST['dataEnvioProposta']) && !empty($_POST['valor']) && !empty($_POST['cliente']))
+if (isset($_POST['cadastrarProposta']))
 {
-	$proposta->cadastrarProposta();
+	if (!empty($_POST['dataEnvioProposta']) && !empty($_POST['valor']) && !empty($_POST['cliente']))
+	{
+		$proposta->cadastrarProposta();
+	}
+	else
+	{
+		header('Location: ./');
+		$_SESSION['notification'] = [
+			'message' => 'Erro no cadastro! Informações incompletas!',
+			'status' => 'failure'	
+		];
+	}
 }
 
-if (isset($_POST['aceitarProposta']) && !empty($_POST['id']) && isset($_POST['dataEnvioProposta']))
+if (isset($_POST['aceitarProposta']))
 {
-	$proposta->aceitarProposta();
+	if (!empty($_POST['id']) && isset($_POST['dataEnvioProposta']))
+	{
+		$proposta->aceitarProposta();
+	}
+	else
+	{
+		header('Location: ./');
+		$_SESSION['notification'] = [
+			'message' => 'Erro no aceite! Informações inconsistentes!',
+			'status' => 'failure'	
+		];
+	}
 }
 
-if (isset($_POST['recusarProposta']) && !empty($_POST['id']) && isset($_POST['dataEnvioProposta']))
+
+if (isset($_POST['recusarProposta']))
 {
-	$proposta->recusarProposta();
+	if (!empty($_POST['id']) && isset($_POST['dataEnvioProposta']))
+	{
+		$proposta->recusarProposta();
+	}
+	else
+	{
+		header('Location: ./');
+		$_SESSION['notification'] = [
+			'message' => 'Erro na recusa! Informações inconsistentes!',
+			'status' => 'failure'	
+		];
+	}
 }
 
-if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
+if (isset($_POST['excluirProposta']))
 {
-	$proposta->excluirProposta();
+	if (!empty($_POST['id']))
+	{
+		$proposta->excluirProposta();
+	}
+	else
+	{
+		header('Location: ./');
+		$_SESSION['notification'] = [
+			'message' => 'Erro na exclusão! Informações inconsistentes!',
+			'status' => 'failure'	
+		];
+	}
 }
 
 ?>

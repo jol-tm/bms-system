@@ -3,16 +3,13 @@
 $pageTitle = 'Acesso';
 
 require_once '../../src/header.php';
-require_once '../../src/DatabaseConnection.php';
-require_once '../../src/Authenticator.php';
 
 if (isset($_POST['acessar']) && !empty($_POST['email']) && !empty($_POST['senha']))
 {
-	$connection = new DatabaseConnection();
-	$authenticator = new Authenticator($connection->start());
-	$authenticationSuccess = $authenticator->authenticate('usuarios', ['email' => $_POST['email']], ['senha' => $_POST['senha']]);
+	require_once '../../src/User.php';
+	$user = new User();
 
-	if ($authenticationSuccess)
+	if ($user->authenticate('usuarios', ['email' => $_POST['email']], ['senha' => $_POST['senha']]))
 	{
 		header('Location: ../../app/comercial');
 	}

@@ -9,11 +9,11 @@ session_start();
 
 if (!isset($_SESSION['authenticatedUser']) && ($pageTitle !== 'Acesso'))
 {
-	header('Location: ../acesso');
 	$_SESSION['notification'] = [
 		'message' => 'Não autenticado ou sessão expirada!',
 		'status' => 'failure'
 	];
+	header('Location: ../acesso');
 	exit();
 }
 
@@ -25,17 +25,22 @@ if (isset($_SESSION['authenticatedUser']) && ($pageTitle === 'Acesso'))
 
 if (isset($_GET['desconectar']))
 {
-	require_once '../../src/DatabaseConnection.php';
-	require_once '../../src/Authenticator.php';
+	require_once '../../src/User.php';
 
-	$connection = new DatabaseConnection();
-	$authenticator = new Authenticator($connection->start());
-	$disconnectSuccess = $authenticator->disconnect();
+	$user = new User();
 
-	if ($disconnectSuccess)
+	if ($user->disconnect())
 	{
 		header('Location: ../acesso?desconectado');
 		exit();
+	}
+	else
+	{
+		$_SESSION['notification'] = [
+			'message' => 'Erro ao desconectar!',
+			'status' => 'failure'
+		];
+		header('Location: ./');
 	}
 }
 

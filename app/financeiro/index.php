@@ -27,14 +27,36 @@ else
 	$propostas = $proposta->verPropostasEmFaseFinanceira();
 }
 
-if (isset($_POST['excluirProposta']) && !empty($_POST['id']))
+if (isset($_POST['excluirProposta']))
 {
-	$proposta->excluirProposta();
+	if (!empty($_POST['id']))
+	{
+		$proposta->excluirProposta();
+	}
+	else
+	{
+		header('Location: ./');
+		$_SESSION['notification'] = [
+			'message' => 'Erro na exclusão. Informações inconsistentes!',
+			'status' => 'failure'	
+		];
+	}
 }
 
-if (isset($_POST['atualizarStatusProposta']) && !empty($_POST['id']) && isset($_POST['dataAceiteProposta']))
+if (isset($_POST['atualizarStatusProposta']))
 {
-	$proposta->atualizarStatusProposta();
+	if (!empty($_POST['id']) && isset($_POST['dataAceiteProposta']))
+	{
+		$proposta->atualizarStatusProposta();
+	}
+	else
+	{
+		header('Location: ./');
+		$_SESSION['notification'] = [
+			'message' => 'Erro na atualização. Informações inconsistentes!',
+			'status' => 'failure'	
+		];
+	}
 }
 
 if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_VALIDATE_INT))
@@ -59,8 +81,8 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 			<input id='emAnalise' type='radio' name='statusProposta' value='Em análise' $analise>
 			<label for='emAnalise'>Em análise</label>
 		</div>
-		<label for='numeroRelatorio'>N° do Relatório</label>
-		<input type='number' name='numeroRelatorio' id='numeroRelatorio' placeholder='Ex: 123' max='99999999999' value='{$propostaParaAtualizar['numeroRelatorio']}'>
+		<label for='cliente'>Cliente</label>
+		<input type='text' name='cliente' id='cliente' placeholder='Nome do Cliente' maxlength='255' value='{$propostaParaAtualizar['cliente']}'>
 		<label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>
 		<input type='date' name='dataEnvioRelatorio' id='dataEnvioRelatorio' value='{$propostaParaAtualizar['dataEnvioRelatorio']}'>
 		<label for='valor'>Valor da Proposta</label>
@@ -137,16 +159,15 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 			
 			foreach ($propostas as $proposta)
 			{
-				$dataAceiteProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataAceiteProposta']);
-				$dataEnvioProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataEnvioProposta']);
-				
 				if (empty($_GET['q']))
 				{
+					$dataAceiteProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataAceiteProposta']);
 					$mes = (int)$dataAceiteProposta->format('m');
 					$ano = $dataAceiteProposta->format('Y');
 				}
 				else
 				{
+					$dataEnvioProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataEnvioProposta']);
 					$mes = (int)$dataEnvioProposta->format('m');
 					$ano = $dataEnvioProposta->format('Y');
 				}

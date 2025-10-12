@@ -1,12 +1,15 @@
 <?php
 
-class Authenticator
+require_once 'DatabaseConnection.php';
+
+class User
 {
 	private ?object $connection = null;
-
-	public function __construct($connection)
+	private ?object $data = null;
+	
+	public function __construct()
 	{
-		$this->connection = $connection;
+		$this->connection = (new DatabaseConnection())->start();
 	}
 
 	public function authenticate(string $table, array $email, array $password): bool
@@ -29,7 +32,6 @@ class Authenticator
 			{
 				session_regenerate_id(true);
 				$_SESSION['authenticatedUser'] = $email[$emailKey];
-
 				return true;
 			}
 
