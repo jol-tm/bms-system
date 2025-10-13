@@ -81,6 +81,8 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 			<input id='emAnalise' type='radio' name='statusProposta' value='Em análise' $analise>
 			<label for='emAnalise'>Em análise</label>
 		</div>
+		<label for='numeroProposta'>N° da Proposta</label>
+		<input type='number' name='numeroProposta' id='numeroProposta' placeholder='Ex: 12325 ou 0 para nulo' max='99999999999' value='{$propostaParaAtualizar['numeroProposta']}'>
 		<label for='cliente'>Cliente</label>
 		<input type='text' name='cliente' id='cliente' placeholder='Nome do Cliente' maxlength='255' value='{$propostaParaAtualizar['cliente']}'>
 		<label for='dataEnvioRelatorio'>Data de Envio do Relatorio</label>

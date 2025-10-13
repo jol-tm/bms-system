@@ -212,6 +212,7 @@ class Proposta
 		
 		$affectedRows = $this->data->update('propostas', [
 				'statusProposta' => empty($_POST['statusProposta']) ? null : $_POST['statusProposta'],
+				'numeroProposta' => empty($_POST['numeroProposta']) ? null : $_POST['numeroProposta'],
 				'cliente' => empty($_POST['cliente']) ? null : $_POST['cliente'],
 				'numeroRelatorio' => empty($_POST['numeroRelatorio']) ? null : $_POST['numeroRelatorio'],
 				'dataEnvioRelatorio' => empty($_POST['dataEnvioRelatorio']) ? null : $_POST['dataEnvioRelatorio'],
