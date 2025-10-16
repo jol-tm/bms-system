@@ -251,10 +251,11 @@ class Proposta
 	public function aceitarProposta(): bool
 	{
 		$hoje = (new DateTime())->setTime(0, 0, 0);
-		$diasEmAnalise = ($hoje->diff(DateTime::createFromFormat('d/m/Y', $_POST['dataEnvioProposta'])))->days;
+		$diasEmAnalise = ($hoje->diff((DateTime::createFromFormat('d/m/Y', $_POST['dataEnvioProposta']))->setTime(0, 0, 0)))->days;
 
 		$affectedRows = $this->data->update('propostas', [
-				'statusProposta' => 'Aceita', 
+				'statusProposta' => 'Aceita',
+				'statusPagamento' => 'Em análise',
 				'dataAceiteProposta' => $hoje->format('Y-m-d'), 
 				'diasEmAnalise' => $diasEmAnalise
 			], 
@@ -283,8 +284,8 @@ class Proposta
 	public function recusarProposta(): bool
 	{
 		$hoje = (new DateTime())->setTime(0, 0, 0);
-		$diasEmAnalise = ($hoje->diff(DateTime::createFromFormat('d/m/Y', $_POST['dataEnvioProposta'])))->days;
-
+		$diasEmAnalise = ($hoje->diff((DateTime::createFromFormat('d/m/Y', $_POST['dataEnvioProposta']))->setTime(0, 0, 0)))->days;
+		
 		$affectedRows = $this->data->update('propostas', [
 			'statusProposta' => 'Recusada',
 			'statusPagamento' => 'Recusada',
