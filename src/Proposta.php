@@ -255,7 +255,7 @@ class Proposta
 
 		$affectedRows = $this->data->update('propostas', [
 				'statusProposta' => 'Aceita',
-				'statusPagamento' => 'Em análise',
+				'statusPagamento' => 'Aguardando',
 				'dataAceiteProposta' => $hoje->format('Y-m-d'), 
 				'diasEmAnalise' => $diasEmAnalise
 			], 
