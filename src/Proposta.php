@@ -105,8 +105,6 @@ class Proposta
 		$propostas = $this->data->search('propostas', [
 			'numeroProposta',
 			'numeroNotaFiscal',
-			//~ 'dataAceiteProposta',
-			//~ 'dataEnvioProposta',
 			'statusPagamento',
 			'valor',
 			'cliente',
@@ -197,6 +195,16 @@ class Proposta
 
 	public function atualizarStatusProposta(): bool
 	{  
+		if (!empty($_POST['dataPagamento']) && $_POST['statusProposta'] !== 'Aceita')
+		{
+			$_SESSION['notification'] = [
+				'message' => 'Essa proposta ainda não foi aceita para ter uma data de pagamento! Nada modificado!',
+				'status' => 'failure'			
+			];
+			header('Location: ./');
+			return false;	
+		}
+		
 		$dataPagamento = new DateTime($_POST['dataPagamento']);
 		$dataAceiteProposta = DateTime::createFromFormat('d/m/Y', $_POST['dataAceiteProposta']);
 		
@@ -206,7 +214,6 @@ class Proposta
 		}
 		
 		$affectedRows = $this->data->update('propostas', [
-				'statusProposta' => empty($_POST['statusProposta']) ? null : $_POST['statusProposta'],
 				'numeroProposta' => empty($_POST['numeroProposta']) ? null : $_POST['numeroProposta'],
 				'cliente' => empty($_POST['cliente']) ? null : $_POST['cliente'],
 				'numeroRelatorio' => empty($_POST['numeroRelatorio']) ? null : $_POST['numeroRelatorio'],
