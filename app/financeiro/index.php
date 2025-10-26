@@ -54,7 +54,6 @@ if (isset($_POST['atualizarStatusProposta']))
 if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_VALIDATE_INT))
 {
 	$propostaParaAtualizar = $proposta->verProposta($_POST['id']);
-	$propostaParaAtualizar['statusProposta'] === 'Em análise' ? $analise = 'checked' : $analise = null;
 
 	echo "
 	<div class='formWrapper'>
