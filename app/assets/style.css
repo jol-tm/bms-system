@@ -187,10 +187,9 @@ th {
 	bottom: 0.5rem;
 }
 
-/* LOGIN & Error pages */
+/* LOGIN page*/
 
-#bodyLogin,
-#bodyError {
+#bodyLogin {
 	width: 100dvw;
 	height: 100dvh;
 }

@@ -55,7 +55,7 @@ if (isset($_SESSION['notification']))
 	unset($_SESSION['notification']);
 }
 
-$baseAssetsPath = '/bms-system/app/assets/';
+$baseAssetsPath = '/crm-system/app/assets/';
 
 ?>
 

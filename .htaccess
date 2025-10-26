@@ -1,5 +1,6 @@
-ErrorDocument 404 /err/404/index.php
-ErrorDocument 403 /err/403/index.php
+ErrorDocument 404 'Oops! Página não encontrada. Tente voltar.'
+ErrorDocument 403 'Oops! Acesso não permitido. Tente voltar.'
+ErrorDocument 502 'Oops! Houve uma falha temporária na comunicação entre os servidores. Tente recarregar a página ou tentar mais tarde.'
 
 # Blocks access to src/ content and .log files
 RewriteEngine On

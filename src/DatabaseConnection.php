@@ -17,7 +17,7 @@ class DatabaseConnection
         }
         catch (PDOException $e)
         {
-            error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, destination: "./errors.log");
+            error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, destination: "../../errors.log");
             return false;
         }
     }

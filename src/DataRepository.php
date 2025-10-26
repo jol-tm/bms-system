@@ -33,7 +33,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -50,7 +50,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -80,7 +80,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -97,7 +97,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -115,7 +115,7 @@ class DataRepository
 		} 	
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -146,7 +146,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -166,7 +166,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "./errors.log");
+			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
 			return false;
 		}
 	}

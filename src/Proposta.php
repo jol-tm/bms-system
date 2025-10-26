@@ -102,16 +102,11 @@ class Proposta
 	
 	public function pesquisarProposta(): array|false
 	{
-		if ($data = DateTime::createFromFormat('m/Y', $_GET['q']))
-		{
-			$_GET['q'] = $data->format('Y-m');
-		}
-		
 		$propostas = $this->data->search('propostas', [
 			'numeroProposta',
 			'numeroNotaFiscal',
-			'dataAceiteProposta',
-			'dataEnvioProposta',
+			//~ 'dataAceiteProposta',
+			//~ 'dataEnvioProposta',
 			'statusPagamento',
 			'valor',
 			'cliente',

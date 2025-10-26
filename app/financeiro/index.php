@@ -12,15 +12,7 @@ $pesquisa = '';
 if (!empty($_GET['q']))
 {
 	$propostas = $proposta->pesquisarProposta();
-	
-	if ($pesquisa = DateTime::createFromFormat('Y-m', $_GET['q']))
-	{
-		$pesquisa = $pesquisa->format('m/Y');
-	}
-	else
-	{
-		$pesquisa = $_GET['q'];
-	}
+	$pesquisa = $_GET['q'];
 }
 else
 {
@@ -61,10 +53,8 @@ if (isset($_POST['atualizarStatusProposta']))
 
 if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_VALIDATE_INT))
 {
-	$analise = null;
-	$aceita = null;
 	$propostaParaAtualizar = $proposta->verProposta($_POST['id']);
-	$propostaParaAtualizar['statusProposta'] === 'Em análise' ? $analise = 'checked' : $aceita = 'checked';
+	$propostaParaAtualizar['statusProposta'] === 'Em análise' ? $analise = 'checked' : $analise = null;
 
 	echo "
 	<div class='formWrapper'>
@@ -72,15 +62,6 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 		<h2>Atualizando Proposta: {$_POST['numeroProposta']}</h2>
 		<input type='hidden' name='id' value='{$propostaParaAtualizar['id']}'>
 		<input type='hidden' name='dataAceiteProposta' value='{$_POST['dataAceiteProposta']}'>
-		<h3>Status Proposta</h3>
-		<div>
-			<input id='aceita' type='radio' name='statusProposta' value='Aceita' $aceita>
-			<label for='aceita'>Aceita</label>
-		</div>
-		<div>
-			<input id='emAnalise' type='radio' name='statusProposta' value='Em análise' $analise>
-			<label for='emAnalise'>Em análise</label>
-		</div>
 		<label for='numeroProposta'>N° da Proposta</label>
 		<input type='number' name='numeroProposta' id='numeroProposta' placeholder='Ex: 12325 ou 0 para nulo' max='99999999999' value='{$propostaParaAtualizar['numeroProposta']}'>
 		<label for='cliente'>Cliente</label>
