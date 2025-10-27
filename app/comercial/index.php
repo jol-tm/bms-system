@@ -1,74 +1,74 @@
 <?php
 
-$pageTitle = 'Comercial';
+$pageTitle = "Comercial";
 
-require_once '../../src/header.php';
-require_once '../../src/Proposta.php';
+require_once "../../src/header.php";
+require_once "../../src/Proposta.php";
 
 $proposta = new Proposta();
 $propostas = $proposta->verPropostasEmFaseComercial();
 
-if (isset($_POST['cadastrarProposta']))
+if (isset($_POST["cadastrarProposta"]))
 {
-	if (!empty($_POST['dataEnvioProposta']) && !empty($_POST['valor']) && !empty($_POST['cliente']))
+	if (!empty($_POST["dataEnvioProposta"]) && !empty($_POST["valor"]) && !empty($_POST["cliente"]))
 	{
 		$proposta->cadastrarProposta();
 	}
 	else
 	{
-		header('Location: ./');
-		$_SESSION['notification'] = [
-			'message' => 'Erro no cadastro! Informações incompletas!',
-			'status' => 'failure'	
+		header("Location: ./");
+		$_SESSION["notification"] = [
+			"message" => "Erro no cadastro! Informações incompletas!",
+			"status" => "failure"	
 		];
 	}
 }
 
-if (isset($_POST['aceitarProposta']))
+if (isset($_POST["aceitarProposta"]))
 {
-	if (!empty($_POST['id']) && isset($_POST['dataEnvioProposta']))
+	if (filter_var($_POST["id"], FILTER_VALIDATE_INT) && isset($_POST["dataEnvioProposta"]))
 	{
 		$proposta->aceitarProposta();
 	}
 	else
 	{
-		header('Location: ./');
-		$_SESSION['notification'] = [
-			'message' => 'Erro no aceite! Informações inconsistentes!',
-			'status' => 'failure'	
+		header("Location: ./");
+		$_SESSION["notification"] = [
+			"message" => "Erro no aceite! Informações inconsistentes!",
+			"status" => "failure"	
 		];
 	}
 }
 
 
-if (isset($_POST['recusarProposta']))
+if (isset($_POST["recusarProposta"]))
 {
-	if (!empty($_POST['id']) && isset($_POST['dataEnvioProposta']))
+	if (filter_var($_POST["id"], FILTER_VALIDATE_INT) && isset($_POST["dataEnvioProposta"]))
 	{
 		$proposta->recusarProposta();
 	}
 	else
 	{
-		header('Location: ./');
-		$_SESSION['notification'] = [
-			'message' => 'Erro na recusa! Informações inconsistentes!',
-			'status' => 'failure'	
+		header("Location: ./");
+		$_SESSION["notification"] = [
+			"message" => "Erro na recusa! Informações inconsistentes!",
+			"status" => "failure"	
 		];
 	}
 }
 
-if (isset($_POST['excluirProposta']))
+if (isset($_POST["excluirProposta"]))
 {
-	if (!empty($_POST['id']))
+	if (filter_var($_POST["id"], FILTER_VALIDATE_INT))
 	{
 		$proposta->excluirProposta();
 	}
 	else
 	{
-		header('Location: ./');
-		$_SESSION['notification'] = [
-			'message' => 'Erro na exclusão! Informações inconsistentes!',
-			'status' => 'failure'	
+		header("Location: ./");
+		$_SESSION["notification"] = [
+			"message" => "Erro na exclusão! Informações inconsistentes!",
+			"status" => "failure"	
 		];
 	}
 }
@@ -116,26 +116,26 @@ if (isset($_POST['excluirProposta']))
 			<?php
 			
 			$meses = [
-				1 => 'Janeiro',
-				2 => 'Fevereiro',
-				3 => 'Março',
-				4 => 'Abril',
-				5 => 'Maio',
-				6 => 'Junho',
-				7 => 'Julho',
-				8 => 'Agosto',
-				9 => 'Setembro',
-				10 => 'Outubro',
-				11 => 'Novembro',
-				12 => 'Dezembro'
+				1 => "Janeiro",
+				2 => "Fevereiro",
+				3 => "Março",
+				4 => "Abril",
+				5 => "Maio",
+				6 => "Junho",
+				7 => "Julho",
+				8 => "Agosto",
+				9 => "Setembro",
+				10 => "Outubro",
+				11 => "Novembro",
+				12 => "Dezembro"
 			];
 			$ultimoMes = 0;
 			
 			foreach ($propostas as $proposta)
 			{
-				$dataEnvioProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataEnvioProposta']);
-				$mes = (int)$dataEnvioProposta->format('m');
-				$ano = $dataEnvioProposta->format('Y');
+				$dataEnvioProposta = DateTime::createFromFormat("d/m/Y", $proposta["dataEnvioProposta"]);
+				$mes = (int)$dataEnvioProposta->format("m");
+				$ano = $dataEnvioProposta->format("Y");
 				
 				if ($ultimoMes !== $mes)
 				{
@@ -144,17 +144,17 @@ if (isset($_POST['excluirProposta']))
 				
 				$ultimoMes = $mes;
 				
-				if ($proposta['statusProposta'] === 'Recusada')
+				if ($proposta["statusProposta"] === "Recusada")
 				{
-					$statusProposta = 'refused';
+					$statusProposta = "refused";
 				}
-				elseif ($proposta['statusProposta'] === 'Aceita')
+				elseif ($proposta["statusProposta"] === "Aceita")
 				{
-					$statusProposta = 'accepted';
+					$statusProposta = "accepted";
 				}
 				else
 				{
-					$statusProposta = 'pending';
+					$statusProposta = "pending";
 				}
 				
 				echo "
@@ -197,7 +197,7 @@ if (isset($_POST['excluirProposta']))
 </div>
 
 <?php
-require_once '../../src/footer.php';
+require_once "../../src/footer.php";
 ?>
 
 </body>

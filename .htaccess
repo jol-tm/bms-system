@@ -1,7 +1,7 @@
 ErrorDocument 404 "Oops! Nada aqui. Tente voltar."
 ErrorDocument 403 "Oops! Acesso negado. Tente voltar."
 ErrorDocument 500 "Oops! Erro no servidor. Se persistir, contate o administrador."
-ErrorDocument 502 "Oops! Houve uma falha entre os servidores. Tente recarregar ou volte mais tarde."
+ErrorDocument 502 "Oops! Houve uma falha ocasional entre os servidores. Tente recarregar ou volte mais tarde."
 
 # Blocks access to src/ content and .log files
 RewriteEngine On

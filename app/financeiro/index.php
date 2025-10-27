@@ -1,59 +1,59 @@
 <?php
 
-$pageTitle = 'Financeiro';
+$pageTitle = "Financeiro";
 
-require_once '../../src/header.php';
-require_once '../../src/Proposta.php';
+require_once "../../src/header.php";
+require_once "../../src/Proposta.php";
 
 $proposta = new Proposta();
 $propostas = [];
-$pesquisa = '';
+$pesquisa = "";
 
-if (!empty($_GET['q']))
+if (!empty($_GET["q"]))
 {
 	$propostas = $proposta->pesquisarProposta();
-	$pesquisa = $_GET['q'];
+	$pesquisa = $_GET["q"];
 }
 else
 {
 	$propostas = $proposta->verPropostasEmFaseFinanceira();
 }
 
-if (isset($_POST['excluirProposta']))
+if (isset($_POST["excluirProposta"]))
 {
-	if (!empty($_POST['id']))
+	if (!empty($_POST["id"]))
 	{
 		$proposta->excluirProposta();
 	}
 	else
 	{
-		header('Location: ./');
-		$_SESSION['notification'] = [
-			'message' => 'Erro na exclusão. Informações inconsistentes!',
-			'status' => 'failure'	
+		header("Location: ./");
+		$_SESSION["notification"] = [
+			"message" => "Erro na exclusão. Informações inconsistentes!",
+			"status" => "failure"	
 		];
 	}
 }
 
-if (isset($_POST['atualizarStatusProposta']))
+if (isset($_POST["atualizarStatusProposta"]))
 {
-	if (!empty($_POST['id']) && isset($_POST['dataAceiteProposta']))
+	if (!empty($_POST["id"]) && isset($_POST["dataAceiteProposta"]))
 	{
 		$proposta->atualizarStatusProposta();
 	}
 	else
 	{
-		header('Location: ./');
-		$_SESSION['notification'] = [
-			'message' => 'Erro na atualização. Informações inconsistentes!',
-			'status' => 'failure'	
+		header("Location: ./");
+		$_SESSION["notification"] = [
+			"message" => "Erro na atualização. Informações inconsistentes!",
+			"status" => "failure"	
 		];
 	}
 }
 
-if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_VALIDATE_INT))
+if (isset($_POST["mostrarAtualizarStatus"]) && filter_var($_POST["id"], FILTER_VALIDATE_INT))
 {
-	$propostaParaAtualizar = $proposta->verProposta($_POST['id']);
+	$propostaParaAtualizar = $proposta->verProposta($_POST["id"]);
 
 	echo "
 	<div class='formWrapper'>
@@ -90,9 +90,9 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 
 <body>
 	
-<form id='searchBox' action='' method='get'>
-	<input type='text' name='q' value='<?= $pesquisa; ?>' placeholder='Ex: Aguardando'>
-	<button id='searchBtn' type='submit' name=''>Pesquisar</button>
+<form id="searchBox" action="" method="get">
+	<input type="text" name="q" value="<?= $pesquisa; ?>" placeholder="Ex: Aguardando">
+	<button id="searchBtn" type="submit" name="">Pesquisar</button>
 </form>
 <div class="tableResponsive">
 	<table>
@@ -124,34 +124,34 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 			<?php
 			
 			$meses = [
-				1 => 'Janeiro',
-				2 => 'Fevereiro',
-				3 => 'Março',
-				4 => 'Abril',
-				5 => 'Maio',
-				6 => 'Junho',
-				7 => 'Julho',
-				8 => 'Agosto',
-				9 => 'Setembro',
-				10 => 'Outubro',
-				11 => 'Novembro',
-				12 => 'Dezembro'
+				1 => "Janeiro",
+				2 => "Fevereiro",
+				3 => "Março",
+				4 => "Abril",
+				5 => "Maio",
+				6 => "Junho",
+				7 => "Julho",
+				8 => "Agosto",
+				9 => "Setembro",
+				10 => "Outubro",
+				11 => "Novembro",
+				12 => "Dezembro"
 			];
 			$ultimoMes = 0;
 			
 			foreach ($propostas as $proposta)
 			{
-				if (empty($_GET['q']))
+				if (empty($_GET["q"]))
 				{
-					$dataAceiteProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataAceiteProposta']);
-					$mes = (int)$dataAceiteProposta->format('m');
-					$ano = $dataAceiteProposta->format('Y');
+					$dataAceiteProposta = DateTime::createFromFormat("d/m/Y", $proposta["dataAceiteProposta"]);
+					$mes = (int)$dataAceiteProposta->format("m");
+					$ano = $dataAceiteProposta->format("Y");
 				}
 				else
 				{
-					$dataEnvioProposta = DateTime::createFromFormat('d/m/Y', $proposta['dataEnvioProposta']);
-					$mes = (int)$dataEnvioProposta->format('m');
-					$ano = $dataEnvioProposta->format('Y');
+					$dataEnvioProposta = DateTime::createFromFormat("d/m/Y", $proposta["dataEnvioProposta"]);
+					$mes = (int)$dataEnvioProposta->format("m");
+					$ano = $dataEnvioProposta->format("Y");
 				}
 				
 				if ($ultimoMes !== $mes)
@@ -161,31 +161,31 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 				
 				$ultimoMes = $mes;
 				
-				if ($proposta['statusPagamento'] === 'Aguardando')
+				if ($proposta["statusPagamento"] === "Aguardando")
 				{
-					$statusPagamento = 'pending';
+					$statusPagamento = "pending";
 				}
-				elseif ($proposta['statusPagamento'] === 'Recebido')
+				elseif ($proposta["statusPagamento"] === "Recebido")
 				{
-					$statusPagamento = 'received';
+					$statusPagamento = "received";
 				}
-				elseif ($proposta['statusPagamento'] === 'Recusada')
+				elseif ($proposta["statusPagamento"] === "Recusada")
 				{
-					$statusPagamento = 'refused';
+					$statusPagamento = "refused";
 				}
 				
 				
-				if ($proposta['statusProposta'] === 'Recusada')
+				if ($proposta["statusProposta"] === "Recusada")
 				{
-					$statusProposta = 'refused';
+					$statusProposta = "refused";
 				}
-				elseif ($proposta['statusProposta'] === 'Aceita')
+				elseif ($proposta["statusProposta"] === "Aceita")
 				{
-					$statusProposta = 'accepted';
+					$statusProposta = "accepted";
 				}
 				else
 				{
-					$statusProposta = 'pending';
+					$statusProposta = "pending";
 				}
 
 				echo "
@@ -232,7 +232,7 @@ if (isset($_POST['mostrarAtualizarStatus']) && filter_var($_POST['id'], FILTER_V
 </div>
 
 <?php
-require_once '../../src/footer.php';
+require_once "../../src/footer.php";
 ?>
 
 </body>

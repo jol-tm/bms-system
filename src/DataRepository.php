@@ -33,7 +33,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
+			error_log(date("Y-m-d H:i:s") . " | " . $e . "\n\n", 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -50,7 +50,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
+			error_log(date("Y-m-d H:i:s") . " | " . $e . "\n\n", 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -71,7 +71,7 @@ class DataRepository
 			$sql = "SELECT * FROM $table WHERE $whereClause $parameters";
 
 			$stmt = $this->connection->prepare($sql);
-			$stmt->bindValue(':keyWord', "%$keyWord%", PDO::PARAM_STR);
+			$stmt->bindValue(":keyWord", "%$keyWord%", PDO::PARAM_STR);
 			$stmt->execute();
 
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -80,7 +80,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
+			error_log(date("Y-m-d H:i:s") . " | " . $e . "\n\n", 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -97,7 +97,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
+			error_log(date("Y-m-d H:i:s") . " | " . $e . "\n\n", 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -115,7 +115,7 @@ class DataRepository
 		} 	
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
+			error_log(date("Y-m-d H:i:s") . " | " . $e . "\n\n", 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -146,7 +146,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
+			error_log(date("Y-m-d H:i:s") . " | " . $e . "\n\n", 3, "../../errors.log");
 			return false;
 		}
 	}
@@ -166,7 +166,7 @@ class DataRepository
 		}
 		catch (PDOException $e)
 		{
-			error_log("\n\n" . date("Y-m-d H:i:s") . " | " . $e, 3, "../../errors.log");
+			error_log(date("Y-m-d H:i:s") . " | " . $e . "\n\n", 3, "../../errors.log");
 			return false;
 		}
 	}
