@@ -13,13 +13,13 @@ if (!isset($_SESSION["authenticatedUser"]) && ($pageTitle !== "Acesso"))
 		"message" => "Não autenticado ou sessão expirada!",
 		"status" => "failure"
 	];
-	header("Location: ../acesso");
+	header("Location: ../acesso/");
 	exit();
 }
 
 if (isset($_SESSION["authenticatedUser"]) && ($pageTitle === "Acesso"))
 {
-	header("Location: ../comercial");
+	header("Location: ../comercial/");
 	exit();
 }
 
@@ -31,7 +31,7 @@ if (isset($_GET["desconectar"]))
 
 	if ($user->disconnect())
 	{
-		header("Location: ../acesso?desconectado");
+		header("Location: ../acesso/?desconectado");
 		exit();
 	}
 	else

@@ -11,7 +11,7 @@ if (isset($_POST['acessar']) && !empty($_POST['email']) && !empty($_POST['senha'
 
 	if ($user->authenticate('usuarios', ['email' => $_POST['email']], ['senha' => $_POST['senha']]))
 	{
-		header('Location: ../../app/comercial');
+		header('Location: ../../app/comercial/');
 	}
 	else
 	{
@@ -19,7 +19,7 @@ if (isset($_POST['acessar']) && !empty($_POST['email']) && !empty($_POST['senha'
 			'message' => 'Erro na autenticação. Verifique as credenciais.',
 			'status' => 'failure'			
 		];
-		header('Location: ../../app/acesso');
+		header('Location: ../../app/acesso/');
 	}
 }
 

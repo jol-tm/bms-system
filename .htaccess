@@ -1,6 +1,6 @@
 ErrorDocument 404 "Oops! Nada aqui. Tente voltar."
 ErrorDocument 403 "Oops! Acesso negado. Tente voltar."
-ErrorDocument 500 "Oops! Erro no servidor. Se persistir, contate o administrador."
+ErrorDocument 500 "Oops! Erro fatal no servidor. Se persistir, contate o administrador."
 ErrorDocument 502 "Oops! Houve uma falha ocasional entre os servidores. Tente recarregar ou volte mais tarde."
 
 # Blocks access to src/ content and .log files
@@ -20,7 +20,7 @@ RewriteRule ^src/ - [F,L]
   AddOutputFilterByType DEFLATE font/ttf font/otf
 </IfModule>
 
-# Cache 1 month
+# Cache 1 month except php files
 <IfModule mod_headers.c>
   Header set Cache-Control "max-age=2592000, must-revalidate"
   
