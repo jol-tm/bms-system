@@ -23,4 +23,8 @@ RewriteRule ^src/ - [F,L]
 # Cache 1 month
 <IfModule mod_headers.c>
   Header set Cache-Control "max-age=2592000, must-revalidate"
+  
+  <FilesMatch "\.php$">
+	Header set Cache-Control "no-store, no-cache, must-revalidate"
+  </FilesMatch>
 </IfModule>

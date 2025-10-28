@@ -77,7 +77,7 @@ if (isset($_POST["excluirProposta"]))
 
 <body>
 
-<button id="showRegisterProposalFormBtn">+ Nova Proposta</button>
+<button id="showRegisterProposalFormBtn">Cadastrar Proposta</button>
 <div id="registerProposalForm" class="formWrapper">
 	<form action="" method="post" class="customForm">
 		<h2>Cadastrar Proposta</h2>
@@ -183,7 +183,7 @@ if (isset($_POST["excluirProposta"]))
 					<td>
 					   <form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
-							<button class='deleteProposalBtn type='submit' name='excluirProposta' onclick=\"return prompt('ATENÇÃO! Excluir permanentemente proposta N° {$proposta['numeroProposta']}? Caso tenha certeza, digite EXCLUIR abaixo.') === 'EXCLUIR'\">🗑</button>
+							<button class='deleteProposalBtn type='submit' name='excluirProposta' onclick=\"return prompt('ATENÇÃO! Excluir permanentemente proposta N° {$proposta['numeroProposta']}? Caso tenha certeza, digite EXCLUIR abaixo.') === 'EXCLUIR'\">⚠</button>
 						</form>
 					</td>
 				</tr>
