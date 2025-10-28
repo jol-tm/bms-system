@@ -21,7 +21,7 @@ else
 
 if (isset($_POST["excluirProposta"]))
 {
-	if (!empty($_POST["id"]))
+	if (filter_var($_POST["id"], FILTER_VALIDATE_INT))
 	{
 		$proposta->excluirProposta();
 	}
@@ -37,7 +37,7 @@ if (isset($_POST["excluirProposta"]))
 
 if (isset($_POST["atualizarStatusProposta"]))
 {
-	if (!empty($_POST["id"]) && isset($_POST["dataAceiteProposta"]))
+	if (filter_var($_POST["id"], FILTER_VALIDATE_INT) && isset($_POST["dataAceiteProposta"]))
 	{
 		$proposta->atualizarStatusProposta();
 	}
