@@ -204,7 +204,8 @@ th {
 .aproveProposalBtn,
 .denyProposalBtn,
 .deleteProposalBtn,
-.updateProposalBtn {
+.updateProposalBtn,
+.backPendingBtn {
 	font-size: 1.5rem;
 	font-weight: normal;
 	padding: 0;
@@ -218,6 +219,10 @@ th {
 .deleteProposalBtn,
 #cancelRegisterProposalBtn {
 	background-color: var(--destructiveColor);
+}
+
+.backPendingBtn {
+	background-color: var(--warnColor);
 }
 
 #registerProposalForm {

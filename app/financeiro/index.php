@@ -35,6 +35,11 @@ if (isset($_POST["excluirProposta"]))
 	}
 }
 
+if (isset($_POST["voltarEmAnalise"]))
+{
+	$proposta->voltarEmAnalise();
+}
+
 if (isset($_POST["atualizarStatusProposta"]))
 {
 	if (filter_var($_POST["id"], FILTER_VALIDATE_INT) && isset($_POST["dataAceiteProposta"]))
@@ -58,7 +63,6 @@ if (isset($_POST["mostrarAtualizarStatus"]) && filter_var($_POST["id"], FILTER_V
 	echo "
 	<div class='formWrapper'>
 	<form action='' method='post' class='customForm'>
-		<h2>Atualizando Proposta: {$_POST['numeroProposta']}</h2>
 		<input type='hidden' name='id' value='{$propostaParaAtualizar['id']}'>
 		<input type='hidden' name='dataAceiteProposta' value='{$_POST['dataAceiteProposta']}'>
 		<label for='numeroProposta'>N° da Proposta</label>
@@ -116,6 +120,7 @@ if (isset($_POST["mostrarAtualizarStatus"]) && filter_var($_POST["id"], FILTER_V
 				<th>Dias desde Última Cobrança</th>
 				<th>Observações</th>
 				<th>Atualizar Status</th>
+				<th>Voltar para Em análise</th>
 				<th>Apagar</th>
 			</tr>
 		</thead>
@@ -174,7 +179,6 @@ if (isset($_POST["mostrarAtualizarStatus"]) && filter_var($_POST["id"], FILTER_V
 					$statusPagamento = "refused";
 				}
 				
-				
 				if ($proposta["statusProposta"] === "Recusada")
 				{
 					$statusProposta = "refused";
@@ -186,6 +190,19 @@ if (isset($_POST["mostrarAtualizarStatus"]) && filter_var($_POST["id"], FILTER_V
 				else
 				{
 					$statusProposta = "pending";
+				}
+
+				if ($proposta['statusProposta'] === 'Aceita' && $proposta['statusPagamento'] === 'Aguardando')
+				{
+					$voltarEmAnalise = "
+						<form action='' method='post'>
+							<input type='hidden' name='id' value='{$proposta['id']}'>
+							<button class='backPendingBtn' type='submit' name='voltarEmAnalise'>←</button>
+						</form>";
+				}
+				else
+				{
+					$voltarEmAnalise = "N/A";
 				}
 
 				echo "
@@ -210,16 +227,18 @@ if (isset($_POST["mostrarAtualizarStatus"]) && filter_var($_POST["id"], FILTER_V
 					<td>
 					   <form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
-							<input type='hidden' name='numeroProposta' value='{$proposta['numeroProposta']}'>
 							<input type='hidden' name='dataAceiteProposta' value='{$proposta['dataAceiteProposta']}'>
 							<button class='updateProposalBtn' type='submit' name='mostrarAtualizarStatus'>✎</button>
-						</form>
+				       </form>
+					</td>
+					<td>
+						$voltarEmAnalise
 					</td>
 					<td>
 					   <form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
 							<button class='deleteProposalBtn' type='submit' name='excluirProposta' onclick=\"return prompt('ATENÇÃO! Excluir permanentemente proposta N° {$proposta['numeroProposta']} de {$proposta['cliente']}? Caso tenha certeza, digite EXCLUIR abaixo.') === 'EXCLUIR'\">⚠</button>
-						</form>
+					   </form>
 					</td>
 				</tr>
 				";

@@ -30,7 +30,7 @@ class Proposta
 			if ($proposta["dataAceiteProposta"] !== null)
 			{
 				$proposta["dataAceiteProposta"] = new DateTime($proposta["dataAceiteProposta"]);
-				// Caso status seja Aguardando calcula dias com base em hoje, senão pega o dado que foi salvo no banco quando recebeu o pagamento
+				// Se statusPagamento é Aguardando calcula dias com base em hoje, senão pega o dado que foi salvo no banco quando recebeu o pagamento
 				$proposta["diasAguardandoPagamento"] = $proposta["statusPagamento"] === "Aguardando" ? $hoje->diff($proposta["dataAceiteProposta"])->days : $proposta["diasAguardandoPagamento"];
 				$proposta["dataAceiteProposta"] = $proposta["dataAceiteProposta"]->format("d/m/Y");
 			}
@@ -90,7 +90,7 @@ class Proposta
 		{
 			$proposta["dataEnvioProposta"] = new DateTime($proposta["dataEnvioProposta"]);
 
-			// Caso status seja Em análise calcula dias com base em hoje, senão pega o dado que foi salvo no banco quando aceitou a proposta
+			// Se status é Em análise calcula dias com base em hoje, senão pega o dado que foi salvo no banco quando aceitou a proposta
 			$proposta["diasEmAnalise"] = $proposta["statusProposta"] === "Em análise" ? $hoje->diff($proposta["dataEnvioProposta"])->days : $proposta["diasEmAnalise"];
 
 			$proposta["dataEnvioProposta"] = $proposta["dataEnvioProposta"]->format("d/m/Y");
@@ -123,7 +123,7 @@ class Proposta
 			if ($proposta["dataAceiteProposta"] !== null)
 			{
 				$proposta["dataAceiteProposta"] = new DateTime($proposta["dataAceiteProposta"]);
-				// Caso status seja Aguardando calcula dias com base em hoje, senão pega o dado que foi salvo no banco quando recebeu o pagamento
+				// Se statusPagamento é Aguardando calcula dias com base em hoje, senão pega o dado que foi salvo no banco quando recebeu o pagamento
 				$proposta["diasAguardandoPagamento"] = $proposta["statusPagamento"] === "Aguardando" ? $hoje->diff($proposta["dataAceiteProposta"])->days : $proposta["diasAguardandoPagamento"];
 				$proposta["dataAceiteProposta"] = $proposta["dataAceiteProposta"]->format("d/m/Y");
 			}
@@ -166,7 +166,7 @@ class Proposta
 			// isset() em vez de empty() para considerar 0. Lembrando que empty(0) retorna true
 			isset($proposta["diasAguardandoPagamento"]) ? null : $proposta["diasAguardandoPagamento"] = "-";
 			isset($proposta["diasUltimaCobranca"]) ? null : $proposta["diasUltimaCobranca"] = "-";
-			// Faz o cálculo baseado no dia atual ou usa o valor do banco, porque na pesquisa vão aparecer propostas da fase comercial também, diferente do método verPropostasEmFaseFinanceira onde ele só pega direto do banco porque tudo ali já foi aceito
+			// Faz o cálculo baseado no dia atual ou usa o valor do banco, porque ao pesquisar vão aparecer propostas de fase comercial e financeiro.
 			$proposta["diasEmAnalise"] = $proposta["statusProposta"] === "Em análise" ? $hoje->diff($proposta["dataEnvioProposta"])->days : $proposta["diasEmAnalise"];
 			// Depois de realizar o cálculo formata o DateTime para uma string para mostrar na tela
 			$proposta["dataEnvioProposta"] = ($proposta["dataEnvioProposta"])->format("d/m/Y");
@@ -206,7 +206,7 @@ class Proposta
 
 	public function atualizarStatusProposta(): bool
 	{  
-		if (!empty($_POST["dataPagamento"])) // Isso se repete toda atualização que possua dataPagamento no POST mesmo que já tenha definido diasAguardandoPagamento
+		if (!empty($_POST["dataPagamento"])) // Isso se repete toda atualização que possua dataPagamento no POST mesmo já tendo diasAguardandoPagamento no banco
 		{
 			if (!$dataAceiteProposta = DateTime::createFromFormat("d/m/Y", $_POST["dataAceiteProposta"]))
 			{
@@ -218,8 +218,7 @@ class Proposta
 				return false;
 			}
 
-			// TryCatch porque dataPagamento pode ter seu input type alterado pelo usuário
-			try
+			try // TryCatch porque dataPagamento pode ter seu input type alterado pelo usuário
 			{
 				$dataPagamento = (new DateTime($_POST["dataPagamento"]))->setTime(0, 0, 0);
 			}
@@ -307,6 +306,34 @@ class Proposta
 		return false;
 	}
 
+	public function voltarEmAnalise(): bool
+	{
+		$affectedRows = $this->data->update("propostas", [
+			"statusProposta" => "Em análise",
+		], 
+		[
+			"id" => $_POST["id"]
+		]);
+
+		if ($affectedRows > 0)
+		{
+			$_SESSION["notification"] = [
+				"message" => "Proposta retornada para Em análise com sucesso. Movida para Comercial.",
+				"status" => "success"			
+			];
+			header("Location: ./");
+			return true;
+		}
+
+		$_SESSION["notification"] = [
+			"message" => "Erro ao retornar proposta para Em análise. Nada modificado.",
+			"status" => "failure"			
+		];
+		header("Location: ./");
+		return false;
+
+	}
+	
 	public function recusarProposta(): bool
 	{
 		$hoje = (new DateTime())->setTime(0, 0, 0);

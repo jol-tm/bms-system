@@ -84,7 +84,7 @@ if (isset($_POST["excluirProposta"]))
 		<label for="numeroProposta">N° da Proposta</label>
 		<input type="number" name="numeroProposta" id="numeroProposta" placeholder="Ex: 12325 ou 0 para nulo" max="99999999999" required>
 		<label for="dataEnvioProposta">Data de Envio da Proposta</label>
-		<input type="date" name="dataEnvioProposta" id="dataEnvioProposta" required>
+		<input type="date" name="dataEnvioProposta" id="dataEnvioProposta" value="<?= (new DateTime())->format("Y-m-d"); ?>" required>
 		<label for="valor">Valor da Proposta</label>
 		<input type="number" step="0.01" name="valor" id="valor" placeholder="Ex: 999,99" maxlength="10" required>
 		<label for="cliente">Cliente</label>
@@ -184,7 +184,7 @@ if (isset($_POST["excluirProposta"]))
 					   <form action='' method='post'>
 							<input type='hidden' name='id' value='{$proposta['id']}'>
 							<button class='deleteProposalBtn type='submit' name='excluirProposta' onclick=\"return prompt('ATENÇÃO! Excluir permanentemente proposta N° {$proposta['numeroProposta']} de {$proposta['cliente']}? Caso tenha certeza, digite EXCLUIR abaixo.') === 'EXCLUIR'\">⚠</button>
-						</form>
+					   </form>
 					</td>
 				</tr>
 				";
